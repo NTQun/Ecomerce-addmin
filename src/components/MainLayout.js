@@ -7,7 +7,6 @@ import {
   AiOutlineBgColors,
 } from "react-icons/ai";
 import { RiCouponLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
 import { IoIosNotifications } from "react-icons/io";

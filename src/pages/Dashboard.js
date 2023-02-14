@@ -1,7 +1,6 @@
 import React from "react";
 import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { Column } from "@ant-design/plots";
-import { useState } from "react";
 import { Table } from "antd";
 const columns = [
   {

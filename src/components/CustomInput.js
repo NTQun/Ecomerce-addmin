@@ -5,7 +5,7 @@ const CustomInput = (props) => {
   return (
     <div className="form-floating mb-3">
       <input
-        type="email"
+        type={type}
         className={`form-control ${i_class}`}
         id={i_id}
         placeholder={label}
