@@ -27,17 +27,15 @@ const Login = () => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const authState = useSelector((state) => state);
+  const { user, isLoading, isError, isSuccess, message } = authState.auth;
   useEffect(() => {
     if (isSuccess) {
       navigate("admin");
     } else {
       navigate("");
     }
-  }, [user, isLoading, isError, isSuccess, message]);
+  }, [user, isError, isSuccess, isLoading]);
   return (
     <div
       className="py-5"
@@ -50,6 +48,9 @@ const Login = () => {
       <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
         <h3 className="text-center">Login</h3>
         <p className="text-center">Login to your account to continue</p>
+        <div className="error text-center">
+          {message.message == "Rejsected" ? "You are not an admin:" : ""}
+        </div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
