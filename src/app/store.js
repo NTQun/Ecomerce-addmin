@@ -4,6 +4,9 @@ import customerReducer from "../features/customers/customerSlice";
 import productReducer from "../features/product/productSlice";
 import brandReducer from "../features/brand/brandSlice";
 import pcategorySlice from "../features/pcategory/pcategorySlice";
+import colorSlice from "../features/color/colorSlice";
+import blogSlice from "../features/blogs/blogSlice";
+import bCategoryReducer from "../features/bcategory/bcategorySlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -11,5 +14,8 @@ export const store = configureStore({
     product: productReducer,
     brand: brandReducer,
     pCategory: pcategorySlice,
+    color: colorSlice,
+    blogs: blogSlice,
+    bCategory: bCategoryReducer,
   },
 });
