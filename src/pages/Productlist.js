@@ -67,7 +67,7 @@ const Productlist = () => {
       ),
     });
   }
-  console.log(data1);
+
   return (
     <div>
       <h3 className="mb-4 title">Products</h3>
