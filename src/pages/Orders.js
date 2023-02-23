@@ -47,11 +47,9 @@ const Orders = () => {
       name: orderState[i].orderby.firstname,
       product: orderState[i].products.map((i, j) => {
         return (
-          <>
-            <ul key={j}>
-              <li> {i.product.title} </li>
-            </ul>
-          </>
+          <ul key={j}>
+            <li>{i.product.title}</li>
+          </ul>
         );
       }),
       amount: orderState[i].paymentIntent.amount,
@@ -70,7 +68,7 @@ const Orders = () => {
   }
   return (
     <div>
-      <h3 className="mb-3">Order</h3>
+      <h3 className="mb-4 title">Orders</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

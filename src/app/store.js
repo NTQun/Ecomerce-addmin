@@ -3,11 +3,12 @@ import authReducer from "../features/auth/authSlice";
 import customerReducer from "../features/customers/customerSlice";
 import productReducer from "../features/product/productSlice";
 import brandReducer from "../features/brand/brandSlice";
-import pcategorySlice from "../features/pcategory/pcategorySlice";
-import colorSlice from "../features/color/colorSlice";
-import blogSlice from "../features/blogs/blogSlice";
+import pCategoryReducer from "../features/pcategory/pcategorySlice";
 import bCategoryReducer from "../features/bcategory/bcategorySlice";
+import blogReducer from "../features/blogs/blogSlice";
+import colorReducer from "../features/color/colorSlice";
 import enquiryReducer from "../features/enquiry/enquirySlice";
+import uploadReducer from "../features/upload/uploadSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,10 +16,11 @@ export const store = configureStore({
     customer: customerReducer,
     product: productReducer,
     brand: brandReducer,
-    pCategory: pcategorySlice,
-    color: colorSlice,
-    blogs: blogSlice,
+    pCategory: pCategoryReducer,
     bCategory: bCategoryReducer,
+    blogs: blogReducer,
+    color: colorReducer,
     enquiry: enquiryReducer,
+    upload: uploadReducer,
   },
 });

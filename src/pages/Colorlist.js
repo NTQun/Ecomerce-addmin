@@ -19,6 +19,7 @@ const columns = [
     dataIndex: "action",
   },
 ];
+
 const Colorlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -32,19 +33,19 @@ const Colorlist = () => {
       name: colorState[i].title,
       action: (
         <>
-          <Link to="" className=" fs-3 text-danger">
+          <Link to="/" className=" fs-3 text-danger">
             <BiEdit />
           </Link>
-          <button className="ms-3 fs-3 text-danger bg-transparent border-0">
+          <Link className="ms-3 fs-3 text-danger" to="/">
             <AiFillDelete />
-          </button>
+          </Link>
         </>
       ),
     });
   }
   return (
     <div>
-      <h3 className="mb-3">List Color</h3>
+      <h3 className="mb-4 title">Colors</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
