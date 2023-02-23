@@ -7,12 +7,11 @@ const getBrands = async () => {
 
   return response.data;
 };
-const createBrand = async (product) => {
-  const response = await axios.post(`${base_url}brand/`, config);
+const createBrand = async (brand) => {
+  const response = await axios.post(`${base_url}brand/`, brand, config);
 
   return response.data;
 };
-
 const brandService = {
   getBrands,
   createBrand,

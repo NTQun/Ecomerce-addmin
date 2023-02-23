@@ -7,6 +7,8 @@ import {
   AiOutlineBgColors,
 } from "react-icons/ai";
 import { RiCouponLine } from "react-icons/ri";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
 import { IoIosNotifications } from "react-icons/io";
@@ -70,7 +72,7 @@ const MainLayout = () => {
                 {
                   key: "brand",
                   icon: <SiBrandfolder className="fs-4" />,
-                  label: "Brand",
+                  label: "Add Brand",
                 },
                 {
                   key: "list-brand",
@@ -80,7 +82,7 @@ const MainLayout = () => {
                 {
                   key: "category",
                   icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Category",
+                  label: "Add Category",
                 },
                 {
                   key: "list-category",
@@ -90,7 +92,7 @@ const MainLayout = () => {
                 {
                   key: "color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Color",
+                  label: "Add Color",
                 },
                 {
                   key: "list-color",
@@ -222,6 +224,17 @@ const MainLayout = () => {
             minHeight: 280,
             background: colorBgContainer,
           }}>
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

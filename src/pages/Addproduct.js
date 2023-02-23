@@ -2,8 +2,8 @@ import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import "react-quill/dist/quill.snow.css";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +12,11 @@ import { getCategories } from "../features/pcategory/pcategorySlice";
 import { getColors } from "../features/color/colorSlice";
 import { Select } from "antd";
 import Dropzone from "react-dropzone";
+import { ToastContainer, toast } from "react-toastify";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts, resetState } from "../features/product/productSlice";
+import { createProducts } from "../features/product/productSlice";
+toast.success("Product Added Successfully", {});
+
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -30,7 +33,7 @@ let schema = yup.object().shape({
 
 const Addproduct = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [color, setColor] = useState([]);
   const [images, setImages] = useState([]);
   console.log(color);
@@ -44,7 +47,16 @@ const Addproduct = () => {
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
-
+  const newProduct = useSelector((state) => state.product);
+  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  useEffect(() => {
+    if (isSuccess && createdProduct) {
+      toast.success("Product Added Successfullly!");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading]);
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -79,6 +91,11 @@ const Addproduct = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(createProducts(values));
+      formik.resetForm();
+      setColor(null);
+      setTimeout(() => {
+        navigate("/admin/list-product");
+      }, 3000);
     },
   });
   const handleColors = (e) => {
