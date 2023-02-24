@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "antd";
-import { getBrands } from "../features/brand/brandSlice";
+import { getBrands, resetState } from "../features/brand/brandSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
+
 const columns = [
   {
     title: "SNo",
@@ -20,9 +21,11 @@ const columns = [
     dataIndex: "action",
   },
 ];
+
 const Brandlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getBrands());
   }, []);
   const brandState = useSelector((state) => state.brand.brands);
@@ -34,7 +37,9 @@ const Brandlist = () => {
 
       action: (
         <>
-          <Link to="/" className=" fs-3 text-danger">
+          <Link
+            to={`/admin/brand/${brandState[i]._id}`}
+            className=" fs-3 text-danger">
             <BiEdit />
           </Link>
           <Link className="ms-3 fs-3 text-danger" to="/">
@@ -46,7 +51,7 @@ const Brandlist = () => {
   }
   return (
     <div>
-      <h3 className="mb-3"> Brand</h3>
+      <h3 className="mb-3 title"> Brand</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
