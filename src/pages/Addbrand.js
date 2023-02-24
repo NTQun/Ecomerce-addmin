@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { createBrand } from "../features/brand/brandSlice";
+import { createBrand, resetState } from "../features/brand/brandSlice";
 import { ToastContainer, toast } from "react-toastify";
 let schema = yup.object().shape({
   title: yup.string().required("Brand Name is Required"),
@@ -33,7 +33,7 @@ const Addbrand = () => {
       dispatch(createBrand(values));
       formik.resetForm();
       setTimeout(() => {
-        navigate("/admin/list-brand");
+        dispatch(resetState());
       }, 1000);
     },
   });

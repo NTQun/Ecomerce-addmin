@@ -14,7 +14,7 @@ import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import { ToastContainer, toast } from "react-toastify";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts } from "../features/product/productSlice";
+import { createProducts, resetState } from "../features/product/productSlice";
 toast.success("Product Added Successfully", {});
 
 let schema = yup.object().shape({
@@ -94,7 +94,7 @@ const Addproduct = () => {
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
-        navigate("/admin/list-product");
+        dispatch(resetState());
       }, 3000);
     },
   });

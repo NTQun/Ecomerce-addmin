@@ -6,7 +6,10 @@ import "react-quill/dist/quill.snow.css";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { createCategory } from "../features/pcategory/pcategorySlice";
+import {
+  createCategory,
+  resetState,
+} from "../features/pcategory/pcategorySlice";
 import { ToastContainer, toast } from "react-toastify";
 let schema = yup.object().shape({
   title: yup.string().required("Category Name is Required"),
@@ -34,7 +37,7 @@ const Addcat = () => {
       dispatch(createCategory(values));
       formik.resetForm();
       setTimeout(() => {
-        navigate("/admin/list-category");
+        dispatch(resetState());
       }, 2500);
     },
   });

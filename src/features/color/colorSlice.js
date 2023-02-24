@@ -21,6 +21,8 @@ export const createColors = createAsyncThunk(
     }
   }
 );
+export const resetState = createAction("Reset_all");
+
 const initialState = {
   colors: [],
   isError: false,
@@ -63,7 +65,8 @@ export const colorSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-      });
+      })
+      .addCase(resetState, () => initialState);
   },
 });
 export default colorSlice.reducer;
