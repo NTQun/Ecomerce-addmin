@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "antd";
-import { getBrands, resetState } from "../features/brand/brandSlice";
+import {
+  deleteABrand,
+  getBrands,
+  resetState,
+} from "../features/brand/brandSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
-
+import CustomModal from "../components/CustomModal";
 const columns = [
   {
     title: "SNo",
@@ -23,6 +27,17 @@ const columns = [
 ];
 
 const Brandlist = () => {
+  const [open, setOpen] = useState(false);
+  const [brandId, setBrandId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setBrandId(e);
+  };
+  console.log(brandId);
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetState());
@@ -42,19 +57,38 @@ const Brandlist = () => {
             className=" fs-3 text-danger">
             <BiEdit />
           </Link>
-          <Link className="ms-3 fs-3 text-danger" to="/">
+          <button
+            className="ms-3 fs-3 text-danger bg-stranparent border-0"
+            onClick={() => {
+              showModal(brandState[i]._id);
+            }}>
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+  const deleteBrand = (e) => {
+    dispatch(deleteABrand(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getBrands());
+    }, 100);
+  };
   return (
     <div>
       <h3 className="mb-3 title"> Brand</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteBrand(brandId);
+        }}
+        title="Are you sure you want to delete this Brand?"
+      />
     </div>
   );
 };
