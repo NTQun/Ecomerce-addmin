@@ -33,7 +33,7 @@ const Brandlist = () => {
     setOpen(true);
     setBrandId(e);
   };
-  console.log(brandId);
+  // console.log(brandId);
   const hideModal = () => {
     setOpen(false);
   };
