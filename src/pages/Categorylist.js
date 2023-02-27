@@ -49,7 +49,9 @@ const Categorylist = () => {
       name: pCatState[i].title,
       action: (
         <>
-          <Link to="" className=" fs-3 text-danger">
+          <Link
+            to={`/admin/category/${pCatState[i]._id}`}
+            className=" fs-3 text-danger">
             <BiEdit />
           </Link>
           <button
