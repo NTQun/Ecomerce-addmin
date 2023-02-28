@@ -96,7 +96,55 @@ export const couponSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-
+      .addCase(deleteACoupon.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteACoupon.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedCoupon = action.payload;
+      })
+      .addCase(deleteACoupon.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getACoupon.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getACoupon.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.couponName = action.payload[0].name;
+        state.couponDiscount = action.payload[0].discount;
+        state.couponExpiry = action.payload[0].expiry;
+      })
+      .addCase(getACoupon.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateACoupon.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateACoupon.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.couponName = action.payload[0].name;
+        state.couponDiscount = action.payload[0].discount;
+        state.couponExpiry = action.payload[0].expiry;
+      })
+      .addCase(updateACoupon.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
       .addCase(resetState, () => initialState);
   },
 });

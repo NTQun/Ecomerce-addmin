@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "antd";
-import { getAllCoupon } from "../features/coupon/couponSlice";
+import {
+  deleteACoupon,
+  getAllCoupon,
+  resetState,
+} from "../features/coupon/couponSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import CustomModal from "../components/CustomModal";
+
 const columns = [
   {
     title: "SNo",
@@ -31,9 +37,21 @@ const columns = [
     dataIndex: "action",
   },
 ];
-const Brandlist = () => {
+const Couponlist = () => {
+  const [open, setOpen] = useState(false);
+  const [couponId, setCouponId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setCouponId(e);
+  };
+  // console.log(brandId);
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getAllCoupon());
   }, []);
   const couponState = useSelector((state) => state.coupon.coupons);
@@ -47,24 +65,45 @@ const Brandlist = () => {
 
       action: (
         <>
-          <Link to="/" className=" fs-3 text-danger">
+          <Link
+            to={`/admin/coupon/${couponState[i]._id}`}
+            className=" fs-3 text-danger">
             <BiEdit />
           </Link>
-          <Link className="ms-3 fs-3 text-danger" to="/">
+          <button
+            className="ms-3 fs-3 text-danger bg-stranparent border-0"
+            onClick={() => {
+              showModal(couponState[i]._id);
+            }}>
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+  const deleteCoupon = (e) => {
+    dispatch(deleteACoupon(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getAllCoupon());
+    }, 100);
+  };
   return (
     <div>
       <h3 className="mb-3"> Coupon</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteCoupon(couponId);
+        }}
+        title="Are you sure you want to delete this Coupon?"
+      />
     </div>
   );
 };
 
-export default Brandlist;
+export default Couponlist;
