@@ -22,7 +22,7 @@ const columns = [
     dataIndex: "mobile",
   },
   {
-    title: "Staus",
+    title: "Status",
     dataIndex: "status",
   },
 
