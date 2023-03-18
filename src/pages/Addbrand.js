@@ -70,26 +70,30 @@ const Addbrand = () => {
       }
     },
   });
+
   return (
     <div>
-      <h3 className="mb-4">
+      <h3 className="mb-4 title">
         {getBrandId !== undefined ? "Edit" : "Add"} Brand
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            label="Enter Brand"
             name="title"
             onChng={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
             val={formik.values.title}
+            label="Enter Brand"
             id="brand"
           />
           <div className="error">
             {formik.touched.title && formik.errors.title}
           </div>
-          <button className="btn btn-success border-0 rounded-3 my-5">
+          <button
+            className="btn btn-success border-0 rounded-3 my-5"
+            type="submit"
+          >
             {getBrandId !== undefined ? "Edit" : "Add"} Brand
           </button>
         </form>

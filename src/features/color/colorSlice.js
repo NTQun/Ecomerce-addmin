@@ -12,7 +12,7 @@ export const getColors = createAsyncThunk(
   }
 );
 export const createColor = createAsyncThunk(
-  "color/create-colors",
+  "color/create-color",
   async (colorData, thunkAPI) => {
     try {
       return await colorService.createColor(colorData);
@@ -42,11 +42,12 @@ export const updateAColor = createAsyncThunk(
     }
   }
 );
+
 export const deleteAColor = createAsyncThunk(
   "color/delete-color",
-  async (color, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      return await colorService.deleteColor(color);
+      return await colorService.deleteColor(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -98,21 +99,6 @@ export const colorSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-      .addCase(getAColor.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getAColor.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.colorName = action.payload.title;
-      })
-      .addCase(getAColor.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
-      })
       .addCase(updateAColor.pending, (state) => {
         state.isLoading = true;
       })
@@ -123,6 +109,21 @@ export const colorSlice = createSlice({
         state.updatedColor = action.payload;
       })
       .addCase(updateAColor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getAColor.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAColor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.colorName = action.payload.title;
+      })
+      .addCase(getAColor.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

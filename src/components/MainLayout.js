@@ -9,7 +9,8 @@ import {
 import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
 import { IoIosNotifications } from "react-icons/io";
 import { FaClipboardList, FaBloggerB } from "react-icons/fa";
@@ -25,12 +26,12 @@ const MainLayout = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   return (
-    <Layout>
+    <Layout /* onContextMenu={(e) => e.preventDefault()} */>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h2 className="text-white fs-5 text-center py-3 mb-0">
-            <span className="sm-logo">EC</span>
-            <span className="lg-logo">Ecomerce</span>
+            <span className="sm-logo">TQ</span>
+            <span className="lg-logo">Trung Quan</span>
           </h2>
         </div>
         <Menu
@@ -72,7 +73,7 @@ const MainLayout = () => {
                 {
                   key: "brand",
                   icon: <SiBrandfolder className="fs-4" />,
-                  label: "Add Brand",
+                  label: "Brand",
                 },
                 {
                   key: "list-brand",
@@ -82,7 +83,7 @@ const MainLayout = () => {
                 {
                   key: "category",
                   icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Add Category",
+                  label: "Category",
                 },
                 {
                   key: "list-category",
@@ -92,7 +93,7 @@ const MainLayout = () => {
                 {
                   key: "color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Add Color",
+                  label: "Color",
                 },
                 {
                   key: "list-color",
@@ -160,7 +161,7 @@ const MainLayout = () => {
       </Sider>
       <Layout className="site-layout">
         <Header
-          className="d-flex justify-content-between ps-2 pe-5"
+          className="d-flex justify-content-between ps-1 pe-5"
           style={{
             padding: 0,
             background: colorBgContainer,
@@ -172,29 +173,30 @@ const MainLayout = () => {
               onClick: () => setCollapsed(!collapsed),
             }
           )}
-          <div className="d-flex gap-3 align-items-center">
+          <div className="d-flex gap-4 align-items-center">
             <div className="position-relative">
               <IoIosNotifications className="fs-4" />
               <span className="badge bg-warning rounded-circle p-1 position-absolute">
                 3
               </span>
             </div>
-            <div className="d-flex gap-3 align-item-center drop-down ">
+
+            <div className="d-flex gap-3 align-items-center dropdown">
               <div>
                 <img
                   width={32}
                   height={32}
                   src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
-                  alt="avatar"
+                  alt=""
                 />
               </div>
               <div
-                type="button"
+                role="button"
                 id="dropdownMenuLink"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <h5 className="mb-0">Trungquan</h5>
-                <p className="mb-0">nguyenquan07112001@gmail.com</p>
+                <h5 className="mb-0">Navdeep</h5>
+                <p className="mb-0">navdeepdahiya753@gmail.com</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>

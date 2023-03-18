@@ -1,6 +1,7 @@
 body {
   font-family: Roboto, sans-serif;
 }
+
 .trigger {
   padding: 0 24px;
   font-size: 18px;
@@ -12,31 +13,35 @@ body {
 .trigger:hover {
   color: #1890ff;
 }
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
 .ant-layout {
   min-height: 100vh;
 }
 .ant-layout-sider {
-  flex: 0 0 250px !important ;
-  max-width: 250px !important ;
-  min-width: 250px !important ;
-  width: 250px !important ;
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  width: 250px !important;
 }
 .ant-layout-sider-collapsed {
-  flex: 0 0 80px !important ;
-  max-width: 80px !important ;
-  min-width: 80px !important ;
-  width: 80px !important ;
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
 }
 .sm-logo {
   display: none;
 }
 
 .ant-layout-sider-collapsed .sm-logo {
-  transition: 0.3s;
   display: block;
 }
 .ant-layout-sider-collapsed .lg-logo {
-  transition: 0.3s;
   display: none;
 }
 .logo {
@@ -45,11 +50,11 @@ body {
   height: 64px;
 }
 main {
-  overflow-y: scroll;
   height: 85vh;
+  overflow-y: scroll;
   background-color: transparent !important;
 }
-.main::-webkit-scrollbar {
+main::-webkit-scrollbar {
   width: 0px;
 }
 .ant-menu-title-content {

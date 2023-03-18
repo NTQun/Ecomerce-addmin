@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import { React, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
-import { useNavigate, useLocation } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import "react-quill/dist/quill.snow.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
 import {
   createColor,
   getAColor,
@@ -27,8 +25,8 @@ const Addcolor = () => {
     isError,
     isLoading,
     createdColor,
-    colorName,
     updatedColor,
+    colorName,
   } = newColor;
   useEffect(() => {
     if (getColorId !== undefined) {
@@ -52,7 +50,7 @@ const Addcolor = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: colorName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -71,7 +69,7 @@ const Addcolor = () => {
   });
   return (
     <div>
-      <h3 className="mb-4">
+      <h3 className="mb-4 title">
         {getColorId !== undefined ? "Edit" : "Add"} Color
       </h3>
       <div>
@@ -79,7 +77,6 @@ const Addcolor = () => {
           <CustomInput
             type="color"
             label="Enter Product Color"
-            name="title"
             onChng={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
             val={formik.values.title}
@@ -88,7 +85,10 @@ const Addcolor = () => {
           <div className="error">
             {formik.touched.title && formik.errors.title}
           </div>
-          <button className="btn btn-success border-0 rounded-3 my-5">
+          <button
+            className="btn btn-success border-0 rounded-3 my-5"
+            type="submit"
+          >
             {getColorId !== undefined ? "Edit" : "Add"} Color
           </button>
         </form>

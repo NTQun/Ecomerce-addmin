@@ -1,6 +1,7 @@
 import axios from "axios";
-import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
+import { config } from "../../utils/axiosconfig";
+
 const getProductCategories = async () => {
   const response = await axios.get(`${base_url}category/`);
 
@@ -40,4 +41,5 @@ const pCategoryService = {
   deleteProductCategory,
   updateProductCategory,
 };
+
 export default pCategoryService;

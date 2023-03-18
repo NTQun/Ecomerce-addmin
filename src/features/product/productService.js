@@ -1,21 +1,21 @@
 import axios from "axios";
-import { base_url } from "../../utils/baseUrl";
 import { config } from "../../utils/axiosconfig";
+import { base_url } from "../../utils/baseUrl";
 
 const getProducts = async () => {
-  const responce = await axios.get(`${base_url}product/`);
+  const response = await axios.get(`${base_url}product/`);
 
-  return responce.data;
+  return response.data;
 };
-
 const createProduct = async (product) => {
-  const responce = await axios.post(`${base_url}product/`, product, config);
+  const response = await axios.post(`${base_url}product/`, product, config);
 
-  return responce.data;
+  return response.data;
 };
 
 const productService = {
   getProducts,
   createProduct,
 };
+
 export default productService;

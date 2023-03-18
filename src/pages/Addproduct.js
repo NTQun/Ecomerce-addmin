@@ -2,8 +2,8 @@ import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import "react-quill/dist/quill.snow.css";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +12,8 @@ import { getCategories } from "../features/pcategory/pcategorySlice";
 import { getColors } from "../features/color/colorSlice";
 import { Select } from "antd";
 import Dropzone from "react-dropzone";
-import { ToastContainer, toast } from "react-toastify";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { createProducts, resetState } from "../features/product/productSlice";
-toast.success("Product Added Successfully", {});
-
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -108,7 +105,8 @@ const Addproduct = () => {
       <div>
         <form
           onSubmit={formik.handleSubmit}
-          className="d-flex gap-3 flex-column">
+          className="d-flex gap-3 flex-column"
+        >
           <CustomInput
             type="text"
             label="Enter Product Title"
@@ -148,7 +146,8 @@ const Addproduct = () => {
             onBlur={formik.handleBlur("brand")}
             value={formik.values.brand}
             className="form-control py-3 mb-3"
-            id="">
+            id=""
+          >
             <option value="">Select Brand</option>
             {brandState.map((i, j) => {
               return (
@@ -167,7 +166,8 @@ const Addproduct = () => {
             onBlur={formik.handleBlur("category")}
             value={formik.values.category}
             className="form-control py-3 mb-3"
-            id="">
+            id=""
+          >
             <option value="">Select Category</option>
             {catState.map((i, j) => {
               return (
@@ -186,7 +186,8 @@ const Addproduct = () => {
             onBlur={formik.handleBlur("tags")}
             value={formik.values.tags}
             className="form-control py-3 mb-3"
-            id="">
+            id=""
+          >
             <option value="" disabled>
               Select Category
             </option>
@@ -223,7 +224,8 @@ const Addproduct = () => {
           </div>
           <div className="bg-white border-1 p-5 text-center">
             <Dropzone
-              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}>
+              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            >
               {({ getRootProps, getInputProps }) => (
                 <section>
                   <div {...getRootProps()}>
@@ -244,7 +246,8 @@ const Addproduct = () => {
                     type="button"
                     onClick={() => dispatch(delImg(i.public_id))}
                     className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px" }}></button>
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
                   <img src={i.url} alt="" width={200} height={200} />
                 </div>
               );
@@ -252,7 +255,8 @@ const Addproduct = () => {
           </div>
           <button
             className="btn btn-success border-0 rounded-3 my-5"
-            type="submit">
+            type="submit"
+          >
             Add Product
           </button>
         </form>

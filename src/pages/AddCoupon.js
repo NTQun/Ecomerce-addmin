@@ -37,9 +37,8 @@ const AddCoupon = () => {
   const changeDateFormet = (date) => {
     const newDate = new Date(date).toLocaleDateString();
     const [month, day, year] = newDate.split("/");
-    return [year, month, day].join("-");
+    return [year, day, month].join("-");
   };
-
   useEffect(() => {
     if (getCouponId !== undefined) {
       dispatch(getACoupon(getCouponId));
@@ -77,7 +76,7 @@ const AddCoupon = () => {
         dispatch(createCoupon(values));
         formik.resetForm();
         setTimeout(() => {
-          dispatch(resetState);
+          dispatch(resetState());
         }, 300);
       }
     },

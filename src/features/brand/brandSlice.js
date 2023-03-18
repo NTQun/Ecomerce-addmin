@@ -41,16 +41,18 @@ export const updateABrand = createAsyncThunk(
     }
   }
 );
+
 export const deleteABrand = createAsyncThunk(
   "brand/delete-brand",
-  async (brand, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      return await brandService.deleteBrand(brand);
+      return await brandService.deleteBrand(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
+
 export const resetState = createAction("Reset_all");
 
 const initialState = {
