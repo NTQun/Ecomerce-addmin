@@ -53,6 +53,9 @@ const Addproduct = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    if (isSuccess) {
+      navigate("/list-product");
+    }
   }, [isSuccess, isError, isLoading]);
   const coloropt = [];
   colorState.forEach((i) => {
@@ -97,7 +100,6 @@ const Addproduct = () => {
   });
   const handleColors = (e) => {
     setColor(e);
-    console.log(color);
   };
   return (
     <div>
@@ -121,6 +123,7 @@ const Addproduct = () => {
           <div className="">
             <ReactQuill
               theme="snow"
+              placeholder="Enter Product Description"
               name="description"
               onChange={formik.handleChange("description")}
               value={formik.values.description}
