@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../features/customers/customerSlice";
+import { AiTwotoneLock } from "react-icons/ai";
+import { FcKey } from "react-icons/fc";
+
+import {
+  blockUser,
+  getUsers,
+  unblockUser,
+} from "../features/customers/customerSlice";
 const columns = [
   {
     title: "SNo",
@@ -20,14 +27,25 @@ const columns = [
     title: "Mobile",
     dataIndex: "mobile",
   },
+  {
+    title: "Action",
+    dataIndex: "action",
+  },
 ];
 
 const Customers = () => {
+  const customerstate = useSelector((state) => state.customer.customers);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
-  const customerstate = useSelector((state) => state.customer.customers);
+  });
+  const useblockUser = (id) => {
+    dispatch(blockUser(id));
+  };
+  const useunblocUser = (id) => {
+    dispatch(unblockUser(id));
+  };
   const data1 = [];
   for (let i = 0; i < customerstate.length; i++) {
     if (customerstate[i].role !== "admin") {
@@ -36,6 +54,26 @@ const Customers = () => {
         name: customerstate[i].firstname + " " + customerstate[i].lastname,
         email: customerstate[i].email,
         mobile: customerstate[i].mobile,
+        action: (
+          <>
+            {customerstate[i].isBlocked == false && (
+              <button
+                className="ms-3 fs-3 text-danger bg-transparent border-0"
+                onClick={() => useblockUser(customerstate[i]._id)}
+              >
+                <AiTwotoneLock />
+              </button>
+            )}
+            {customerstate[i].isBlocked && (
+              <button
+                className="ms-3 fs-3 text-primary bg-transparent border-0"
+                onClick={() => useunblocUser(customerstate[i]._id)}
+              >
+                <FcKey />
+              </button>
+            )}
+          </>
+        ),
       });
     }
   }

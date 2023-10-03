@@ -97,7 +97,6 @@ const Dashboard = () => {
       });
     }
     setorderData(data1);
-    console.log(orderData);
   }, [monthlyDataState, yearlyDataState]);
 
   const config = {

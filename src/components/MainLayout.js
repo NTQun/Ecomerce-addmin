@@ -5,6 +5,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineUser,
   AiOutlineBgColors,
+  AiOutlineLogout,
 } from "react-icons/ai";
 import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
@@ -12,18 +13,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
-import { IoIosNotifications } from "react-icons/io";
+import { RiUser2Fill } from "react-icons/ri";
 import { FaClipboardList, FaBloggerB } from "react-icons/fa";
 import { SiBrandfolder } from "react-icons/si";
 import { BiCategoryAlt } from "react-icons/bi";
 import { Layout, Menu, theme } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const authState = useSelector((state) => state?.auth.user);
   const navigate = useNavigate();
   return (
     <Layout /* onContextMenu={(e) => e.preventDefault()} */>
@@ -39,7 +42,9 @@ const MainLayout = () => {
           mode="inline"
           defaultSelectedKeys={[""]}
           onClick={({ key }) => {
-            if (key == "signout") {
+            if (key === "signout") {
+              localStorage.clear();
+              navigate("/");
             } else {
               navigate(key);
             }
@@ -156,6 +161,11 @@ const MainLayout = () => {
               icon: <FaClipboardList className="fs-4" />,
               label: "Enquiries",
             },
+            {
+              key: "signout",
+              icon: <AiOutlineLogout className="fs-4" />,
+              label: "Sign Out",
+            },
           ]}
         />
       </Sider>
@@ -165,7 +175,8 @@ const MainLayout = () => {
           style={{
             padding: 0,
             background: colorBgContainer,
-          }}>
+          }}
+        >
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -175,35 +186,26 @@ const MainLayout = () => {
           )}
           <div className="d-flex gap-4 align-items-center">
             <div className="position-relative">
-              <IoIosNotifications className="fs-4" />
-              <span className="badge bg-warning rounded-circle p-1 position-absolute">
-                3
-              </span>
+              <RiUser2Fill className="fs-4" />
             </div>
 
             <div className="d-flex gap-3 align-items-center dropdown">
-              <div>
-                <img
-                  width={32}
-                  height={32}
-                  src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
-                  alt=""
-                />
-              </div>
               <div
                 role="button"
                 id="dropdownMenuLink"
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <h5 className="mb-0">Navdeep</h5>
-                <p className="mb-0">navdeepdahiya753@gmail.com</p>
+                aria-expanded="false"
+              >
+                <h5 className="mb-0">{authState.lastname}</h5>
+                <p className="mb-0">{authState.email}</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
-                    to="/">
+                    to="/"
+                  >
                     View Profile
                   </Link>
                 </li>
@@ -211,7 +213,8 @@ const MainLayout = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
-                    to="/">
+                    to="/"
+                  >
                     Signout
                   </Link>
                 </li>
@@ -225,7 +228,8 @@ const MainLayout = () => {
             padding: 24,
             minHeight: 280,
             background: colorBgContainer,
-          }}>
+          }}
+        >
           <ToastContainer
             position="top-right"
             autoClose={250}
