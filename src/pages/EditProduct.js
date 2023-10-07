@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -13,7 +13,12 @@ import { getColors } from "../features/color/colorSlice";
 import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts, resetState } from "../features/product/productSlice";
+import {
+  createProducts,
+  getProduct,
+  resetState,
+  updateProduct,
+} from "../features/product/productSlice";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -28,35 +33,65 @@ let schema = yup.object().shape({
   quantity: yup.number().required("Quantity is Required"),
 });
 
-const Addproduct = () => {
+const Editproduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [color, setColor] = useState([]);
   const [images, setImages] = useState([]);
-  console.log(color);
-  useEffect(() => {
-    dispatch(getBrands());
-    dispatch(getCategories());
-    dispatch(getColors());
-  }, []);
-
+  const location = useLocation();
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
-  const newProduct = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
-  // useEffect(() => {
-  //   if (isSuccess && createdProduct) {
-  //     toast.success("Product Added Successfullly!");
-  //   }
-  //   if (isError) {
-  //     toast.error("Something Went Wrong!");
-  //   }
-  //   if (isSuccess) {
-  //     navigate("/list-product");
-  //   }
-  // }, [isSuccess, isError, isLoading]);
+  const getProductId = location.pathname.split("/")[3];
+  const productState = useSelector((state) => state.product.product);
+  const proState = useSelector((state) => state.product.updatedProduct);
+  useEffect(() => {
+    dispatch(getBrands());
+    dispatch(getCategories());
+    dispatch(getColors());
+    dispatch(getProduct(getProductId));
+  }, []);
+
+  useEffect(() => {
+    if (proState) {
+      setTimeout(() => {
+        navigate("/admin/list-product");
+      }, 500);
+    }
+  }, [proState]);
+  const formData = [];
+  if (productState !== undefined) {
+    Object.keys(productState).forEach((key) => {
+      if (
+        key === "title" ||
+        key === "description" ||
+        key === "price" ||
+        key === "category" ||
+        key === "brand" ||
+        key === "tags" ||
+        key === "quantity" ||
+        key === "color" ||
+        key === "images"
+      ) {
+        formData.push(productState[key]);
+      }
+    });
+  }
+  const [
+    title,
+    description,
+    price,
+    brand,
+    category,
+    quantity,
+    imagess,
+    colors,
+    tags,
+  ] = formData;
+
+  const defaultImg = [];
+  imagess?.map((item) => defaultImg.push(item.public_id, item.url));
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -64,6 +99,8 @@ const Addproduct = () => {
       value: i._id,
     });
   });
+  const defautColor = [];
+  colors?.map((item) => defautColor.push(item.title));
   const img = [];
   imgState.forEach((i) => {
     img.push({
@@ -72,35 +109,37 @@ const Addproduct = () => {
     });
   });
 
-  useEffect(() => {
-    formik.values.color = color ? color : " ";
-    formik.values.images = img;
-  }, [color, img]);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
-      price: "",
-      brand: "",
-      category: "",
-      tags: "",
-      color: "",
-      quantity: "",
-      images: "",
+      title: title,
+      description: description,
+      price: price,
+      brand: brand,
+      category: category,
+      tags: tags,
+      color: colors,
+      quantity: quantity,
+      images: imagess,
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createProducts(values));
+      const data = { id: getProductId, productData: values };
+      console.log(data);
+
+      dispatch(updateProduct(data));
+      dispatch(resetState());
       formik.resetForm();
-      setColor(null);
+
       setTimeout(() => {
         dispatch(resetState());
-      }, 3000);
+      }, 1000);
     },
   });
   const handleColors = (e) => {
     setColor(e);
   };
+
   return (
     <div>
       <h3 className="mb-4 title">Add Product</h3>
@@ -122,11 +161,11 @@ const Addproduct = () => {
           </div>
           <div className="">
             <ReactQuill
+              defaultValue={description}
               theme="snow"
               placeholder="Enter Product Description"
               name="description"
               onChange={formik.handleChange("description")}
-              value={formik.values.description}
             />
           </div>
           <div className="error">
@@ -145,16 +184,17 @@ const Addproduct = () => {
           </div>
           <select
             name="brand"
+            defaultValue={brand}
             onChange={formik.handleChange("brand")}
             onBlur={formik.handleBlur("brand")}
             value={formik.values.brand}
-            className="form-control py-3 mb-3"
+            className="form-control "
             id=""
           >
-            <option value="">Select Brand</option>
+            <option value="">{brand}</option>
             {brandState.map((i, j) => {
               return (
-                <option key={j} value={i.title}>
+                <option defaultValue={brand} key={j} value={i.title}>
                   {i.title}
                 </option>
               );
@@ -165,13 +205,14 @@ const Addproduct = () => {
           </div>
           <select
             name="category"
+            defaultValue={category}
             onChange={formik.handleChange("category")}
             onBlur={formik.handleBlur("category")}
             value={formik.values.category}
-            className="form-control py-3 mb-3"
+            className="form-control "
             id=""
           >
-            <option value="">Select Category</option>
+            <option value="">{category}</option>
             {catState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -188,7 +229,7 @@ const Addproduct = () => {
             onChange={formik.handleChange("tags")}
             onBlur={formik.handleBlur("tags")}
             value={formik.values.tags}
-            className="form-control py-3 mb-3"
+            className="form-control "
             id=""
           >
             <option value="" disabled>
@@ -207,7 +248,7 @@ const Addproduct = () => {
             allowClear
             className="w-100"
             placeholder="Select colors"
-            defaultValue={color}
+            defaultValue={defautColor}
             onChange={(i) => handleColors(i)}
             options={coloropt}
           />
@@ -241,8 +282,9 @@ const Addproduct = () => {
               )}
             </Dropzone>
           </div>
+
           <div className="showimages d-flex flex-wrap gap-3">
-            {imgState?.map((i, j) => {
+            {defaultImg?.map((i, j) => {
               return (
                 <div className=" position-relative" key={j}>
                   <button
@@ -256,16 +298,26 @@ const Addproduct = () => {
               );
             })}
           </div>
-          <button
-            className="btn btn-success border-0 rounded-3 my-5"
-            type="submit"
-          >
-            Add Product
-          </button>
+          <div className="">
+            <button
+              className="btn btn-success border-0 rounded-3 my-5 mx-5"
+              type="submit"
+            >
+              Update Product
+            </button>
+
+            <button
+              className="btn btn-danger border-0 rounded-3 my-5"
+              type="button"
+              onClick={() => navigate("/admin/list-product")}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default Addproduct;
+export default Editproduct;

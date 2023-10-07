@@ -26,6 +26,7 @@ import ViewEnq from "./pages/ViewEnq";
 import ViewOrder from "./pages/ViewOrder";
 import { OpenRoutes } from "./routting/OpenRoutes";
 import { PrivateRoutes } from "./routting/PrivateRoutes";
+import Editproduct from "./pages/EditProduct";
 function App() {
   return (
     <Router>
@@ -72,6 +73,7 @@ function App() {
           <Route path="brand/:id" element={<Addbrand />} />
           <Route path="list-product" element={<Productlist />} />
           <Route path="product" element={<Addproduct />} />
+          <Route path="product/:id" element={<Editproduct />} />
         </Route>
       </Routes>
     </Router>
