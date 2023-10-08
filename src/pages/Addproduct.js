@@ -30,10 +30,7 @@ let schema = yup.object().shape({
 
 const Addproduct = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
-  console.log(color);
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
@@ -44,19 +41,7 @@ const Addproduct = () => {
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
-  const newProduct = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
-  // useEffect(() => {
-  //   if (isSuccess && createdProduct) {
-  //     toast.success("Product Added Successfullly!");
-  //   }
-  //   if (isError) {
-  //     toast.error("Something Went Wrong!");
-  //   }
-  //   if (isSuccess) {
-  //     navigate("/list-product");
-  //   }
-  // }, [isSuccess, isError, isLoading]);
+
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -93,9 +78,7 @@ const Addproduct = () => {
       dispatch(createProducts(values));
       formik.resetForm();
       setColor(null);
-      setTimeout(() => {
-        dispatch(resetState());
-      }, 3000);
+      dispatch(resetState());
     },
   });
   const handleColors = (e) => {

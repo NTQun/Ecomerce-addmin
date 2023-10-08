@@ -74,7 +74,7 @@ const Bloglist = () => {
     setOpen(false);
     setTimeout(() => {
       dispatch(getBlogs());
-    }, 100);
+    }, 200);
   };
   return (
     <div>

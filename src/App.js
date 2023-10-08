@@ -27,6 +27,7 @@ import ViewOrder from "./pages/ViewOrder";
 import { OpenRoutes } from "./routting/OpenRoutes";
 import { PrivateRoutes } from "./routting/PrivateRoutes";
 import Editproduct from "./pages/EditProduct";
+import Editcoupon from "./pages/Editcoupon";
 function App() {
   return (
     <Router>
@@ -55,7 +56,6 @@ function App() {
           <Route path="blog/:id" element={<Addblog />} />
           <Route path="coupon-list" element={<Couponlist />} />
           <Route path="coupon" element={<AddCoupon />} />
-          <Route path="coupon/:id" element={<AddCoupon />} />
           <Route path="blog-category-list" element={<Blogcatlist />} />
           <Route path="blog-category" element={<Addblogcat />} />
           <Route path="blog-category/:id" element={<Addblogcat />} />
@@ -73,6 +73,7 @@ function App() {
           <Route path="brand/:id" element={<Addbrand />} />
           <Route path="list-product" element={<Productlist />} />
           <Route path="product" element={<Addproduct />} />
+          <Route path="coupon/:id" element={<Editcoupon />} />
           <Route path="product/:id" element={<Editproduct />} />
         </Route>
       </Routes>

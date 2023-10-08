@@ -41,7 +41,6 @@ const Addcolor = () => {
     }
     if (isSuccess && updatedColor) {
       toast.success("Color Updated Successfullly!");
-      navigate("/admin/list-color");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
@@ -58,6 +57,9 @@ const Addcolor = () => {
         const data = { id: getColorId, colorData: values };
         dispatch(updateAColor(data));
         dispatch(resetState());
+        setTimeout(() => {
+          navigate("/admin/list-color");
+        }, 400);
       } else {
         dispatch(createColor(values));
         formik.resetForm();
@@ -75,7 +77,7 @@ const Addcolor = () => {
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
-            type="color"
+            type="text"
             label="Enter Product Color"
             onChng={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
