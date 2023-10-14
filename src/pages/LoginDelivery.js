@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { loginDelivery } from "./../features/delivery/deliverySlice";
+
 let schema = yup.object().shape({
   email: yup
     .string()
@@ -12,7 +13,7 @@ let schema = yup.object().shape({
     .required("Email is Required"),
   password: yup.string().required("Password is Required"),
 });
-const Login = () => {
+const LoginDelivery = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -22,20 +23,18 @@ const Login = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(login(values));
+      dispatch(loginDelivery(values));
     },
   });
-  const authState = useSelector((state) => state);
-
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
-
+  const authState = useSelector((state) => state?.delivery);
+  const { delivery, isError, isSuccess, isLoading, message } = authState;
   useEffect(() => {
     if (isSuccess) {
-      navigate("admin");
+      navigate("/delivery/order");
     } else {
-      navigate("");
+      navigate("/deliver");
     }
-  }, [user, isError, isSuccess, isLoading]);
+  }, [delivery, isError, isSuccess, isLoading, message]);
   return (
     <div className="py-5 bg-login" style={{ minHeight: "100vh" }}>
       <br />
@@ -44,12 +43,11 @@ const Login = () => {
       <br />
       <br />
       <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
-        <h3 className="text-center title">Login Admin </h3>
-
+        <h3 className="text-center title">Login Delivery</h3>
         <p className="text-center">Login to your account to continue.</p>
-        <div className="error text-center">
-          {message.message == "Rejected" ? "You are not an Admin" : ""}
-        </div>
+        {/* <div className="error text-center">
+          {message.message == "Rejected" ? "You are not an Delivery" : ""}
+        </div> */}
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
@@ -75,17 +73,15 @@ const Login = () => {
           <div className="error mt-2">
             {formik.touched.password && formik.errors.password}
           </div>
-          <div className="d-flex">
-            <button
-              className="border-0 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
-              style={{ background: "blue" }}
-              type="submit"
-            >
-              Login
-            </button>
-          </div>
-          <Link to="/deliver" className="text-center title mt-3 text-danger">
-            Login Delivery
+          <button
+            className="border-0 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
+            style={{ background: "blue" }}
+            type="submit"
+          >
+            Login
+          </button>
+          <Link to="/" className="text-center title mt-3 text-danger">
+            Login Admin
           </Link>
         </form>
       </div>
@@ -93,4 +89,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginDelivery;

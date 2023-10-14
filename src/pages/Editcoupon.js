@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,7 +19,6 @@ let schema = yup.object().shape({
 function Editcoupon() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   const getCouponId = location.pathname.split("/")[3];
   const getCoupon = useSelector((state) => state?.coupon.getACoupon);
   const formData = [];

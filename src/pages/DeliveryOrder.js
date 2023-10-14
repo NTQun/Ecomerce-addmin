@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getOrders, updateAOrder } from "../features/auth/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getAllOrderDeliver,
+  updateOrderDeliver,
+} from "./../features/delivery/deliverySlice";
 
 const columns = [
   {
@@ -14,8 +17,8 @@ const columns = [
     dataIndex: "name",
   },
   {
-    title: "Products",
-    dataIndex: "product",
+    title: "Detail Order",
+    dataIndex: "detailorder",
   },
   {
     title: "Amount",
@@ -25,6 +28,19 @@ const columns = [
     title: "Date",
     dataIndex: "date",
   },
+  {
+    title: " Address",
+    dataIndex: "address",
+  },
+  {
+    title: "Sub Address",
+    dataIndex: "subaddress",
+  },
+
+  {
+    title: "Mobile",
+    dataIndex: "mobile",
+  },
 
   {
     title: "Actions",
@@ -32,22 +48,34 @@ const columns = [
   },
 ];
 
-const Orders = () => {
+const DeliveryOrder = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    dispatch(getOrders());
+    dispatch(getAllOrderDeliver());
   }, []);
-  const orderState = useSelector((state) => state.auth.orders.orders);
+  const orderState = useSelector(
+    (state) => state?.delivery?.deliveryOrder?.orders
+  );
   const data1 = [];
+
+  const upateOrderStatus = (a, b) => {
+    dispatch(updateOrderDeliver({ id: a, status: b }));
+  };
+
   for (let i = 0; i < orderState?.length; i++) {
     data1.push({
       key: i + 1,
       name: orderState[i].user?.firstname,
-      product: (
-        <Link to={`/admin/order/${orderState[i]?._id}`}>View Orders</Link>
+      detailorder: (
+        <Link to={`/delivery/order/${orderState[i]?._id}`}>View Orders</Link>
       ),
       amount: orderState[i].totalPrice,
       date: new Date(orderState[i].createdAt).toLocaleDateString(),
+      mobile: orderState[i]?.shippingInfo?.mobile,
+      address: orderState[i]?.shippingInfo?.address,
+      subaddress: orderState[i]?.shippingInfo?.other,
 
       action: (
         <>
@@ -73,13 +101,23 @@ const Orders = () => {
     });
   }
 
-  const upateOrderStatus = (a, b) => {
-    dispatch(updateAOrder({ id: a, status: b }));
-  };
   return (
     <div>
-      <h3 className="mb-4">Orders</h3>
-
+      <div className="d-flex position ">
+        <h3 className="mb-4 mt-3 px-3 " style={{ color: "blue" }}>
+          Delivery Orders
+        </h3>
+        <button
+          className="mb-4 mt-3 position-absolute"
+          style={{ color: "white", backgroundColor: "red", right: "30px" }}
+          onClick={(e) => {
+            localStorage.clear();
+            navigate("/");
+          }}
+        >
+          Logout
+        </button>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -87,4 +125,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default DeliveryOrder;

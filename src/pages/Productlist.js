@@ -3,15 +3,10 @@ import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProduct,
-  getProduct,
-  getProducts,
-  getaProduct,
-} from "../features/product/productSlice";
+import { deleteProduct, getProducts } from "../features/product/productSlice";
 import { Link } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
-import { getAColor, getColors } from "./../features/color/colorSlice";
+import { getColors } from "./../features/color/colorSlice";
 import { toast } from "react-toastify";
 const columns = [
   {

@@ -2,8 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Resetpassword from "./pages/Resetpassword";
-import Forgotpassword from "./pages/Forgotpassword";
 import MainLayout from "./components/MainLayout";
 import Enquiries from "./pages/Enquiries";
 import Bloglist from "./pages/Bloglist";
@@ -28,6 +26,10 @@ import { OpenRoutes } from "./routting/OpenRoutes";
 import { PrivateRoutes } from "./routting/PrivateRoutes";
 import Editproduct from "./pages/EditProduct";
 import Editcoupon from "./pages/Editcoupon";
+import LoginDelivery from "./pages/LoginDelivery";
+import DeliveryOrder from "./pages/DeliveryOrder";
+import ViewDeliveryOrder from "./pages/ViewDeliveryOrder";
+import { DeliverRoute } from "./routting/DeliveryRoute";
 function App() {
   return (
     <Router>
@@ -37,6 +39,14 @@ function App() {
           element={
             <OpenRoutes>
               <Login />
+            </OpenRoutes>
+          }
+        />{" "}
+        <Route
+          path="/deliver"
+          element={
+            <OpenRoutes>
+              <LoginDelivery />
             </OpenRoutes>
           }
         />
@@ -76,6 +86,22 @@ function App() {
           <Route path="coupon/:id" element={<Editcoupon />} />
           <Route path="product/:id" element={<Editproduct />} />
         </Route>
+        <Route
+          path="delivery/order"
+          element={
+            <DeliverRoute>
+              <DeliveryOrder />
+            </DeliverRoute>
+          }
+        />
+        <Route
+          path="delivery/order/:id"
+          element={
+            <DeliverRoute>
+              <ViewDeliveryOrder />
+            </DeliverRoute>
+          }
+        />
       </Routes>
     </Router>
   );

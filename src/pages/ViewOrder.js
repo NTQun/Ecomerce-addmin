@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getSingleOrder } from "../features/auth/authSlice";
 const columns = [
   {
@@ -13,6 +11,10 @@ const columns = [
   {
     title: "Product Name",
     dataIndex: "name",
+  },
+  {
+    title: "Image",
+    dataIndex: "img",
   },
   {
     title: "Brand",
@@ -46,13 +48,18 @@ const ViewOrder = () => {
     data1.push({
       key: i + 1,
       name: orderState?.orderItems[i]?.product?.title,
+      img: (
+        <img
+          src={orderState?.orderItems[i]?.product?.images[0]?.url}
+          style={{ height: "60px", width: "60px" }}
+        />
+      ),
       brand: orderState?.orderItems[i]?.product?.brand,
       count: orderState?.orderItems[i]?.quantity,
       amount: orderState?.orderItems[i]?.price,
       color: orderState?.orderItems[i]?.color?.title,
     });
   }
-  console.log(orderState);
   return (
     <div>
       <h3 className="mb-4 title">View Orders</h3>
