@@ -79,6 +79,7 @@ const Addproduct = () => {
       formik.resetForm();
       setColor(null);
       dispatch(resetState());
+      setTimeout(() => window.location.reload(), 1000);
     },
   });
   const handleColors = (e) => {

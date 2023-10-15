@@ -17,6 +17,10 @@ const columns = [
     dataIndex: "name",
   },
   {
+    title: "Image",
+    dataIndex: "image",
+  },
+  {
     title: "Category",
     dataIndex: "category",
   },
@@ -49,11 +53,18 @@ const Bloglist = () => {
       key: i + 1,
       name: getBlogState[i].title,
       category: getBlogState[i].category,
+      image: (
+        <img
+          src={getBlogState[i]?.images[0]?.url}
+          alt=""
+          style={{ width: "40px", height: "40px" }}
+        />
+      ),
 
       action: (
         <>
           <Link
-            to={`/admin/blog/${getBlogState[i].id}`}
+            to={`/admin/blog/${getBlogState[i]._id}`}
             className=" fs-3 text-danger"
           >
             <BiEdit />
@@ -74,7 +85,7 @@ const Bloglist = () => {
     setOpen(false);
     setTimeout(() => {
       dispatch(getBlogs());
-    }, 200);
+    }, 300);
   };
   return (
     <div>

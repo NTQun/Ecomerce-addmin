@@ -62,19 +62,10 @@ const Productlist = () => {
     setOpen(false);
   };
 
-  const deleteAProduct = (e) => {
-    dispatch(deleteProduct(e));
-    toast("Delete Product Success");
-    setOpen(false);
-    setTimeout(() => {
-      dispatch(getProducts());
-    }, 100);
-  };
   const productState = useSelector((state) => state.product.products);
   const data1 = [];
   for (let i = 0; i < productState.length; i++) {
     getColors(productState[i].color);
-    console.log(productState[i].images[0].url);
     data1.push({
       key: i + 1,
       image: (
@@ -84,7 +75,7 @@ const Productlist = () => {
           style={{ width: "40px", height: "40px" }}
         />
       ),
-      title: productState[i].title,
+      title: productState[i].title.substr(0, 70),
       brand: productState[i].brand,
       category: productState[i].category,
       price: productState[i].price,
@@ -108,6 +99,14 @@ const Productlist = () => {
       ),
     });
   }
+  const deleteAProduct = (e) => {
+    dispatch(deleteProduct(e));
+    toast("Delete Product Success");
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getProducts());
+    }, 500);
+  };
   return (
     <div>
       <h3 className="mb-4 title">Products</h3>

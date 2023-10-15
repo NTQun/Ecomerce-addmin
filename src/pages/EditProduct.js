@@ -60,6 +60,7 @@ const Editproduct = () => {
       }, 500);
     }
   }, [proState]);
+
   const formData = [];
   if (productState !== undefined) {
     Object.keys(productState).forEach((key) => {
@@ -90,8 +91,10 @@ const Editproduct = () => {
     tags,
   ] = formData;
 
-  const defaultImg = [];
-  imagess?.map((item) => defaultImg.push(item.public_id, item.url));
+  // const defaultImg = [];
+  // imagess?.map((item) =>
+  //   defaultImg.push({ public_id: item.public_id, url: item.url })
+  // );
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -108,6 +111,10 @@ const Editproduct = () => {
       url: i.url,
     });
   });
+  useEffect(() => {
+    formik.values.color = color ? color : " ";
+    formik.values.images = img;
+  }, [color]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -120,7 +127,7 @@ const Editproduct = () => {
       tags: tags,
       color: colors,
       quantity: quantity,
-      images: imagess,
+      images: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -284,7 +291,7 @@ const Editproduct = () => {
           </div>
 
           <div className="showimages d-flex flex-wrap gap-3">
-            {defaultImg?.map((i, j) => {
+            {imagess?.map((i, j) => {
               return (
                 <div className=" position-relative" key={j}>
                   <button

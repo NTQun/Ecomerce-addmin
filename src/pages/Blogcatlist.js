@@ -55,12 +55,14 @@ const Blogcatlist = () => {
         <>
           <Link
             to={`/admin/blog-category/${bCatState[i]._id}`}
-            className=" fs-3 text-danger">
+            className=" fs-3 text-danger"
+          >
             <BiEdit />
           </Link>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
-            onClick={() => showModal(bCatState[i]._id)}>
+            onClick={() => showModal(bCatState[i]._id)}
+          >
             <AiFillDelete />
           </button>
         </>
@@ -71,8 +73,8 @@ const Blogcatlist = () => {
     dispatch(deleteABlogCat(e));
     setOpen(false);
     setTimeout(() => {
-      dispatch(getCategories());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
   return (
     <div>

@@ -72,8 +72,8 @@ const Brandlist = () => {
 
     setOpen(false);
     setTimeout(() => {
-      dispatch(getBrands());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
   return (
     <div>

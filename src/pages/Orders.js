@@ -14,7 +14,7 @@ const columns = [
     dataIndex: "name",
   },
   {
-    title: "Products",
+    title: "Detail Order",
     dataIndex: "product",
   },
   {
@@ -24,6 +24,19 @@ const columns = [
   {
     title: "Date",
     dataIndex: "date",
+  },
+  {
+    title: " Address",
+    dataIndex: "address",
+  },
+  {
+    title: "Sub Address",
+    dataIndex: "subaddress",
+  },
+
+  {
+    title: "Mobile",
+    dataIndex: "mobile",
   },
 
   {
@@ -48,6 +61,9 @@ const Orders = () => {
       ),
       amount: orderState[i].totalPrice,
       date: new Date(orderState[i].createdAt).toLocaleDateString(),
+      mobile: orderState[i]?.shippingInfo?.mobile,
+      address: orderState[i]?.shippingInfo?.address,
+      subaddress: orderState[i]?.shippingInfo?.other,
 
       action: (
         <>

@@ -30,6 +30,7 @@ import LoginDelivery from "./pages/LoginDelivery";
 import DeliveryOrder from "./pages/DeliveryOrder";
 import ViewDeliveryOrder from "./pages/ViewDeliveryOrder";
 import { DeliverRoute } from "./routting/DeliveryRoute";
+import Editblog from "./pages/Editblog";
 function App() {
   return (
     <Router>
@@ -63,7 +64,7 @@ function App() {
           <Route path="enquiries/:id" element={<ViewEnq />} />
           <Route path="blog-list" element={<Bloglist />} />
           <Route path="blog" element={<Addblog />} />
-          <Route path="blog/:id" element={<Addblog />} />
+          <Route path="blog/:id" element={<Editblog />} />
           <Route path="coupon-list" element={<Couponlist />} />
           <Route path="coupon" element={<AddCoupon />} />
           <Route path="blog-category-list" element={<Blogcatlist />} />

@@ -1,18 +1,14 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import * as yup from "yup";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import {
-  createBlogs,
-  getABlog,
-  resetState,
-  updateABlog,
-} from "../features/blogs/blogSlice";
+import { getABlog, resetState, updateABlog } from "../features/blogs/blogSlice";
 import { getCategories } from "../features/bcategory/bcategorySlice";
 
 let schema = yup.object().shape({
@@ -20,16 +16,30 @@ let schema = yup.object().shape({
   description: yup.string().required("Description is Required"),
   category: yup.string().required("Category is Required"),
 });
-const Addblog = () => {
+const Editblog = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const getBlogId = location.pathname.split("/")[3];
   const imgState = useSelector((state) => state.upload.images);
   const bCatState = useSelector((state) => state.bCategory.bCategories);
+  const blogState = useSelector((state) => state?.blogs?.singleBlog);
+  useEffect(() => {
+    if (getBlogId !== undefined) {
+      dispatch(getABlog(getBlogId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [getBlogId]);
 
   useEffect(() => {
     dispatch(resetState());
     dispatch(getCategories());
   }, []);
-
+  console.log(blogState?.images);
+  const defaultImg = [];
+  blogState?.images?.map((item) =>
+    defaultImg.push({ public_id: item.public_id, url: item.url })
+  );
   const img = [];
   imgState.forEach((i) => {
     img.push({
@@ -44,25 +54,27 @@ const Addblog = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
-      category: "",
-      images: "",
+      title: blogState?.title || "",
+      description: blogState?.description || "",
+      category: blogState?.category || "",
+      images: img || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlogs(values));
-      formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetState());
-        window.location.reload();
-      }, 300);
+      if (getBlogId !== undefined) {
+        const data = { id: getBlogId, blogData: values };
+        dispatch(updateABlog(data));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
     },
   });
 
   return (
     <div>
-      <h3 className="mb-4 title">Add Blog</h3>
+      <h3 className="mb-4 title">Edit Blog</h3>
 
       <div className="">
         <form action="" onSubmit={formik.handleSubmit}>
@@ -131,7 +143,9 @@ const Addblog = () => {
                 <div className=" position-relative" key={j}>
                   <button
                     type="button"
-                    onClick={() => dispatch(delImg(i.public_id))}
+                    onClick={() => {
+                      dispatch(delImg(i.public_id));
+                    }}
                     className="btn-close position-absolute"
                     style={{ top: "10px", right: "10px" }}
                   ></button>
@@ -145,7 +159,7 @@ const Addblog = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Blog
+            Edit Blog
           </button>
         </form>
       </div>
@@ -153,4 +167,4 @@ const Addblog = () => {
   );
 };
 
-export default Addblog;
+export default Editblog;
