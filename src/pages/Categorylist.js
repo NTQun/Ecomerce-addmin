@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   deleteAProductCategory,
   getCategories,
@@ -29,6 +29,7 @@ const columns = [
 ];
 
 const Categorylist = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [pCatId, setpCatId] = useState("");
   const showModal = (e) => {
@@ -54,7 +55,7 @@ const Categorylist = () => {
         <>
           <Link
             to={`/admin/category/${pCatStat[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -78,6 +79,12 @@ const Categorylist = () => {
   return (
     <div>
       <h3 className="mb-4 title">Product Categories</h3>
+      <button
+        className="bg-success text-white mb-3"
+        onClick={() => navigate("/admin/category")}
+      >
+        <AiOutlinePlusCircle /> Add Category
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

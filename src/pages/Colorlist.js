@@ -3,8 +3,8 @@ import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAColor, getColors } from "../features/color/colorSlice";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
 
 const columns = [
@@ -23,6 +23,7 @@ const columns = [
 ];
 
 const Colorlist = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [colorId, setcolorId] = useState("");
   const showModal = (e) => {
@@ -47,7 +48,7 @@ const Colorlist = () => {
         <>
           <Link
             to={`/admin/color/${colorState[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -72,6 +73,12 @@ const Colorlist = () => {
   return (
     <div>
       <h3 className="mb-4 title">Colors</h3>
+      <button
+        className="bg-success text-white mb-3"
+        onClick={() => navigate("/admin/color")}
+      >
+        <AiOutlinePlusCircle /> Add Color
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

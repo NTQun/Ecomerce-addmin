@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, getProducts } from "../features/product/productSlice";
-import { Link } from "react-router-dom";
+import { deleteAProduct, getProducts } from "../features/product/productSlice";
+import { Link, useNavigate } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
 import { getColors } from "./../features/color/colorSlice";
 import { toast } from "react-toastify";
@@ -39,12 +39,18 @@ const columns = [
     sorter: (a, b) => a.price - b.price,
   },
   {
+    title: "Price Import",
+    dataIndex: "importprice",
+    sorter: (a, b) => a.price - b.price,
+  },
+  {
     title: "Action",
     dataIndex: "action",
   },
 ];
 
 const Productlist = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts());
@@ -79,11 +85,13 @@ const Productlist = () => {
       brand: productState[i].brand,
       category: productState[i].category,
       price: productState[i].price,
+      importprice: productState[i].importprice,
+
       action: (
         <>
           <Link
             to={`/admin/product/${productState[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -99,17 +107,24 @@ const Productlist = () => {
       ),
     });
   }
-  const deleteAProduct = (e) => {
-    dispatch(deleteProduct(e));
+  const deleteProduct = (e) => {
+    dispatch(deleteAProduct(e));
     toast("Delete Product Success");
     setOpen(false);
     setTimeout(() => {
       dispatch(getProducts());
+      window.location.reload();
     }, 500);
   };
   return (
     <div>
       <h3 className="mb-4 title">Products</h3>
+      <button
+        className="bg-success text-white mb-3 mb-3"
+        onClick={() => navigate("/admin/product")}
+      >
+        <AiOutlinePlusCircle /> Add Product
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -117,7 +132,7 @@ const Productlist = () => {
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteAProduct(productId);
+          deleteProduct(productId);
         }}
         title="Are you sure you want to delete this Product?"
       />

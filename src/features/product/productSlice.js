@@ -43,7 +43,7 @@ export const updateProduct = createAsyncThunk(
     }
   }
 );
-export const deleteProduct = createAsyncThunk(
+export const deleteAProduct = createAsyncThunk(
   "product/delete-product",
   async (id, thunkAPI) => {
     try {
@@ -134,16 +134,16 @@ export const productSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-      .addCase(deleteProduct.pending, (state) => {
+      .addCase(deleteAProduct.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteProduct.fulfilled, (state, action) => {
+      .addCase(deleteAProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.deleteProduct = action.payload;
+        state.deleteAProduct = action.payload;
       })
-      .addCase(deleteProduct.rejected, (state, action) => {
+      .addCase(deleteAProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

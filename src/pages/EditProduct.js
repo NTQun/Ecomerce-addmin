@@ -3,7 +3,6 @@ import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +13,11 @@ import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import {
-  createProducts,
   getProduct,
   resetState,
   updateProduct,
 } from "../features/product/productSlice";
+import { AiOutlineDoubleLeft } from "react-icons/ai";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -42,7 +41,7 @@ const Editproduct = () => {
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
-  const imgState = useSelector((state) => state.upload.images);
+  const imgState = useSelector((state) => state.upload);
   const getProductId = location.pathname.split("/")[3];
   const productState = useSelector((state) => state.product.product);
   const proState = useSelector((state) => state.product.updatedProduct);
@@ -67,6 +66,7 @@ const Editproduct = () => {
       if (
         key === "title" ||
         key === "description" ||
+        key === "importprice" ||
         key === "price" ||
         key === "category" ||
         key === "brand" ||
@@ -83,6 +83,8 @@ const Editproduct = () => {
     title,
     description,
     price,
+    importprice,
+
     brand,
     category,
     quantity,
@@ -91,10 +93,10 @@ const Editproduct = () => {
     tags,
   ] = formData;
 
-  // const defaultImg = [];
-  // imagess?.map((item) =>
-  //   defaultImg.push({ public_id: item.public_id, url: item.url })
-  // );
+  const defaultImg = [];
+  imagess?.map((item) =>
+    defaultImg.push({ public_id: item.public_id, url: item.url })
+  );
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -105,7 +107,7 @@ const Editproduct = () => {
   const defautColor = [];
   colors?.map((item) => defautColor.push(item.title));
   const img = [];
-  imgState.forEach((i) => {
+  imgState?.images.forEach((i) => {
     img.push({
       public_id: i.public_id,
       url: i.url,
@@ -113,14 +115,17 @@ const Editproduct = () => {
   });
   useEffect(() => {
     formik.values.color = color ? color : " ";
-    formik.values.images = img;
-  }, [color]);
+    if (imgState?.images) {
+      formik.values.images = img;
+    } else formik.values.img = defaultImg;
+  }, [color, imgState]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       title: title,
       description: description,
+      importprice: importprice,
       price: price,
       brand: brand,
       category: category,
@@ -149,7 +154,11 @@ const Editproduct = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Add Product</h3>
+      <h3 className="mb-4 title">Update Product</h3>
+      <button onClick={() => window.history.back()}>
+        {" "}
+        <AiOutlineDoubleLeft /> Back
+      </button>
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -177,6 +186,18 @@ const Editproduct = () => {
           </div>
           <div className="error">
             {formik.touched.description && formik.errors.description}
+          </div>
+          <CustomInput
+            defaultValue={importprice}
+            type="number"
+            label="Enter Product Price Import"
+            name="importprice"
+            onChng={formik.handleChange("importprice")}
+            onBlr={formik.handleBlur("importprice")}
+            val={formik.values.importprice}
+          />
+          <div className="error">
+            {formik.touched.importprice && formik.errors.importprice}
           </div>
           <CustomInput
             type="number"
@@ -291,19 +312,35 @@ const Editproduct = () => {
           </div>
 
           <div className="showimages d-flex flex-wrap gap-3">
-            {imagess?.map((i, j) => {
-              return (
-                <div className=" position-relative" key={j}>
-                  <button
-                    type="button"
-                    onClick={() => dispatch(delImg(i.public_id))}
-                    className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px" }}
-                  ></button>
-                  <img src={i.url} alt="" width={200} height={200} />
-                </div>
-              );
-            })}
+            {imgState.isSuccess &&
+              imgState?.images.map((i, j) => {
+                return (
+                  <div className=" position-relative" key={j}>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(delImg(i.public_id))}
+                      className="btn-close position-absolute"
+                      style={{ top: "10px", right: "10px" }}
+                    ></button>
+                    <img src={i.url} alt="" width={200} height={200} />
+                  </div>
+                );
+              })}
+            {!imgState.isSuccess &&
+              defaultImg &&
+              defaultImg?.map((i, j) => {
+                return (
+                  <div className=" position-relative" key={j}>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(delImg(i.public_id))}
+                      className="btn-close position-absolute"
+                      style={{ top: "10px", right: "10px" }}
+                    ></button>
+                    <img src={i.url} alt="" width={200} height={200} />
+                  </div>
+                );
+              })}
           </div>
           <div className="">
             <button

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteABlog, getBlogs, resetState } from "../features/blogs/blogSlice";
 import CustomModal from "../components/CustomModal";
@@ -31,6 +31,8 @@ const columns = [
 ];
 
 const Bloglist = () => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [blogId, setblogId] = useState("");
   const showModal = (e) => {
@@ -65,7 +67,7 @@ const Bloglist = () => {
         <>
           <Link
             to={`/admin/blog/${getBlogState[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -85,11 +87,18 @@ const Bloglist = () => {
     setOpen(false);
     setTimeout(() => {
       dispatch(getBlogs());
+      window.location.reload();
     }, 300);
   };
   return (
     <div>
       <h3 className="mb-4 title">Blogs List</h3>
+      <button
+        className="bg-success text-white mb-3"
+        onClick={() => navigate("/admin/blog")}
+      >
+        <AiOutlinePlusCircle /> Add Blog
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

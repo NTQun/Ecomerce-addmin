@@ -32,6 +32,7 @@ const Addbrand = () => {
   useEffect(() => {
     if (getBrandId !== undefined) {
       dispatch(getABrand(getBrandId));
+      dispatch(resetState());
     } else {
       dispatch(resetState());
     }

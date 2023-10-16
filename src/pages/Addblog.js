@@ -7,13 +7,10 @@ import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import {
-  createBlogs,
-  getABlog,
-  resetState,
-  updateABlog,
-} from "../features/blogs/blogSlice";
+import { createBlogs, resetState } from "../features/blogs/blogSlice";
 import { getCategories } from "../features/bcategory/bcategorySlice";
+import { AiOutlineDoubleLeft } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -22,6 +19,7 @@ let schema = yup.object().shape({
 });
 const Addblog = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const imgState = useSelector((state) => state.upload.images);
   const bCatState = useSelector((state) => state.bCategory.bCategories);
 
@@ -63,7 +61,9 @@ const Addblog = () => {
   return (
     <div>
       <h3 className="mb-4 title">Add Blog</h3>
-
+      <button onClick={() => navigate("/admin/list-blog")}>
+        <AiOutlineDoubleLeft /> Blog list
+      </button>
       <div className="">
         <form action="" onSubmit={formik.handleSubmit}>
           <div className="mt-4">

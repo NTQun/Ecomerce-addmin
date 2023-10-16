@@ -23,7 +23,9 @@ const updateProduct = async (product) => {
     `${base_url}product/${product.id}`,
     {
       title: product.productData.title,
+      slug: product.productData.title,
       description: product.productData.description,
+      importprice: product.productData.importprice,
       price: product.productData.price,
       brand: product.productData.brand,
       category: product.productData.category,

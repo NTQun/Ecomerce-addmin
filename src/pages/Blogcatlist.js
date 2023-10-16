@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   deleteABlogCat,
   getCategories,
@@ -29,6 +29,7 @@ const columns = [
 ];
 
 const Blogcatlist = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [blogCatId, setblogCatId] = useState("");
   const showModal = (e) => {
@@ -55,7 +56,7 @@ const Blogcatlist = () => {
         <>
           <Link
             to={`/admin/blog-category/${bCatState[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -79,6 +80,12 @@ const Blogcatlist = () => {
   return (
     <div>
       <h3 className="mb-4 title">Blog Categories</h3>
+      <button
+        className="bg-success text-white mb-3"
+        onClick={() => navigate("/admin/blog-category")}
+      >
+        <AiOutlinePlusCircle /> Add Blog
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

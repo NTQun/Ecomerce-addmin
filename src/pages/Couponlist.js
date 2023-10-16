@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteACoupon,
@@ -39,6 +39,7 @@ const columns = [
 ];
 
 const Couponlist = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [couponId, setcouponId] = useState("");
   const showModal = (e) => {
@@ -65,7 +66,7 @@ const Couponlist = () => {
         <>
           <Link
             to={`/admin/coupon/${couponState[i]._id}`}
-            className=" fs-3 text-danger"
+            className=" fs-3 text-success"
           >
             <BiEdit />
           </Link>
@@ -91,6 +92,12 @@ const Couponlist = () => {
   return (
     <div>
       <h3 className="mb-4 title">Coupons</h3>
+      <button
+        className="bg-success text-white mb-3"
+        onClick={() => navigate("/admin/coupon")}
+      >
+        <AiOutlinePlusCircle /> Add coupon
+      </button>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

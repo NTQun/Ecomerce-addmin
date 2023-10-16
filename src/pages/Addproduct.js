@@ -14,10 +14,12 @@ import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { createProducts, resetState } from "../features/product/productSlice";
+import { AiOutlineDoubleLeft } from "react-icons/ai";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
   price: yup.number().required("Price is Required"),
+  importprice: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
   tags: yup.string().required("Tag is Required"),
@@ -36,7 +38,7 @@ const Addproduct = () => {
     dispatch(getCategories());
     dispatch(getColors());
   }, []);
-
+  const navigate = useNavigate();
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
@@ -66,6 +68,7 @@ const Addproduct = () => {
       title: "",
       description: "",
       price: "",
+      importprice: "",
       brand: "",
       category: "",
       tags: "",
@@ -88,6 +91,10 @@ const Addproduct = () => {
   return (
     <div>
       <h3 className="mb-4 title">Add Product</h3>
+      <button onClick={() => navigate("/admin/list-product")}>
+        <AiOutlineDoubleLeft /> Product list
+      </button>
+
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -118,6 +125,17 @@ const Addproduct = () => {
           </div>
           <CustomInput
             type="number"
+            label="Enter Product Price Import"
+            name="importprice"
+            onChng={formik.handleChange("importprice")}
+            onBlr={formik.handleBlur("importprice")}
+            val={formik.values.importprice}
+          />
+          <div className="error">
+            {formik.touched.importprice && formik.errors.importprice}
+          </div>
+          <CustomInput
+            type="number"
             label="Enter Product Price"
             name="price"
             onChng={formik.handleChange("price")}
@@ -127,6 +145,7 @@ const Addproduct = () => {
           <div className="error">
             {formik.touched.price && formik.errors.price}
           </div>
+
           <select
             name="brand"
             onChange={formik.handleChange("brand")}
