@@ -11,7 +11,11 @@ import { getCategories } from "../features/pcategory/pcategorySlice";
 import { getColors } from "../features/color/colorSlice";
 import { Select } from "antd";
 import Dropzone from "react-dropzone";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
+import {
+  delImg,
+  resetStateUploade,
+  uploadImg,
+} from "../features/upload/uploadSlice";
 import {
   getProduct,
   resetState,
@@ -30,13 +34,13 @@ let schema = yup.object().shape({
     .min(1, "Pick at least one color")
     .required("Color is Required"),
   quantity: yup.number().required("Quantity is Required"),
+  images: yup.array(),
 });
 
 const Editproduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
   const location = useLocation();
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
@@ -44,21 +48,12 @@ const Editproduct = () => {
   const imgState = useSelector((state) => state.upload);
   const getProductId = location.pathname.split("/")[3];
   const productState = useSelector((state) => state.product.product);
-  const proState = useSelector((state) => state.product.updatedProduct);
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
     dispatch(getColors());
     dispatch(getProduct(getProductId));
   }, []);
-
-  useEffect(() => {
-    if (proState) {
-      setTimeout(() => {
-        navigate("/admin/list-product");
-      }, 500);
-    }
-  }, [proState]);
 
   const formData = [];
   if (productState !== undefined) {
@@ -84,7 +79,6 @@ const Editproduct = () => {
     description,
     price,
     importprice,
-
     brand,
     category,
     quantity,
@@ -95,7 +89,7 @@ const Editproduct = () => {
 
   const defaultImg = [];
   imagess?.map((item) =>
-    defaultImg.push({ public_id: item.public_id, url: item.url })
+    defaultImg.push({ public_id: item?.public_id, url: item?.url })
   );
   const coloropt = [];
   colorState.forEach((i) => {
@@ -107,18 +101,15 @@ const Editproduct = () => {
   const defautColor = [];
   colors?.map((item) => defautColor.push(item.title));
   const img = [];
-  imgState?.images.forEach((i) => {
+  imgState.images.forEach((i) => {
     img.push({
       public_id: i.public_id,
       url: i.url,
     });
   });
   useEffect(() => {
-    formik.values.color = color ? color : " ";
-    if (imgState?.images) {
-      formik.values.images = img;
-    } else formik.values.img = defaultImg;
-  }, [color, imgState]);
+    formik.values.color = color ? color : defautColor;
+  }, [color, imgState.isSuccess]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -136,15 +127,24 @@ const Editproduct = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      const data = { id: getProductId, productData: values };
-      console.log(data);
-
-      dispatch(updateProduct(data));
+      const data1 = { id: getProductId, productData: values, image: img };
+      const data2 = {
+        id: getProductId,
+        productData: values,
+        image: defaultImg,
+      };
+      if (imgState.isSuccess) {
+        console.log("new img");
+        dispatch(updateProduct(data1));
+      } else {
+        console.log("old img");
+        dispatch(updateProduct(data2));
+      }
       dispatch(resetState());
+      dispatch(resetStateUploade());
       formik.resetForm();
-
       setTimeout(() => {
-        dispatch(resetState());
+        window.history.back();
       }, 1000);
     },
   });
@@ -156,7 +156,6 @@ const Editproduct = () => {
     <div>
       <h3 className="mb-4 title">Update Product</h3>
       <button onClick={() => window.history.back()}>
-        {" "}
         <AiOutlineDoubleLeft /> Back
       </button>
       <div>
@@ -326,8 +325,8 @@ const Editproduct = () => {
                   </div>
                 );
               })}
-            {!imgState.isSuccess &&
-              defaultImg &&
+            {imgState?.images.length === 0 &&
+              defaultImg.length &&
               defaultImg?.map((i, j) => {
                 return (
                   <div className=" position-relative" key={j}>

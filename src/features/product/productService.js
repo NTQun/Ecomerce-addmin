@@ -18,12 +18,11 @@ const createProduct = async (product) => {
 };
 
 const updateProduct = async (product) => {
-  console.log(product.id);
   const response = await axios.put(
     `${base_url}product/${product.id}`,
     {
       title: product.productData.title,
-      slug: product.productData.title,
+      // slug: product.productData.title,
       description: product.productData.description,
       importprice: product.productData.importprice,
       price: product.productData.price,
@@ -33,7 +32,7 @@ const updateProduct = async (product) => {
       price: product.productData.price,
       colors: product.productData.colors,
       quantity: product.productData.quantity,
-      images: product.productData.images,
+      images: product.image,
     },
     config
   );

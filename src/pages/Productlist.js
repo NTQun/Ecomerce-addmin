@@ -76,7 +76,7 @@ const Productlist = () => {
       key: i + 1,
       image: (
         <img
-          src={productState[i].images[0].url}
+          src={productState[i]?.images[0]?.url}
           alt=""
           style={{ width: "40px", height: "40px" }}
         />
@@ -86,7 +86,6 @@ const Productlist = () => {
       category: productState[i].category,
       price: productState[i].price,
       importprice: productState[i].importprice,
-
       action: (
         <>
           <Link

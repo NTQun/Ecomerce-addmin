@@ -31,6 +31,7 @@ import DeliveryOrder from "./pages/DeliveryOrder";
 import ViewDeliveryOrder from "./pages/ViewDeliveryOrder";
 import { DeliverRoute } from "./routting/DeliveryRoute";
 import Editblog from "./pages/Editblog";
+import Statistics from "./pages/Statistics";
 function App() {
   return (
     <Router>
@@ -86,6 +87,7 @@ function App() {
           <Route path="product" element={<Addproduct />} />
           <Route path="coupon/:id" element={<Editcoupon />} />
           <Route path="product/:id" element={<Editproduct />} />
+          <Route path="statistics" element={<Statistics />} />
         </Route>
         <Route
           path="delivery/order"

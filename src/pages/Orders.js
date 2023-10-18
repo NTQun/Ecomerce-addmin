@@ -38,6 +38,10 @@ const columns = [
     title: "Mobile",
     dataIndex: "mobile",
   },
+  {
+    title: "Type Checkout",
+    dataIndex: "typecheckout",
+  },
 
   {
     title: "Actions",
@@ -64,6 +68,7 @@ const Orders = () => {
       mobile: orderState[i]?.shippingInfo?.mobile,
       address: orderState[i]?.shippingInfo?.address,
       subaddress: orderState[i]?.shippingInfo?.other,
+      typecheckout: orderState[i].typecheckout,
 
       action: (
         <>

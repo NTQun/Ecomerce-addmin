@@ -17,6 +17,7 @@ import { RiUser2Fill } from "react-icons/ri";
 import { FaClipboardList, FaBloggerB } from "react-icons/fa";
 import { SiBrandfolder } from "react-icons/si";
 import { BiCategoryAlt } from "react-icons/bi";
+import { FcMoneyTransfer } from "react-icons/fc";
 import { Layout, Menu, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -160,6 +161,11 @@ const MainLayout = () => {
               key: "enquiries",
               icon: <FaClipboardList className="fs-4" />,
               label: "Enquiries",
+            },
+            {
+              key: "statistics",
+              icon: <FcMoneyTransfer className="fs-4" />,
+              label: "Statistics",
             },
             {
               key: "signout",

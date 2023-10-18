@@ -21,7 +21,7 @@ const columns = [
     dataIndex: "detailorder",
   },
   {
-    title: "Amount",
+    title: "Collect money",
     dataIndex: "amount",
   },
   {
@@ -65,18 +65,21 @@ const DeliveryOrder = () => {
   };
 
   for (let i = 0; i < orderState?.length; i++) {
+    let amountCollect = 0;
+    orderState[i]?.typecheckout !== "COD"
+      ? (amountCollect = 0)
+      : (amountCollect = orderState[i].totalPrice);
     data1.push({
       key: i + 1,
       name: orderState[i].user?.firstname,
       detailorder: (
         <Link to={`/delivery/order/${orderState[i]?._id}`}>View Orders</Link>
       ),
-      amount: orderState[i].totalPrice,
+      amount: amountCollect,
       date: new Date(orderState[i].createdAt).toLocaleDateString(),
       mobile: orderState[i]?.shippingInfo?.mobile,
       address: orderState[i]?.shippingInfo?.address,
       subaddress: orderState[i]?.shippingInfo?.other,
-
       action: (
         <>
           <select

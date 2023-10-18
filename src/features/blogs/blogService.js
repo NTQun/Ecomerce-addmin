@@ -19,7 +19,7 @@ const updateBlog = async (blog) => {
       title: blog.blogData.title,
       description: blog.blogData.description,
       category: blog.blogData.category,
-      images: blog.blogData.images,
+      images: blog.images,
     },
     config
   );

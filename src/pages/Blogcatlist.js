@@ -10,6 +10,7 @@ import {
   resetState,
 } from "../features/bcategory/bcategorySlice";
 import CustomModal from "../components/CustomModal";
+import { getBlogs } from "../features/blogs/blogSlice";
 
 const columns = [
   {
@@ -74,7 +75,7 @@ const Blogcatlist = () => {
     dispatch(deleteABlogCat(e));
     setOpen(false);
     setTimeout(() => {
-      window.location.reload();
+      dispatch(getCategories());
     }, 1000);
   };
   return (

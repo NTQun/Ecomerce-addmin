@@ -3,13 +3,18 @@ import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Dropzone from "react-dropzone";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
+import {
+  delImg,
+  resetStateUploade,
+  uploadImg,
+} from "../features/upload/uploadSlice";
 import * as yup from "yup";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { getABlog, resetState, updateABlog } from "../features/blogs/blogSlice";
 import { getCategories } from "../features/bcategory/bcategorySlice";
+import { AiOutlineDoubleLeft } from "react-icons/ai";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -17,10 +22,11 @@ let schema = yup.object().shape({
   category: yup.string().required("Category is Required"),
 });
 const Editblog = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const getBlogId = location.pathname.split("/")[3];
-  const imgState = useSelector((state) => state.upload.images);
+  const imgState = useSelector((state) => state.upload);
   const bCatState = useSelector((state) => state.bCategory.bCategories);
   const blogState = useSelector((state) => state?.blogs?.singleBlog);
   useEffect(() => {
@@ -35,21 +41,17 @@ const Editblog = () => {
     dispatch(resetState());
     dispatch(getCategories());
   }, []);
-  console.log(blogState?.images);
   const defaultImg = [];
   blogState?.images?.map((item) =>
     defaultImg.push({ public_id: item.public_id, url: item.url })
   );
   const img = [];
-  imgState.forEach((i) => {
+  imgState?.images?.forEach((i) => {
     img.push({
       public_id: i.public_id,
       url: i.url,
     });
   });
-  useEffect(() => {
-    formik.values.images = img;
-  }, [img]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -57,25 +59,35 @@ const Editblog = () => {
       title: blogState?.title || "",
       description: blogState?.description || "",
       category: blogState?.category || "",
-      images: img || "",
+      images: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      if (getBlogId !== undefined) {
-        const data = { id: getBlogId, blogData: values };
-        dispatch(updateABlog(data));
-        formik.resetForm();
-        setTimeout(() => {
-          dispatch(resetState());
-        }, 300);
+      const data1 = { id: getBlogId, blogData: values, images: img };
+      const data2 = { id: getBlogId, blogData: values, images: defaultImg };
+
+      if (imgState.isSuccess) {
+        console.log("new img");
+        dispatch(updateABlog(data1));
+      } else {
+        console.log("old img");
+        dispatch(updateABlog(data2));
       }
+      formik.resetForm();
+      setTimeout(() => {
+        dispatch(resetState());
+        dispatch(resetStateUploade());
+        window.history.back();
+      }, 300);
     },
   });
 
   return (
     <div>
       <h3 className="mb-4 title">Edit Blog</h3>
-
+      <button onClick={() => window.history.back()}>
+        <AiOutlineDoubleLeft /> Back
+      </button>
       <div className="">
         <form action="" onSubmit={formik.handleSubmit}>
           <div className="mt-4">
@@ -138,21 +150,37 @@ const Editblog = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap mt-3 gap-3">
-            {imgState?.map((i, j) => {
-              return (
-                <div className=" position-relative" key={j}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      dispatch(delImg(i.public_id));
-                    }}
-                    className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px" }}
-                  ></button>
-                  <img src={i.url} alt="" width={200} height={200} />
-                </div>
-              );
-            })}
+            {imgState.isSuccess &&
+              imgState?.images.map((i, j) => {
+                return (
+                  <div className=" position-relative" key={j}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        dispatch(delImg(i.public_id));
+                      }}
+                      className="btn-close position-absolute"
+                      style={{ top: "10px", right: "10px" }}
+                    ></button>
+                    <img src={i.url} alt="" width={200} height={200} />
+                  </div>
+                );
+              })}
+            {imgState?.images?.length === 0 &&
+              defaultImg?.length &&
+              defaultImg?.map((i, j) => {
+                return (
+                  <div className=" position-relative" key={j}>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(delImg(i.public_id))}
+                      className="btn-close position-absolute"
+                      style={{ top: "10px", right: "10px" }}
+                    ></button>
+                    <img src={i.url} alt="" width={200} height={200} />
+                  </div>
+                );
+              })}
           </div>
 
           <button
