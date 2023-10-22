@@ -32,6 +32,10 @@ import ViewDeliveryOrder from "./pages/ViewDeliveryOrder";
 import { DeliverRoute } from "./routting/DeliveryRoute";
 import Editblog from "./pages/Editblog";
 import Statistics from "./pages/Statistics";
+import Profile from "./pages/Profile";
+import Forgotpassword from "./pages/Forgotpassword";
+import Resetpassword from "./pages/Resetpassword";
+import Deliveryprofile from "./pages/Deliveryprofile";
 function App() {
   return (
     <Router>
@@ -49,6 +53,22 @@ function App() {
           element={
             <OpenRoutes>
               <LoginDelivery />
+            </OpenRoutes>
+          }
+        />
+        <Route
+          path="/forgot-pw"
+          element={
+            <OpenRoutes>
+              <Forgotpassword />
+            </OpenRoutes>
+          }
+        />
+        <Route
+          path="reset-password/:token"
+          element={
+            <OpenRoutes>
+              <Resetpassword />
             </OpenRoutes>
           }
         />
@@ -88,6 +108,7 @@ function App() {
           <Route path="coupon/:id" element={<Editcoupon />} />
           <Route path="product/:id" element={<Editproduct />} />
           <Route path="statistics" element={<Statistics />} />
+          <Route path="profile-admin" element={<Profile />} />
         </Route>
         <Route
           path="delivery/order"
@@ -102,6 +123,14 @@ function App() {
           element={
             <DeliverRoute>
               <ViewDeliveryOrder />
+            </DeliverRoute>
+          }
+        />{" "}
+        <Route
+          path="/delivery/profile-delivery"
+          element={
+            <DeliverRoute>
+              <Deliveryprofile />
             </DeliverRoute>
           }
         />

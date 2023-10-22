@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import deliveryServices from "./deliveryServices";
+import { toast } from "react-toastify";
 
 const getUserfromLocalStorage = localStorage.getItem("delivery")
   ? JSON.parse(localStorage.getItem("delivery"))
@@ -7,7 +8,6 @@ const getUserfromLocalStorage = localStorage.getItem("delivery")
 const initialState = {
   delivery: getUserfromLocalStorage,
   orders: [],
-
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -51,6 +51,16 @@ export const updateOrderDeliver = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       return await deliveryServices.updateOrderDelivery(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const updateDelivery = createAsyncThunk(
+  "orders/update-delivery",
+  async (data, thunkAPI) => {
+    try {
+      return await deliveryServices.updateUser(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -127,6 +137,40 @@ export const deliverySlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
         state.isLoading = false;
+      })
+      .addCase(updateDelivery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateDelivery.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.updatedDelivery = action.payload;
+        state.message = "success";
+        let currentUserData = JSON.parse(localStorage.getItem("delivery"));
+        console.log(currentUserData.token);
+        let newUserData = {
+          _id: currentUserData?._id,
+          token: currentUserData?.token,
+          firstname: action?.payload?.firstname,
+          lastname: action?.payload?.lastname,
+          email: action?.payload?.email,
+          mobile: action?.payload?.mobile,
+        };
+        localStorage.setItem("delivery", JSON.stringify(newUserData));
+        state.delivery = newUserData;
+
+        toast.success("Profile Updated Successfully!");
+      })
+
+      .addCase(updateDelivery.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+        if (state.isError) {
+          toast.error(action.payload?.response?.data?.message);
+        }
       });
   },
 });

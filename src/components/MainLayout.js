@@ -192,12 +192,13 @@ const MainLayout = () => {
           )}
           <div className="d-flex gap-4 align-items-center">
             <div className="position-relative">
-              <RiUser2Fill className="fs-4" />
+              <Link to="/admin/profile-admin">
+                <RiUser2Fill className="fs-4" />
+              </Link>
             </div>
 
             <div className="d-flex gap-3 align-items-center dropdown">
               <div
-                role="button"
                 id="dropdownMenuLink"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -210,18 +211,9 @@ const MainLayout = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
-                    to="/"
+                    to="/admin/profile-admin"
                   >
                     View Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item py-1 mb-1"
-                    style={{ height: "auto", lineHeight: "20px" }}
-                    to="/"
-                  >
-                    Signout
                   </Link>
                 </li>
               </div>

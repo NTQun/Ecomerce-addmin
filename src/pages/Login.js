@@ -33,7 +33,7 @@ const Login = () => {
     if (isSuccess) {
       navigate("admin");
     } else {
-      navigate("");
+      navigate("/");
     }
   }, [user, isError, isSuccess, isLoading]);
   return (
@@ -45,7 +45,9 @@ const Login = () => {
       <br />
       <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
         <h3 className="text-center title">Login Admin </h3>
-
+        <Link to="/deliver" className="text-center title mt-3 text-danger">
+          Login Delivery
+        </Link>
         <p className="text-center">Login to your account to continue.</p>
         <div className="error text-center">
           {message.message == "Rejected" ? "You are not an Admin" : ""}
@@ -84,8 +86,9 @@ const Login = () => {
               Login
             </button>
           </div>
-          <Link to="/deliver" className="text-center title mt-3 text-danger">
-            Login Delivery
+
+          <Link to="/forgot-pw" className="text-center title mt-3 text-danger">
+            ForgotPassword
           </Link>
         </form>
       </div>

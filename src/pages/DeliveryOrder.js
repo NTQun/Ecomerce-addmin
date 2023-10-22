@@ -228,18 +228,39 @@ const DeliveryOrder = () => {
     <div>
       <div className="d-flex position ">
         <h3 className="mb-4 mt-3 px-3 " style={{ color: "blue" }}>
-          Delivery Orders
+          <div className="d-flex gap-3 align-items-center dropdown">
+            <div
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              DeliveryOrder
+            </div>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li>
+                <Link
+                  className="dropdown-item py-1 mb-1"
+                  style={{ height: "auto", lineHeight: "20px" }}
+                  to="/delivery/profile-delivery"
+                >
+                  View Profile
+                </Link>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item py-1 mb-1"
+                  style={{ height: "auto", lineHeight: "20px" }}
+                  onClick={() => {
+                    localStorage.clear();
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </div>
+          </div>
         </h3>
-        <button
-          className="mb-4 mt-3 position-absolute"
-          style={{ color: "white", backgroundColor: "red", right: "30px" }}
-          onClick={(e) => {
-            localStorage.clear();
-            navigate("/");
-          }}
-        >
-          Logout
-        </button>
       </div>
       <div>
         <Table columns={columns} dataSource={data1} />

@@ -7,15 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteAProduct, getProducts } from "../features/product/productSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
-import { getColors } from "./../features/color/colorSlice";
 import { toast } from "react-toastify";
 const Productlist = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [minPrice, setminPrice] = useState(null);
+  const [maxPrice, setmaxPrice] = useState(null);
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getColors());
-  }, []);
+    dispatch(getProducts({ minPrice, maxPrice }));
+  }, [minPrice, maxPrice]);
   const [open, setOpen] = useState(false);
 
   const [productId, setProductId] = useState("");
@@ -31,7 +31,6 @@ const Productlist = () => {
   const productState = useSelector((state) => state.product.products);
   const data1 = [];
   for (let i = 0; i < productState.length; i++) {
-    getColors(productState[i].color);
     data1.push({
       key: i + 1,
       image: (
@@ -244,6 +243,36 @@ const Productlist = () => {
       >
         <AiOutlinePlusCircle /> Add Product
       </button>
+      <div
+        className="mb-2 position-absolute"
+        style={{ right: "30px", top: "100px" }}
+      >
+        <h5 className="sub-title">Price Filter</h5>
+        <div className="d-flex align-items-center gap-10  ">
+          <div className="form-floating ">
+            <input
+              type="number"
+              min="0"
+              className="form-control "
+              id="floatingInput"
+              placeholder="name@example.com"
+              onChange={(e) => setminPrice(e.target.value)}
+            />
+            <label htmlfor="floatingInput">From</label>
+          </div>
+          <div className="form-floating  ">
+            <input
+              min="0"
+              type="number"
+              className="form-control "
+              id="floatingInput"
+              placeholder="To"
+              onChange={(e) => setmaxPrice(e.target.value)}
+            />
+            <label htmlfor="floatingInput1">To</label>
+          </div>
+        </div>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

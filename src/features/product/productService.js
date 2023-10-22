@@ -2,9 +2,19 @@ import axios from "axios";
 import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
-const getProducts = async () => {
-  const response = await axios.get(`${base_url}product/`);
-  return response.data;
+const getProducts = async (data) => {
+  const response = await axios.get(
+    `${base_url}product?${data?.brand ? `brand=${data?.brand}&&` : ""}${
+      data?.tag ? `tags=${data?.tag}&&` : ""
+    }${data?.category ? `category=${data?.category}&&` : ""}${
+      data?.getcate ? `category=${data?.getcate}&&` : ""
+    }${data?.minPrice ? `price[gte]=${data?.minPrice}&&` : ""}${
+      data?.maxPrice ? `price[lte]=${data?.maxPrice}&&` : ""
+    }${data?.sort ? `sort=${data?.sort}&&` : ""}`
+  );
+  if (response.data) {
+    return response.data;
+  }
 };
 const getProduct = async (id) => {
   const response = await axios.get(`${base_url}product/${id}`);

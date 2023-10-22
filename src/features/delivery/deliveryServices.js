@@ -38,11 +38,22 @@ const updateOrderDelivery = async (data) => {
   return responce.data;
 };
 
+const updateUser = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/edit-user`,
+    data.data,
+    data.config2
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
 const deliveryServices = {
   loginDelivery,
   getOrdersDelivery,
   getOrderDelivery,
   updateOrderDelivery,
+  updateUser,
 };
 
 export default deliveryServices;

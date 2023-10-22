@@ -35,11 +35,13 @@ const columns = [
 
 const Customers = () => {
   const customerstate = useSelector((state) => state.customer.customers);
+  const blockState = useSelector((state) => state.customer.blockUser);
+  const unblockState = useSelector((state) => state.customer.unBlockUser);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsers());
-  });
+  }, [blockState, unblockState]);
   const useblockUser = (id) => {
     dispatch(blockUser(id));
   };
