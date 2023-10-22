@@ -220,7 +220,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.updatedAdmin = action.payload;
         state.message = "success";
-        let currentUserData = localStorage.getItem("user");
+        let currentUserData = JSON.parse(localStorage.getItem("user"));
         let newUserData = {
           _id: currentUserData?._id,
           token: currentUserData?.token,
