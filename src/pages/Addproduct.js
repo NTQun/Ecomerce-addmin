@@ -17,8 +17,8 @@ import { AiOutlineDoubleLeft } from "react-icons/ai";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
-  price: yup.number().required("Price is Required"),
-  importprice: yup.number().required("Price is Required"),
+  // price: yup.number().required("Price is Required"),
+  // importprice: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
   tags: yup.string().required("Tag is Required"),
@@ -26,7 +26,7 @@ let schema = yup.object().shape({
     .array()
     .min(1, "Pick at least one color")
     .required("Color is Required"),
-  quantity: yup.number().required("Quantity is Required"),
+  // quantity: yup.number().required("Quantity is Required"),
 });
 
 const Addproduct = () => {
@@ -66,13 +66,13 @@ const Addproduct = () => {
     initialValues: {
       title: "",
       description: "",
-      price: "",
-      importprice: "",
+      // price: "",
+      // importprice: "",
       brand: "",
       category: "",
       tags: "",
       color: "",
-      quantity: "",
+      // quantity: "",
       images: "",
     },
     validationSchema: schema,
@@ -122,7 +122,7 @@ const Addproduct = () => {
           <div className="error">
             {formik.touched.description && formik.errors.description}
           </div>
-          <CustomInput
+          {/* <CustomInput
             type="number"
             label="Enter Product Price Import"
             name="importprice"
@@ -143,7 +143,7 @@ const Addproduct = () => {
           />
           <div className="error">
             {formik.touched.price && formik.errors.price}
-          </div>
+          </div> */}
 
           <select
             name="brand"
@@ -216,7 +216,7 @@ const Addproduct = () => {
           <div className="error">
             {formik.touched.color && formik.errors.color}
           </div>
-          <CustomInput
+          {/* <CustomInput
             type="number"
             label="Enter Product Quantity"
             name="quantity"
@@ -226,7 +226,7 @@ const Addproduct = () => {
           />
           <div className="error">
             {formik.touched.quantity && formik.errors.quantity}
-          </div>
+          </div> */}
           <div className="bg-white border-1 p-5 text-center">
             <Dropzone
               onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
 import { RiUser2Fill } from "react-icons/ri";
-import { FaClipboardList, FaBloggerB } from "react-icons/fa";
+import { FaClipboardList, FaBloggerB, FaWarehouse } from "react-icons/fa";
 import { SiBrandfolder } from "react-icons/si";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FcMoneyTransfer } from "react-icons/fc";
@@ -105,6 +105,23 @@ const MainLayout = () => {
                   key: "list-color",
                   icon: <AiOutlineBgColors className="fs-4" />,
                   label: "Color List",
+                },
+              ],
+            },
+            {
+              key: "Warehouse",
+              icon: <FaWarehouse className="fs-4" />,
+              label: "Warehouse",
+              children: [
+                {
+                  key: "list-warehoue",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Warehouse list",
+                },
+                {
+                  key: "add-warehouse",
+                  icon: <FaBloggerB className="fs-4" />,
+                  label: "Addwarehouse",
                 },
               ],
             },

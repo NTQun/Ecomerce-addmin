@@ -25,7 +25,6 @@ import { AiOutlineDoubleLeft } from "react-icons/ai";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
-  price: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
   tags: yup.string().required("Tag is Required"),
@@ -33,7 +32,6 @@ let schema = yup.object().shape({
     .array()
     .min(1, "Pick at least one color")
     .required("Color is Required"),
-  quantity: yup.number().required("Quantity is Required"),
   images: yup.array(),
 });
 
@@ -61,12 +59,9 @@ const Editproduct = () => {
       if (
         key === "title" ||
         key === "description" ||
-        key === "importprice" ||
-        key === "price" ||
         key === "category" ||
         key === "brand" ||
         key === "tags" ||
-        key === "quantity" ||
         key === "color" ||
         key === "images"
       ) {
@@ -74,19 +69,8 @@ const Editproduct = () => {
       }
     });
   }
-  const [
-    title,
-    description,
-    price,
-    importprice,
-    brand,
-    category,
-    quantity,
-    imagess,
-    colors,
-    tags,
-  ] = formData;
-
+  const [title, description, brand, category, imagess, colors, tags] = formData;
+  console.log(formData);
   const defaultImg = [];
   imagess?.map((item) =>
     defaultImg.push({ public_id: item?.public_id, url: item?.url })
@@ -116,13 +100,10 @@ const Editproduct = () => {
     initialValues: {
       title: title,
       description: description,
-      importprice: importprice,
-      price: price,
       brand: brand,
       category: category,
       tags: tags,
       color: colors,
-      quantity: quantity,
       images: "",
     },
     validationSchema: schema,
@@ -186,29 +167,7 @@ const Editproduct = () => {
           <div className="error">
             {formik.touched.description && formik.errors.description}
           </div>
-          <CustomInput
-            defaultValue={importprice}
-            type="number"
-            label="Enter Product Price Import"
-            name="importprice"
-            onChng={formik.handleChange("importprice")}
-            onBlr={formik.handleBlur("importprice")}
-            val={formik.values.importprice}
-          />
-          <div className="error">
-            {formik.touched.importprice && formik.errors.importprice}
-          </div>
-          <CustomInput
-            type="number"
-            label="Enter Product Price"
-            name="price"
-            onChng={formik.handleChange("price")}
-            onBlr={formik.handleBlur("price")}
-            val={formik.values.price}
-          />
-          <div className="error">
-            {formik.touched.price && formik.errors.price}
-          </div>
+
           <select
             name="brand"
             defaultValue={brand}
@@ -282,17 +241,7 @@ const Editproduct = () => {
           <div className="error">
             {formik.touched.color && formik.errors.color}
           </div>
-          <CustomInput
-            type="number"
-            label="Enter Product Quantity"
-            name="quantity"
-            onChng={formik.handleChange("quantity")}
-            onBlr={formik.handleBlur("quantity")}
-            val={formik.values.quantity}
-          />
-          <div className="error">
-            {formik.touched.quantity && formik.errors.quantity}
-          </div>
+
           <div className="bg-white border-1 p-5 text-center">
             <Dropzone
               onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}

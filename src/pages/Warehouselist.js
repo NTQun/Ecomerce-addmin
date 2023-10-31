@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  AiFillDelete,
+  AiFillFileAdd,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  creatWarehouse,
-  deleteAProduct,
-  getProducts,
-} from "../features/product/productSlice";
+import { deleteWh, getWarehouse } from "../features/product/productSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
-import { FaWarehouse } from "react-icons/fa";
 import { toast } from "react-toastify";
-const Productlist = () => {
+const Warehouelist = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getWarehouse());
   }, []);
   const [open, setOpen] = useState(false);
 
@@ -32,43 +31,34 @@ const Productlist = () => {
     setOpen(false);
   };
 
-  const productState = useSelector((state) => state.product.products);
+  const warehouseState = useSelector((state) => state?.product?.warehouse);
   const data1 = [];
-  for (let i = 0; i < productState.length; i++) {
+  for (let i = 0; i < warehouseState?.length; i++) {
     data1.push({
       key: i + 1,
       image: (
         <img
-          src={productState[i]?.images[0]?.url}
+          src={warehouseState[i]?.product?.images[0]?.url}
           alt=""
           style={{ width: "40px", height: "40px" }}
         />
       ),
-      title: productState[i].title.substr(0, 70),
-      brand: productState[i].brand,
-      category: productState[i].category,
-      price: productState[i].price,
-      tags: productState[i].tags,
-
-      importprice: productState[i].importprice,
+      title: warehouseState[i].product?.title.substr(0, 70),
+      price: warehouseState[i].price,
+      importprice: warehouseState[i].importprice,
+      quantity: warehouseState[i].quantity,
       action: (
         <>
           <Link
-            to={`/admin/product/${productState[i]._id}`}
-            className=" fs-3 text-success"
+            to={`/admin/warehouse/${warehouseState[i]._id}`}
+            className=" fs-3 ms-3 text-success"
           >
-            <BiEdit />
+            <AiFillFileAdd />
           </Link>
-          <button
-            className="ms-3 fs-3 text-success bg-transparent border-0"
-            onClick={() => dispatch(creatWarehouse(productState[i]._id))}
-          >
-            <FaWarehouse />
-          </button>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
             onClick={() => {
-              showModal(productState[i]._id);
+              showModal(warehouseState[i]._id);
             }}
           >
             <AiFillDelete />
@@ -77,12 +67,12 @@ const Productlist = () => {
       ),
     });
   }
-  const deleteProduct = (e) => {
-    dispatch(deleteAProduct(e));
+  const deleteWarehouse = (e) => {
+    dispatch(deleteWh(e));
     toast("Delete Product Success");
     setOpen(false);
     setTimeout(() => {
-      dispatch(getProducts());
+      dispatch(getWarehouse());
     }, 500);
   };
 
@@ -146,19 +136,7 @@ const Productlist = () => {
           >
             Reset
           </Button>
-          {/* <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({
-                closeDropdown: false,
-              });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button> */}
+
           <Button
             type="link"
             size="small"
@@ -185,20 +163,6 @@ const Productlist = () => {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
-    // render: (text) =>
-    //   searchedColumn === dataIndex ? (
-    //     <Highlighter
-    //       highlightStyle={{
-    //         backgroundColor: "#ffc069",
-    //         padding: 0,
-    //       }}
-    //       searchWords={[searchText]}
-    //       autoEscape
-    //       textToHighlight={text ? text.toString() : ""}
-    //     />
-    //   ) : (
-    //     text
-    //   ),
   });
 
   const columns = [
@@ -217,22 +181,19 @@ const Productlist = () => {
       ...getColumnSearchProps("title"),
     },
     {
-      title: "Brand",
-      dataIndex: "brand",
-      sorter: (a, b) => a.brand.length - b.brand.length,
-      ...getColumnSearchProps("brand"),
+      title: "Importprice",
+      dataIndex: "importprice",
+      sorter: (a, b) => a.importprice.length - b.importprice.length,
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      sorter: (a, b) => a.category.length - b.category.length,
-      ...getColumnSearchProps("category"),
+      title: "Price cash",
+      dataIndex: "price",
+      sorter: (a, b) => a.price.length - b.price.length,
     },
     {
-      title: "Tags",
-      dataIndex: "tags",
-      sorter: (a, b) => a.tags.length - b.tags.length,
-      ...getColumnSearchProps("tags"),
+      title: "Quantity ",
+      dataIndex: "quantity",
+      sorter: (a, b) => a.quantity.length - b.quantity.length,
     },
     {
       title: "Action",
@@ -242,13 +203,7 @@ const Productlist = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Products</h3>
-      <button
-        className="bg-success text-white mb-3 mb-3"
-        onClick={() => navigate("/admin/product")}
-      >
-        <AiOutlinePlusCircle /> Add Product
-      </button>
+      <h3 className="mb-4 title">Warehouse List</h3>
 
       <div>
         <Table columns={columns} dataSource={data1} />
@@ -257,7 +212,7 @@ const Productlist = () => {
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteProduct(productId);
+          deleteWarehouse(productId);
         }}
         title="Are you sure you want to delete this Product?"
       />
@@ -265,4 +220,4 @@ const Productlist = () => {
   );
 };
 
-export default Productlist;
+export default Warehouelist;

@@ -36,6 +36,8 @@ import Profile from "./pages/Profile";
 import Forgotpassword from "./pages/Forgotpassword";
 import Resetpassword from "./pages/Resetpassword";
 import Deliveryprofile from "./pages/Deliveryprofile";
+import Warehouelist from "./pages/Warehouselist";
+import Addproducttowarehouse from "./pages/Addproducttowarehouse";
 function App() {
   return (
     <Router>
@@ -109,6 +111,8 @@ function App() {
           <Route path="product/:id" element={<Editproduct />} />
           <Route path="statistics" element={<Statistics />} />
           <Route path="profile-admin" element={<Profile />} />
+          <Route path="list-warehoue" element={<Warehouelist />} />
+          <Route path="add-warehouse" element={<Addproducttowarehouse />} />
         </Route>
         <Route
           path="delivery/order"

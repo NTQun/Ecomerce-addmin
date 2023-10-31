@@ -53,6 +53,49 @@ export const deleteAProduct = createAsyncThunk(
     }
   }
 );
+
+export const getWarehouse = createAsyncThunk(
+  "product/get-warehouse",
+  async (thunkAPI) => {
+    try {
+      return await productService.getWarehouse();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const creatWarehouse = createAsyncThunk(
+  "product/add-warehouse",
+  async (data, thunkAPI) => {
+    try {
+      return await productService.addWarehouse(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const importProduct = createAsyncThunk(
+  "product/import-warehouse",
+  async (data, thunkAPI) => {
+    try {
+      return await productService.importProduct(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteWh = createAsyncThunk(
+  "product/delete-warehouse",
+  async (id, thunkAPI) => {
+    try {
+      return await productService.deleteProWh(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetState = createAction("Reset_all");
 
 const initialState = {
@@ -144,6 +187,75 @@ export const productSlice = createSlice({
         state.deleteAProduct = action.payload;
       })
       .addCase(deleteAProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getWarehouse.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getWarehouse.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.warehouse = action.payload;
+      })
+      .addCase(getWarehouse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(creatWarehouse.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(creatWarehouse.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.addwarehouse = action.payload;
+        if (state.isSuccess) {
+          toast.success("Add product to warehouse is success");
+        }
+      })
+      .addCase(creatWarehouse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(importProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(importProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.importProduct = action.payload;
+        if (state.isSuccess) {
+          toast.success("Import product is success");
+        }
+      })
+      .addCase(importProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(deleteWh.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteWh.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deleteWh = action.payload;
+        if (state.isSuccess) {
+          toast.success("Delete product from Warehouse is success");
+        }
+      })
+      .addCase(deleteWh.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
