@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 
 const getProductCategories = async () => {
   const response = await axios.get(`${base_url}category/`);
@@ -8,19 +8,29 @@ const getProductCategories = async () => {
   return response.data;
 };
 const createCategory = async (category) => {
-  const response = await axios.post(`${base_url}category/`, category, config);
+  const response = await axios.post(
+    `${base_url}category/`,
+    category,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const getProductCategory = async (id) => {
-  const response = await axios.get(`${base_url}category/${id}`, config);
+  const response = await axios.get(
+    `${base_url}category/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const deleteProductCategory = async (id) => {
-  const response = await axios.delete(`${base_url}category/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}category/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };

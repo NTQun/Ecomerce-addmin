@@ -5,8 +5,12 @@ import { toast } from "react-toastify";
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
+const getTokenFromLocalStorageManager = localStorage.getItem("manager")
+  ? JSON.parse(localStorage.getItem("manager"))
+  : null;
+
 const initialState = {
-  user: getUserfromLocalStorage,
+  user: getUserfromLocalStorage || getTokenFromLocalStorageManager,
   orders: [],
   isError: false,
   isLoading: false,
@@ -87,7 +91,16 @@ export const updateAdmin = createAsyncThunk(
     }
   }
 );
-
+export const updateUser = createAsyncThunk(
+  "orders/update-user",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.updateUser(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const forgotPasswordToken = createAsyncThunk(
   "user/password/token",
   async (data, thunkAPI) => {
@@ -103,6 +116,47 @@ export const resetPassword = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       return await authService.resetPass(data);
+    } catch (errors) {
+      return thunkAPI.rejectWithValue(errors);
+    }
+  }
+);
+
+export const createUser = createAsyncThunk(
+  "user/create-user",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.createUser(data);
+    } catch (errors) {
+      return thunkAPI.rejectWithValue(errors);
+    }
+  }
+);
+
+export const getAllUser = createAsyncThunk("user/all", async (thunkAPI) => {
+  try {
+    return await authService.getAllUser();
+  } catch (errors) {
+    return thunkAPI.rejectWithValue(errors);
+  }
+});
+
+export const deleteAcc = createAsyncThunk(
+  "user/delete",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteUser(id);
+    } catch (errors) {
+      return thunkAPI.rejectWithValue(errors);
+    }
+  }
+);
+
+export const getAUser = createAsyncThunk(
+  "user/one-user",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.getAUser(id);
     } catch (errors) {
       return thunkAPI.rejectWithValue(errors);
     }
@@ -244,6 +298,28 @@ export const authSlice = createSlice({
           toast.error(action.payload?.response?.data?.message);
         }
       })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.updateUser = action.payload;
+        state.message = "success";
+
+        toast.success("Profile Updated Successfully!");
+      })
+
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+        if (state.isError) {
+          toast.error(action.payload?.response?.data?.message);
+        }
+      })
       .addCase(forgotPasswordToken.pending, (state) => {
         state.isLoading = true;
       })
@@ -285,6 +361,75 @@ export const authSlice = createSlice({
         if (state.isError) {
           toast.error("Something Went Wrong!");
         }
+      })
+      .addCase(createUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.newUser = action.payload;
+        if (state.isSuccess) {
+          toast.success("Create Account Successfully!");
+        }
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error(action.payload.response.data.message);
+        }
+      })
+      .addCase(getAllUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.allUSer = action.payload;
+      })
+      .addCase(getAllUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(deleteAcc.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteAcc.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deleteAcc = action.payload;
+        if (state.isSuccess) {
+          toast.success("Delete account success");
+        }
+      })
+      .addCase(deleteAcc.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getAUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.getAUser = action.payload;
+      })
+      .addCase(getAUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       });
   },
 });

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 
 const getColors = async () => {
   const response = await axios.get(`${base_url}color/`);
@@ -8,7 +8,11 @@ const getColors = async () => {
   return response.data;
 };
 const createColor = async (color) => {
-  const response = await axios.post(`${base_url}color/`, color, config);
+  const response = await axios.post(
+    `${base_url}color/`,
+    color,
+    config || configManager
+  );
 
   return response.data;
 };
@@ -23,13 +27,19 @@ const updateColor = async (color) => {
   return response.data;
 };
 const getColor = async (id) => {
-  const response = await axios.get(`${base_url}color/${id}`, config);
+  const response = await axios.get(
+    `${base_url}color/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const deleteColor = async (id) => {
-  const response = await axios.delete(`${base_url}color/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}color/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };

@@ -38,6 +38,11 @@ import Resetpassword from "./pages/Resetpassword";
 import Deliveryprofile from "./pages/Deliveryprofile";
 import Warehouelist from "./pages/Warehouselist";
 import Addproducttowarehouse from "./pages/Addproducttowarehouse";
+import Managerlist from "./pages/Mangagerlist";
+import Editaccount from "./pages/Editaccount";
+import LayoutDelivery from "./components/LayoutDelivery";
+import Addaccount from "./pages/Addaccount";
+import Deliverylistaccount from "./pages/Deliverylistaccount";
 function App() {
   return (
     <Router>
@@ -113,31 +118,23 @@ function App() {
           <Route path="profile-admin" element={<Profile />} />
           <Route path="list-warehoue" element={<Warehouelist />} />
           <Route path="add-warehouse" element={<Addproducttowarehouse />} />
+          <Route path="manager" element={<Addaccount />} />
+          <Route path="list-manager" element={<Managerlist />} />
+          <Route path="manager/:id" element={<Editaccount />} />
+          <Route path="list-delivery" element={<Deliverylistaccount />} />
+          <Route path="delivery/:id" element={<Editaccount />} />
         </Route>
         <Route
-          path="delivery/order"
+          path="/delivery"
           element={
             <DeliverRoute>
-              <DeliveryOrder />
+              <LayoutDelivery />
             </DeliverRoute>
           }
-        />
-        <Route
-          path="delivery/order/:id"
-          element={
-            <DeliverRoute>
-              <ViewDeliveryOrder />
-            </DeliverRoute>
-          }
-        />{" "}
-        <Route
-          path="/delivery/profile-delivery"
-          element={
-            <DeliverRoute>
-              <Deliveryprofile />
-            </DeliverRoute>
-          }
-        />
+        ></Route>
+        <Route path="order" element={<DeliveryOrder />} />
+        <Route path="order/:id" element={<ViewDeliveryOrder />} />
+        <Route path="profile-delivery" element={<Deliveryprofile />} />
       </Routes>
     </Router>
   );

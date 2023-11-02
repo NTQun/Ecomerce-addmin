@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { updateAdmin } from "./../features/auth/authSlice";
+import { getAUser, updateUser } from "./../features/auth/authSlice";
+import { useLocation } from "react-router-dom";
 
 const profileSchema = yup.object({
   firstname: yup.string().required("First Name required"),
@@ -18,7 +19,13 @@ const profileSchema = yup.object({
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.auth.user);
+  const location = useLocation();
+  const getId = location.pathname.split("/")[3];
+
+  const userState = useSelector((state) => state.auth.getAUser);
+  useEffect(() => {
+    dispatch(getAUser(getId));
+  }, []);
   const [edit, setEdit] = useState(true);
   const formik = useFormik({
     enableReinitialize: true,
@@ -31,7 +38,7 @@ const Profile = () => {
     validationSchema: profileSchema,
 
     onSubmit: (values) => {
-      dispatch(updateAdmin(values));
+      dispatch(updateUser({ data: values, id: getId }));
       setEdit(true);
     },
   });
@@ -56,7 +63,6 @@ const Profile = () => {
                 name="firstname"
                 className="form-control"
                 disabled={edit}
-                id="example1"
                 value={formik.values.firstname}
                 onChange={formik.handleChange("firstname")}
                 onBlur={formik.handleBlur("firstname")}
@@ -74,7 +80,6 @@ const Profile = () => {
                 name="lastname"
                 className="form-control"
                 disabled={edit}
-                id="example1"
                 value={formik.values.lastname}
                 onChange={formik.handleChange("lastname")}
                 onBlur={formik.handleBlur("lastname")}
@@ -92,8 +97,6 @@ const Profile = () => {
                 name="email"
                 className="form-control"
                 disabled={edit}
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
                 value={formik.values.email}
                 onChange={formik.handleChange("email")}
                 onBlur={formik.handleBlur("email")}

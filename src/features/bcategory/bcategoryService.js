@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 
 const getBlogCategories = async () => {
   const response = await axios.get(`${base_url}blogcategory/`);
@@ -8,7 +8,11 @@ const getBlogCategories = async () => {
   return response.data;
 };
 const createBlogCategory = async (bcat) => {
-  const response = await axios.post(`${base_url}blogcategory/`, bcat, config);
+  const response = await axios.post(
+    `${base_url}blogcategory/`,
+    bcat,
+    config || configManager
+  );
 
   return response.data;
 };
@@ -22,13 +26,19 @@ const updateBlogCategory = async (blogCat) => {
   return response.data;
 };
 const getBlogCategory = async (id) => {
-  const response = await axios.get(`${base_url}blogcategory/${id}`, config);
+  const response = await axios.get(
+    `${base_url}blogcategory/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const deleteBlogCategory = async (id) => {
-  const response = await axios.delete(`${base_url}blogcategory/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}blogcategory/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };

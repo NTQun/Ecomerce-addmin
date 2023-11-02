@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 const login = async (user) => {
   const response = await axios.post(`${base_url}user/admin-login`, user);
@@ -10,13 +10,19 @@ const login = async (user) => {
 };
 
 const getOrders = async () => {
-  const response = await axios.get(`${base_url}user/getallorders`, config);
+  const response = await axios.get(
+    `${base_url}user/getallorders`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const getOrder = async (id) => {
-  const responce = await axios.get(`${base_url}user/getOrder/${id}`, config);
+  const responce = await axios.get(
+    `${base_url}user/getOrder/${id}`,
+    config || configManager
+  );
 
   return responce.data;
 };
@@ -50,10 +56,16 @@ const getYearlyStats = async (data) => {
 };
 
 const updateUser = async (data) => {
+  console.log(data);
   const response = await axios.put(
-    `${base_url}user/edit-user`,
-    data.data,
-    data.config2
+    `${base_url}user/edit-user/${data.id}`,
+    {
+      firstname: data.data.firstname,
+      lastname: data.data.lastname,
+      email: data.data.email,
+      mobile: data.data.mobile,
+    },
+    config
   );
   if (response.data) {
     return response.data;
@@ -79,6 +91,39 @@ const resetPass = async (data) => {
     return response.data;
   }
 };
+
+const createUser = async (data) => {
+  const response = await axios.post(`${base_url}user/register/`, data);
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const getAllUser = async () => {
+  const response = await axios.get(`${base_url}user`, config || configManager);
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const getAUser = async (id) => {
+  const response = await axios.get(
+    `${base_url}user/${id}`,
+    config || configManager
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+const deleteUser = async (id) => {
+  const response = await axios.delete(
+    `${base_url}user/${id}`,
+    config || configManager
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
 const authService = {
   login,
   getOrders,
@@ -89,6 +134,10 @@ const authService = {
   updateUser,
   forgotPassToken,
   resetPass,
+  createUser,
+  getAllUser,
+  deleteUser,
+  getAUser,
 };
 
 export default authService;

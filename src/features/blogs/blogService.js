@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 
 const getBlogs = async () => {
   const response = await axios.get(`${base_url}blog/`);
@@ -8,7 +8,11 @@ const getBlogs = async () => {
   return response.data;
 };
 const createBlog = async (blog) => {
-  const response = await axios.post(`${base_url}blog/`, blog, config);
+  const response = await axios.post(
+    `${base_url}blog/`,
+    blog,
+    config || configManager
+  );
 
   return response.data;
 };
@@ -27,13 +31,19 @@ const updateBlog = async (blog) => {
   return response.data;
 };
 const getBlog = async (id) => {
-  const response = await axios.get(`${base_url}blog/${id}`, config);
+  const response = await axios.get(
+    `${base_url}blog/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const deleteBlog = async (id) => {
-  const response = await axios.delete(`${base_url}blog/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}blog/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };

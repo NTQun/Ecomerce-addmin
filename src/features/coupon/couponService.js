@@ -1,14 +1,21 @@
 import axios from "axios";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 const getCoupons = async () => {
-  const response = await axios.get(`${base_url}coupon/`, config);
+  const response = await axios.get(
+    `${base_url}coupon/`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const createCoupons = async (coupon) => {
-  const response = await axios.post(`${base_url}coupon/`, coupon, config);
+  const response = await axios.post(
+    `${base_url}coupon/`,
+    coupon,
+    config || configManager
+  );
 
   return response.data;
 };
@@ -26,13 +33,19 @@ const updateCoupon = async (coupon) => {
   return response.data;
 };
 const getCoupon = async (id) => {
-  const response = await axios.get(`${base_url}coupon/${id}`, config);
+  const response = await axios.get(
+    `${base_url}coupon/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
 
 const deleteCoupon = async (id) => {
-  const response = await axios.delete(`${base_url}coupon/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}coupon/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };

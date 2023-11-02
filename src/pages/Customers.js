@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { AiTwotoneLock } from "react-icons/ai";
+import { AiFillDelete, AiTwotoneLock } from "react-icons/ai";
 import { FcKey } from "react-icons/fc";
+import CustomModal from "./../components/CustomModal";
+import { deleteAcc } from "./../features/auth/authSlice";
 
 import {
   blockUser,
@@ -37,6 +39,8 @@ const Customers = () => {
   const customerstate = useSelector((state) => state.customer.customers);
   const blockState = useSelector((state) => state.customer.blockUser);
   const unblockState = useSelector((state) => state.customer.unBlockUser);
+  const [open, setOpen] = useState(false);
+  const [userID, setUserId] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,6 +52,16 @@ const Customers = () => {
   const useunblocUser = (id) => {
     dispatch(unblockUser(id));
   };
+
+  const showModal = (e) => {
+    setOpen(true);
+    setUserId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   const data1 = [];
   for (let i = 0; i < customerstate.length; i++) {
     if (customerstate[i].role !== "admin") {
@@ -74,11 +88,26 @@ const Customers = () => {
                 <FcKey />
               </button>
             )}
+            <button
+              className="ms-3 fs-3 text-danger bg-transparent border-0"
+              onClick={() => showModal(customerstate[i]._id)}
+            >
+              <AiFillDelete />
+            </button>
           </>
         ),
       });
     }
   }
+
+  const deleteUser = (e) => {
+    console.log(e);
+    dispatch(deleteAcc(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getUsers());
+    }, 300);
+  };
 
   return (
     <div>
@@ -86,6 +115,14 @@ const Customers = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteUser(userID);
+        }}
+        title="Are you sure you want to delete this Delivery Account?"
+      />
     </div>
   );
 };

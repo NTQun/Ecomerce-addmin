@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "../../utils/axiosconfig";
+import { config, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
 const getProducts = async (data) => {
@@ -22,7 +22,11 @@ const getProduct = async (id) => {
   return response.data;
 };
 const createProduct = async (product) => {
-  const response = await axios.post(`${base_url}product/`, product, config);
+  const response = await axios.post(
+    `${base_url}product/`,
+    product,
+    config || configManager
+  );
 
   return response.data;
 };
@@ -50,7 +54,10 @@ const updateProduct = async (product) => {
 };
 
 const deleteProduct = async (id) => {
-  const response = await axios.delete(`${base_url}product/${id}`, config);
+  const response = await axios.delete(
+    `${base_url}product/${id}`,
+    config || configManager
+  );
 
   return response.data;
 };
