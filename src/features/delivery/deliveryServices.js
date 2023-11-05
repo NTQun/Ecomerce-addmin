@@ -2,14 +2,6 @@ import axios from "axios";
 import { configDelivery } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
-const loginDelivery = async (delivery) => {
-  const response = await axios.post(`${base_url}user/delivery-login`, delivery);
-  if (response.data) {
-    localStorage.setItem("delivery", JSON.stringify(response.data));
-  }
-  return response.data;
-};
-
 const getOrdersDelivery = async () => {
   const response = await axios.get(
     `${base_url}user/delivery-getallorders`,
@@ -49,7 +41,6 @@ const updateUser = async (data) => {
   }
 };
 const deliveryServices = {
-  loginDelivery,
   getOrdersDelivery,
   getOrderDelivery,
   updateOrderDelivery,

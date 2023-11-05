@@ -50,7 +50,7 @@ const Warehouelist = () => {
       action: (
         <>
           <Link
-            to={`/admin/warehouse/${warehouseState[i]._id}`}
+            to={`/admin/add-warehouse/${warehouseState[i]._id}`}
             className=" fs-3 ms-3 text-success"
           >
             <AiFillFileAdd />

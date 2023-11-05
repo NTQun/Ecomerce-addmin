@@ -67,9 +67,13 @@ const getWarehouse = async () => {
 
   return response.data;
 };
+const getAWarehouse = async (id) => {
+  const response = await axios.get(`${base_url}product/warehouse/${id}`);
 
+  return response.data;
+};
 const addWarehouse = async (data) => {
-  const response = await axios.post(`${base_url}product/warehouse/${data}`, {});
+  const response = await axios.post(`${base_url}product/warehouse/${data}`);
   return response.data;
 };
 
@@ -103,6 +107,7 @@ const productService = {
   addWarehouse,
   importProduct,
   deleteProWh,
+  getAWarehouse,
 };
 
 export default productService;

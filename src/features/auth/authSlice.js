@@ -8,9 +8,15 @@ const getUserfromLocalStorage = localStorage.getItem("user")
 const getTokenFromLocalStorageManager = localStorage.getItem("manager")
   ? JSON.parse(localStorage.getItem("manager"))
   : null;
+const getDeliveryFromLocalStorage = JSON.parse(localStorage.getItem("delivery"))
+  ? JSON.parse(localStorage.getItem("delivery"))
+  : null;
 
 const initialState = {
-  user: getUserfromLocalStorage || getTokenFromLocalStorageManager,
+  user:
+    getUserfromLocalStorage ||
+    getTokenFromLocalStorageManager ||
+    getDeliveryFromLocalStorage,
   orders: [],
   isError: false,
   isLoading: false,
@@ -157,6 +163,17 @@ export const getAUser = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       return await authService.getAUser(id);
+    } catch (errors) {
+      return thunkAPI.rejectWithValue(errors);
+    }
+  }
+);
+
+export const updatepw = createAsyncThunk(
+  "user/update-pw",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.updatepw(id);
     } catch (errors) {
       return thunkAPI.rejectWithValue(errors);
     }
@@ -426,6 +443,21 @@ export const authSlice = createSlice({
         state.getAUser = action.payload;
       })
       .addCase(getAUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updatepw.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatepw.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatepw = action.payload;
+      })
+      .addCase(updatepw.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

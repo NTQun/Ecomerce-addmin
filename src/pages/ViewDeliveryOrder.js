@@ -79,7 +79,7 @@ const ViewDeliveryOrder = () => {
           className="mb-4 mt-3 position-absolute "
           style={{ color: "white", backgroundColor: "red", right: "30px" }}
           onClick={(e) => {
-            navigate("/delivery/order");
+            navigate("/delivery/orders");
           }}
         >
           <MdOutlineKeyboardBackspace />

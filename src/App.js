@@ -26,7 +26,6 @@ import { OpenRoutes } from "./routting/OpenRoutes";
 import { PrivateRoutes } from "./routting/PrivateRoutes";
 import Editproduct from "./pages/EditProduct";
 import Editcoupon from "./pages/Editcoupon";
-import LoginDelivery from "./pages/LoginDelivery";
 import DeliveryOrder from "./pages/DeliveryOrder";
 import ViewDeliveryOrder from "./pages/ViewDeliveryOrder";
 import { DeliverRoute } from "./routting/DeliveryRoute";
@@ -43,6 +42,9 @@ import Editaccount from "./pages/Editaccount";
 import LayoutDelivery from "./components/LayoutDelivery";
 import Addaccount from "./pages/Addaccount";
 import Deliverylistaccount from "./pages/Deliverylistaccount";
+import Importwarehouse from "./pages/Importwarehouse";
+import Updatepwadmin from "./pages/Updatepwadmin";
+import Updatepwdelivery from "./pages/Updatepwadmin";
 function App() {
   return (
     <Router>
@@ -55,14 +57,6 @@ function App() {
             </OpenRoutes>
           }
         />{" "}
-        <Route
-          path="/deliver"
-          element={
-            <OpenRoutes>
-              <LoginDelivery />
-            </OpenRoutes>
-          }
-        />
         <Route
           path="/forgot-pw"
           element={
@@ -118,11 +112,13 @@ function App() {
           <Route path="profile-admin" element={<Profile />} />
           <Route path="list-warehoue" element={<Warehouelist />} />
           <Route path="add-warehouse" element={<Addproducttowarehouse />} />
+          <Route path="add-warehouse/:id" element={<Importwarehouse />} />
           <Route path="manager" element={<Addaccount />} />
           <Route path="list-manager" element={<Managerlist />} />
           <Route path="manager/:id" element={<Editaccount />} />
           <Route path="list-delivery" element={<Deliverylistaccount />} />
           <Route path="delivery/:id" element={<Editaccount />} />
+          <Route path="change-pw" element={<Updatepwadmin />} />
         </Route>
         <Route
           path="/delivery"
@@ -131,10 +127,12 @@ function App() {
               <LayoutDelivery />
             </DeliverRoute>
           }
-        ></Route>
-        <Route path="order" element={<DeliveryOrder />} />
-        <Route path="order/:id" element={<ViewDeliveryOrder />} />
-        <Route path="profile-delivery" element={<Deliveryprofile />} />
+        >
+          <Route path="orders" element={<DeliveryOrder />} />
+          <Route path="order/:id" element={<ViewDeliveryOrder />} />
+          <Route path="profile-delivery" element={<Deliveryprofile />} />
+          <Route path="change-pw" element={<Updatepwdelivery />} />
+        </Route>
       </Routes>
     </Router>
   );

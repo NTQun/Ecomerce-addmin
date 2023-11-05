@@ -64,6 +64,18 @@ export const getWarehouse = createAsyncThunk(
     }
   }
 );
+
+export const getAWarehouse = createAsyncThunk(
+  "product/get-awarehouse",
+  async (id, thunkAPI) => {
+    try {
+      return await productService.getAWarehouse(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const creatWarehouse = createAsyncThunk(
   "product/add-warehouse",
   async (data, thunkAPI) => {
@@ -135,7 +147,7 @@ export const productSlice = createSlice({
         state.isSuccess = true;
         state.createdProduct = action.payload;
         if (state.isSuccess) {
-          toast("Update product succest");
+          toast("create product succest");
         }
       })
       .addCase(createProducts.rejected, (state, action) => {
@@ -202,6 +214,21 @@ export const productSlice = createSlice({
         state.warehouse = action.payload;
       })
       .addCase(getWarehouse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getAWarehouse.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAWarehouse.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.awarehouse = action.payload;
+      })
+      .addCase(getAWarehouse.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

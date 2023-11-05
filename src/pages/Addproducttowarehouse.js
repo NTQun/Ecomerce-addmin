@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BiEdit } from "react-icons/bi";
+// import { BiEdit } from "react-icons/bi";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, importProduct } from "../features/product/productSlice";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import { AiFillFileAdd } from "react-icons/ai";
 let schema = yup.object().shape({
   importprice: yup.number().required("Price is Required"),
@@ -14,7 +14,7 @@ let schema = yup.object().shape({
 });
 const Addproducttowarehouse = () => {
   const dispatch = useDispatch();
-  const productState = useSelector((state) => state.product.products);
+  // const productState = useSelector((state) => state.product.products);
   const warehouesState = useSelector((state) => state.product.warehouse);
   const [id, setId] = useState(null);
   useEffect(() => {

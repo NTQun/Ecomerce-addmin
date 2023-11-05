@@ -90,9 +90,16 @@ const LayoutDelivery = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
-                    to="/admin/profile-admin"
+                    to="/delivery/profile-delivery"
                   >
                     View Profile
+                  </Link>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/delivery/change-pw"
+                  >
+                    Change password
                   </Link>
                 </li>
               </div>

@@ -14,16 +14,6 @@ const initialState = {
   message: "",
 };
 
-export const loginDelivery = createAsyncThunk(
-  "login/delivery",
-  async (data, thunkAPI) => {
-    try {
-      return await deliveryServices.loginDelivery(data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
 export const getAllOrderDeliver = createAsyncThunk(
   "order/delivery-allorder",
   async (thunkAPI) => {
@@ -73,22 +63,7 @@ export const deliverySlice = createSlice({
   reducers: {},
   extraReducers: (buildeer) => {
     buildeer
-      .addCase(loginDelivery.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(loginDelivery.fulfilled, (state, action) => {
-        state.isError = false;
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.delivery = action.payload;
-        state.message = "success";
-      })
-      .addCase(loginDelivery.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
-        state.isLoading = false;
-      })
+
       .addCase(getAllOrderDeliver.pending, (state) => {
         state.isLoading = true;
       })

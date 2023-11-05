@@ -59,12 +59,14 @@ const Productlist = () => {
           >
             <BiEdit />
           </Link>
-          <button
-            className="ms-3 fs-3 text-success bg-transparent border-0"
-            onClick={() => dispatch(creatWarehouse(productState[i]._id))}
-          >
-            <FaWarehouse />
-          </button>
+          {!productState[i].isWarehouse && (
+            <button
+              className="ms-3 fs-3 text-success bg-transparent border-0"
+              onClick={() => dispatch(creatWarehouse(productState[i]._id))}
+            >
+              <FaWarehouse />
+            </button>
+          )}
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
             onClick={() => {
@@ -83,7 +85,7 @@ const Productlist = () => {
     setOpen(false);
     setTimeout(() => {
       dispatch(getProducts());
-    }, 500);
+    }, 800);
   };
 
   const [searchText, setSearchText] = useState("");
@@ -146,19 +148,7 @@ const Productlist = () => {
           >
             Reset
           </Button>
-          {/* <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({
-                closeDropdown: false,
-              });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button> */}
+
           <Button
             type="link"
             size="small"

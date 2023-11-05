@@ -11,57 +11,58 @@ import { SearchOutlined } from "@ant-design/icons";
 const DeliveryOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   useEffect(() => {
     dispatch(getAllOrderDeliver());
   }, []);
   const orderState = useSelector(
     (state) => state?.delivery?.deliveryOrder?.orders
   );
-  const data1 = [];
 
+  const data1 = [];
   const upateOrderStatus = (a, b) => {
     dispatch(updateOrderDeliver({ id: a, status: b }));
+    setTimeout(() => dispatch(getAllOrderDeliver()), 400);
   };
-
   for (let i = 0; i < orderState?.length; i++) {
-    let amountCollect = 0;
-    orderState[i]?.typecheckout !== "COD"
-      ? (amountCollect = 0)
-      : (amountCollect = orderState[i].totalPrice);
-    data1.push({
-      key: i + 1,
-      name: orderState[i].user?.firstname,
-      detailorder: (
-        <Link to={`/delivery/order/${orderState[i]?._id}`}>View Orders</Link>
-      ),
-      amount: amountCollect,
-      date: new Date(orderState[i].createdAt).toLocaleDateString(),
-      mobile: orderState[i]?.shippingInfo?.mobile,
-      address: orderState[i]?.shippingInfo?.address,
-      subaddress: orderState[i]?.shippingInfo?.other,
-      action: (
-        <>
-          <select
-            name=""
-            defaultValue={orderState[i]?.orderStatus}
-            onChange={(e) =>
-              upateOrderStatus(orderState[i]?._id, e.target.value)
-            }
-            className="form-control form-select"
-            id=""
-          >
-            <option value="Ordered" disabled selected>
-              Ordered
-            </option>
-            <option value="Processed">Processed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Out For Delievery">Out For Delievery</option>
-            <option value="Delivered">Delivered</option>
-          </select>
-        </>
-      ),
-    });
+    if (orderState[i].orderStatus != "Ordered") {
+      let amountCollect = 0;
+      orderState[i]?.typecheckout !== "COD"
+        ? (amountCollect = 0)
+        : (amountCollect = orderState[i].totalPrice);
+
+      data1.push({
+        key: i + 1,
+        name: orderState[i].user?.firstname,
+        detailorder: (
+          <Link to={`/delivery/order/${orderState[i]?._id}`}>View Orders</Link>
+        ),
+        amount: amountCollect,
+        date: new Date(orderState[i].createdAt).toLocaleDateString(),
+        mobile: orderState[i]?.shippingInfo?.mobile,
+        address: orderState[i]?.shippingInfo?.address,
+        action: (
+          <>
+            <select
+              name=""
+              defaultValue={orderState[i]?.orderStatus}
+              onChange={(e) => {
+                upateOrderStatus(orderState[i]?._id, e.target.value);
+              }}
+              className="form-control form-select"
+              id=""
+            >
+              <option value="Processed">Processed</option>
+
+              <option value="Shipped">Shipped</option>
+
+              <option value="Out For Delievery">Out For Delievery</option>
+
+              <option value="Delivered">Delivered</option>
+            </select>
+          </>
+        ),
+      });
+    }
   }
 
   const [searchText, setSearchText] = useState("");
@@ -124,19 +125,7 @@ const DeliveryOrder = () => {
           >
             Reset
           </Button>
-          {/* <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({
-                closeDropdown: false,
-              });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button> */}
+
           <Button
             type="link"
             size="small"
@@ -163,20 +152,6 @@ const DeliveryOrder = () => {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
-    // render: (text) =>
-    //   searchedColumn === dataIndex ? (
-    //     <Highlighter
-    //       highlightStyle={{
-    //         backgroundColor: "#ffc069",
-    //         padding: 0,
-    //       }}
-    //       searchWords={[searchText]}
-    //       autoEscape
-    //       textToHighlight={text ? text.toString() : ""}
-    //     />
-    //   ) : (
-    //     text
-    //   ),
   });
 
   const columns = [
@@ -205,11 +180,6 @@ const DeliveryOrder = () => {
       title: " Address",
       dataIndex: "address",
       ...getColumnSearchProps("address"),
-    },
-    {
-      title: "Sub Address",
-      dataIndex: "subaddress",
-      ...getColumnSearchProps("subaddress"),
     },
 
     {

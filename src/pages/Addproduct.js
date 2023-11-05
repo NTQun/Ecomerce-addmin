@@ -17,8 +17,6 @@ import { AiOutlineDoubleLeft } from "react-icons/ai";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
-  // price: yup.number().required("Price is Required"),
-  // importprice: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
   tags: yup.string().required("Tag is Required"),
@@ -26,7 +24,6 @@ let schema = yup.object().shape({
     .array()
     .min(1, "Pick at least one color")
     .required("Color is Required"),
-  // quantity: yup.number().required("Quantity is Required"),
 });
 
 const Addproduct = () => {
@@ -66,13 +63,10 @@ const Addproduct = () => {
     initialValues: {
       title: "",
       description: "",
-      // price: "",
-      // importprice: "",
       brand: "",
       category: "",
       tags: "",
       color: "",
-      // quantity: "",
       images: "",
     },
     validationSchema: schema,
@@ -80,8 +74,10 @@ const Addproduct = () => {
       dispatch(createProducts(values));
       formik.resetForm();
       setColor(null);
-      dispatch(resetState());
-      setTimeout(() => window.location.reload(), 1000);
+      setColor(null);
+      setTimeout(() => {
+        dispatch(resetState());
+      }, 3000);
     },
   });
   const handleColors = (e) => {
@@ -122,28 +118,6 @@ const Addproduct = () => {
           <div className="error">
             {formik.touched.description && formik.errors.description}
           </div>
-          {/* <CustomInput
-            type="number"
-            label="Enter Product Price Import"
-            name="importprice"
-            onChng={formik.handleChange("importprice")}
-            onBlr={formik.handleBlur("importprice")}
-            val={formik.values.importprice}
-          />
-          <div className="error">
-            {formik.touched.importprice && formik.errors.importprice}
-          </div>
-          <CustomInput
-            type="number"
-            label="Enter Product Price"
-            name="price"
-            onChng={formik.handleChange("price")}
-            onBlr={formik.handleBlur("price")}
-            val={formik.values.price}
-          />
-          <div className="error">
-            {formik.touched.price && formik.errors.price}
-          </div> */}
 
           <select
             name="brand"
@@ -216,17 +190,7 @@ const Addproduct = () => {
           <div className="error">
             {formik.touched.color && formik.errors.color}
           </div>
-          {/* <CustomInput
-            type="number"
-            label="Enter Product Quantity"
-            name="quantity"
-            onChng={formik.handleChange("quantity")}
-            onBlr={formik.handleBlur("quantity")}
-            val={formik.values.quantity}
-          />
-          <div className="error">
-            {formik.touched.quantity && formik.errors.quantity}
-          </div> */}
+
           <div className="bg-white border-1 p-5 text-center">
             <Dropzone
               onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}

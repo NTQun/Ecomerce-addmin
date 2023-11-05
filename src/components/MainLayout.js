@@ -432,6 +432,13 @@ const MainLayout = () => {
                   >
                     View Profile
                   </Link>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/admin/change-pw"
+                  >
+                    Change password
+                  </Link>
                 </li>
               </div>
             </div>

@@ -4,7 +4,11 @@ import { base_url } from "../../utils/baseUrl";
 const login = async (user) => {
   const response = await axios.post(`${base_url}user/admin-login`, user);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    if (response.data.role == "admin" || response.data.role == "manager") {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } else {
+      localStorage.setItem("delivery", JSON.stringify(response.data));
+    }
   }
   return response.data;
 };
@@ -124,6 +128,18 @@ const deleteUser = async (id) => {
     return response.data;
   }
 };
+
+const updatepw = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/password`,
+    data,
+    config || configManager
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+
 const authService = {
   login,
   getOrders,
@@ -138,6 +154,7 @@ const authService = {
   getAllUser,
   deleteUser,
   getAUser,
+  updatepw,
 };
 
 export default authService;

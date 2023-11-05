@@ -30,8 +30,13 @@ const Login = () => {
   const { user, isError, isSuccess, isLoading, message } = authState.auth;
 
   useEffect(() => {
-    if (isSuccess) {
+    if (
+      authState?.auth?.user?.role == "admin" ||
+      authState?.auth?.user?.role == "manager"
+    ) {
       navigate("admin");
+    } else if (authState?.auth?.user?.role == "delivery") {
+      navigate("delivery");
     } else {
       navigate("/");
     }
