@@ -8,6 +8,10 @@ import { resetPassword } from "../features/auth/authSlice";
 
 const passwordSchema = yup.object({
   password: yup.string().required("Password is required"),
+  confirmpassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password")], "Mật khẩu không khớp"),
 });
 const Resetpassword = () => {
   const location = useLocation();
@@ -17,6 +21,7 @@ const Resetpassword = () => {
   const formik = useFormik({
     initialValues: {
       password: "",
+      confirmpassword: "",
     },
     validationSchema: passwordSchema,
     onSubmit: (values) => {
@@ -46,6 +51,18 @@ const Resetpassword = () => {
           />
           <div className="error">
             {formik.touched.password && formik.errors.password}
+          </div>
+          <CustomInput
+            type="password"
+            label="Confirm Password"
+            id="pass"
+            name="confirmpassword"
+            onChng={formik.handleChange("confirmpassword")}
+            onBlr={formik.handleBlur("confirmpassword")}
+            val={formik.values.confirmpassword}
+          />
+          <div className="error mt-2">
+            {formik.touched.confirmpassword && formik.errors.confirmpassword}
           </div>
           <button
             className="border-0 px-3 py-2 text-white fw-bold w-100 mt-3"

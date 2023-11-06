@@ -7,16 +7,21 @@ import { updatepw } from "../features/auth/authSlice";
 
 const passwordSchema = yup.object({
   password: yup.string().required("Password is required"),
+  confirmpassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password")], "Mật khẩu không khớp"),
 });
 const Updatepwdelivery = () => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       password: "",
+      confirmpassword: "",
     },
     validationSchema: passwordSchema,
     onSubmit: (values) => {
-      dispatch(updatepw(values));
+      dispatch(updatepw({ password: values.password }));
       formik.resetForm();
     },
   });
@@ -41,6 +46,18 @@ const Updatepwdelivery = () => {
             />
             <div className="error mt-2">
               {formik.touched.password && formik.errors.password}
+            </div>
+            <CustomInput
+              type="password"
+              label="Confirm Password"
+              id="pass"
+              name="confirmpassword"
+              onChng={formik.handleChange("confirmpassword")}
+              onBlr={formik.handleBlur("confirmpassword")}
+              val={formik.values.confirmpassword}
+            />
+            <div className="error mt-2">
+              {formik.touched.confirmpassword && formik.errors.confirmpassword}
             </div>
             <div>
               <div className="mt-3 d-flex justify-content-center gap-15  align-items-center ">

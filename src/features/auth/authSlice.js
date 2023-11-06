@@ -456,6 +456,9 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.updatepw = action.payload;
+        if (state.isSuccess) {
+          toast.success("Update password is success");
+        }
       })
       .addCase(updatepw.rejected, (state, action) => {
         state.isLoading = false;

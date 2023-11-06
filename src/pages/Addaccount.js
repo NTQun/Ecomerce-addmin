@@ -18,6 +18,10 @@ let schema = yup.object().shape({
   email: yup.string().required("email is Required"),
   mobile: yup.string().required("mobile is Required"),
   password: yup.string().required("password is Required"),
+  confirmpassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password")], "Mật khẩu không khớp"),
   role: yup.string().required("Role is Required"),
 });
 const Editaccount = () => {
@@ -39,6 +43,7 @@ const Editaccount = () => {
       mobile: "",
       password: "",
       role: "",
+      confirmpassword: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -103,6 +108,17 @@ const Editaccount = () => {
           <div className="error">
             {formik.touched.mobile && formik.errors.mobile}
           </div>
+
+          <div className="mt-3">
+            <Select
+              allowClear
+              className="w-100"
+              placeholder="Select Role"
+              name="role"
+              options={roles}
+              onChange={formik.handleChange("role")}
+            />
+          </div>
           <CustomInput
             type="password"
             name="password"
@@ -114,15 +130,17 @@ const Editaccount = () => {
           <div className="error">
             {formik.touched.password && formik.errors.password}
           </div>
-          <div className="mt-3">
-            <Select
-              allowClear
-              className="w-100"
-              placeholder="Select Role"
-              name="role"
-              options={roles}
-              onChange={formik.handleChange("role")}
-            />
+          <CustomInput
+            type="password"
+            label="Confirm Password"
+            id="pass"
+            name="confirmpassword"
+            onChng={formik.handleChange("confirmpassword")}
+            onBlr={formik.handleBlur("confirmpassword")}
+            val={formik.values.confirmpassword}
+          />
+          <div className="error mt-2">
+            {formik.touched.confirmpassword && formik.errors.confirmpassword}
           </div>
           <div>
             <div className=" mt-2">
