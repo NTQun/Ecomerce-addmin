@@ -9,33 +9,33 @@ const Statistic = () => {
   useEffect(() => {
     dispatch(getOrders());
   }, []);
-  const orderState = useSelector((state) => state.auth.orders.orders);
+  const orderState = useSelector((state) => state?.auth?.orders?.orders);
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
-    for (let j = 0; j < orderState[i].orderItems.length; j++) {
+    for (let j = 0; j < orderState[i]?.orderItems.length; j++) {
       const statics =
-        orderState[i].orderItems[j].quantity *
-        (orderState[i].orderItems[j].product.price -
-          orderState[i].orderItems[j].product.importprice);
+        orderState[i]?.orderItems[j]?.quantity *
+        (orderState[i]?.orderItems[j]?.product?.price -
+          orderState[i]?.orderItems[j]?.product?.importprice);
 
       data1.push({
         key: i + 1,
-        product: orderState[i].orderItems[j].product.title,
+        product: orderState[i]?.orderItems[j]?.product?.title,
         img: (
           <>
             <img
-              src={orderState[i].orderItems[j].product.images[0].url}
+              src={orderState[i]?.orderItems[j]?.product?.images[0]?.url}
               style={{ width: "40px", height: "40px" }}
               alt=""
             />
           </>
         ),
-        quantity: orderState[i].orderItems[j].quantity,
-        date: new Date(orderState[i].paidAt).toLocaleDateString(),
-        price: orderState[i].orderItems[j].price,
+        quantity: orderState[i]?.orderItems[j]?.quantity,
+        date: new Date(orderState[i]?.paidAt)?.toLocaleDateString(),
+        price: orderState[i]?.orderItems[j]?.price,
         amount:
-          orderState[i].orderItems[j].price *
-          orderState[i].orderItems[j].quantity,
+          orderState[i]?.orderItems[j]?.price *
+          orderState[i]?.orderItems[j]?.quantity,
         statistics: statics,
       });
     }

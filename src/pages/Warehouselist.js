@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
-import { BiEdit } from "react-icons/bi";
-import {
-  AiFillDelete,
-  AiFillFileAdd,
-  AiOutlinePlusCircle,
-} from "react-icons/ai";
+
+import { AiFillDelete, AiFillFileAdd } from "react-icons/ai";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWh, getWarehouse } from "../features/product/productSlice";
@@ -13,7 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomModal from "../components/CustomModal";
 import { toast } from "react-toastify";
 const Warehouelist = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,6 +31,7 @@ const Warehouelist = () => {
   for (let i = 0; i < warehouseState?.length; i++) {
     data1.push({
       key: i + 1,
+      implementer: warehouseState[i].user.email,
       image: (
         <img
           src={warehouseState[i]?.product?.images[0]?.url}
@@ -170,6 +166,7 @@ const Warehouelist = () => {
       title: "SNo",
       dataIndex: "key",
     },
+    { title: "Implementer", dataIndex: "implementer" },
     {
       title: "Images",
       dataIndex: "image",

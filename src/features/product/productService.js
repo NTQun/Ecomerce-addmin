@@ -73,7 +73,10 @@ const getAWarehouse = async (id) => {
   return response.data;
 };
 const addWarehouse = async (data) => {
-  const response = await axios.post(`${base_url}product/warehouse/${data}`);
+  const response = await axios.post(
+    `${base_url}product/warehouse/${data}`,
+    config || configManager
+  );
   return response.data;
 };
 
@@ -85,7 +88,8 @@ const importProduct = async (data) => {
       price: data.data.price,
       importprice: data.data.importprice,
       quantity: data.data.quantity,
-    }
+    },
+    config || configManager
   );
 
   return response.data;

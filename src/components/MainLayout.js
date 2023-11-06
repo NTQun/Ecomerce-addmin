@@ -147,7 +147,7 @@ const MainLayout = () => {
                   {
                     key: "add-warehouse",
                     icon: <FaBloggerB className="fs-4" />,
-                    label: "Addwarehouse",
+                    label: "Import-product-warehouse",
                   },
                 ],
               },
@@ -320,7 +320,7 @@ const MainLayout = () => {
                   {
                     key: "add-warehouse",
                     icon: <FaBloggerB className="fs-4" />,
-                    label: "Addwarehouse",
+                    label: "Import-product-warehouse",
                   },
                 ],
               },
