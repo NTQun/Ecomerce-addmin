@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { getAUser, updateUser } from "./../features/auth/authSlice";
 import { useLocation } from "react-router-dom";
+import { Select } from "antd";
 
 const profileSchema = yup.object({
   firstname: yup.string().required("First Name required"),
@@ -15,9 +16,15 @@ const profileSchema = yup.object({
     .string()
     .email("Email should be valid")
     .required("Email is required"),
+  role: yup.string().required("Role is Required"),
 });
-
-const Profile = () => {
+const roles = [
+  { label: "User", value: "user" },
+  { label: "Admin", value: "admin" },
+  { label: "Manager", value: "manager" },
+  { label: "Delivery", value: "delivery" },
+];
+const Editaccount = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getId = location.pathname.split("/")[3];
@@ -26,6 +33,7 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getAUser(getId));
   }, []);
+
   const [edit, setEdit] = useState(true);
   const formik = useFormik({
     enableReinitialize: true,
@@ -34,6 +42,7 @@ const Profile = () => {
       lastname: userState?.lastname,
       mobile: userState?.mobile,
       email: userState?.email,
+      role: userState?.role,
     },
     validationSchema: profileSchema,
 
@@ -42,13 +51,13 @@ const Profile = () => {
       setEdit(true);
     },
   });
-
+  const defaultRole = userState?.role;
   return (
     <>
       <div className="row">
         <div className="col-12">
           <div className="div d-flex justify-content-between align-items-center">
-            <h3 className="my-3">Update Profile</h3>
+            <h3 className="my-3">Update Account</h3>
             <FiEdit className="fs-3" onClick={() => setEdit(false)} />
           </div>
         </div>
@@ -125,6 +134,26 @@ const Profile = () => {
                 {formik.touched.mobile && formik.errors.mobile}
               </div>
             </div>
+            <div className="mb-3">
+              <label htmlFor="exampleInputEmail2" className="form-label">
+                Role
+              </label>
+              <div className="mt-3">
+                <Select
+                  allowClear
+                  className="w-100"
+                  // placeholder="Select Role"
+                  disabled={edit}
+                  defaultValue={defaultRole}
+                  name="role"
+                  options={roles}
+                  onChange={formik.handleChange("role")}
+                />
+              </div>
+              <div className="error">
+                {formik.touched.role && formik.errors.role}
+              </div>
+            </div>
             {edit === false && (
               <button type="submit" className="btn btn-primary">
                 Save
@@ -137,4 +166,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Editaccount;

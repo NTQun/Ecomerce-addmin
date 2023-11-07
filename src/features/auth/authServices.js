@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config, configManager } from "../../utils/axiosconfig";
+import { config, configDelivery, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 const login = async (user) => {
   const response = await axios.post(`${base_url}user/admin-login`, user);
@@ -25,7 +25,7 @@ const getOrders = async () => {
 const getOrder = async (id) => {
   const responce = await axios.get(
     `${base_url}user/getOrder/${id}`,
-    config || configManager
+    config || configManager || configDelivery
   );
 
   return responce.data;

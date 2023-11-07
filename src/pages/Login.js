@@ -36,7 +36,7 @@ const Login = () => {
     ) {
       navigate("admin");
     } else if (authState?.auth?.user?.role == "delivery") {
-      navigate("delivery");
+      navigate("delivery/orders");
     } else {
       navigate("/");
     }
@@ -49,13 +49,11 @@ const Login = () => {
       <br />
       <br />
       <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
-        <h3 className="text-center title">Login Admin </h3>
-        <Link to="/deliver" className="text-center title mt-3 text-danger">
-          Login Delivery
-        </Link>
+        <h3 className="text-center title">Login account </h3>
+
         <p className="text-center">Login to your account to continue.</p>
         <div className="error text-center">
-          {message.message == "Rejected" ? "You are not an Admin" : ""}
+          {message.message == "Rejected" ? "You are not an Role" : ""}
         </div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput

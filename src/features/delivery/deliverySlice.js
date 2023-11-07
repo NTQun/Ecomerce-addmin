@@ -57,6 +57,28 @@ export const updateDelivery = createAsyncThunk(
   }
 );
 
+export const getOrderByShipper = createAsyncThunk(
+  "orders/order-by-shipper",
+  async (data, thunkAPI) => {
+    try {
+      return await deliveryServices.getOrderShipper(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addOrderforShipper = createAsyncThunk(
+  "orders/add-by-shipper",
+  async (data, thunkAPI) => {
+    try {
+      return await deliveryServices.addShipperOrder(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const deliverySlice = createSlice({
   name: "delivery",
   initialState: initialState,
@@ -137,7 +159,6 @@ export const deliverySlice = createSlice({
 
         toast.success("Profile Updated Successfully!");
       })
-
       .addCase(updateDelivery.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
@@ -146,6 +167,38 @@ export const deliverySlice = createSlice({
         if (state.isError) {
           toast.error(action.payload?.response?.data?.message);
         }
+      })
+      .addCase(getOrderByShipper.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrderByShipper.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.getOrderByShippery = action.payload;
+        state.message = "success";
+      })
+      .addCase(getOrderByShipper.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      .addCase(addOrderforShipper.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addOrderforShipper.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.addOrderforShipper = action.payload;
+        state.message = "success";
+      })
+      .addCase(addOrderforShipper.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
       });
   },
 });

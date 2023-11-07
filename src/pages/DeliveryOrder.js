@@ -3,10 +3,12 @@ import { Button, Input, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  addOrderforShipper,
   getAllOrderDeliver,
   updateOrderDeliver,
 } from "./../features/delivery/deliverySlice";
 import { SearchOutlined } from "@ant-design/icons";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const DeliveryOrder = () => {
   const dispatch = useDispatch();
@@ -17,14 +19,17 @@ const DeliveryOrder = () => {
   const orderState = useSelector(
     (state) => state?.delivery?.deliveryOrder?.orders
   );
-
+  const deliveryState = useSelector((state) => state?.delivery?.delivery?._id);
   const data1 = [];
   const upateOrderStatus = (a, b) => {
     dispatch(updateOrderDeliver({ id: a, status: b }));
     setTimeout(() => dispatch(getAllOrderDeliver()), 400);
   };
   for (let i = 0; i < orderState?.length; i++) {
-    if (orderState[i].orderStatus != "Ordered") {
+    if (
+      orderState[i].orderStatus != "Ordered" &&
+      orderState[i].orderStatus !== "cancel"
+    ) {
       let amountCollect = 0;
       orderState[i]?.typecheckout !== "COD"
         ? (amountCollect = 0)
@@ -42,7 +47,7 @@ const DeliveryOrder = () => {
         address: orderState[i]?.shippingInfo?.address,
         action: (
           <>
-            <select
+            {/* <select
               name=""
               defaultValue={orderState[i]?.orderStatus}
               onChange={(e) => {
@@ -58,7 +63,21 @@ const DeliveryOrder = () => {
               <option value="Out For Delievery">Out For Delievery</option>
 
               <option value="Delivered">Delivered</option>
-            </select>
+            </select> */}
+            <button
+              className="bg-success"
+              onClick={() =>
+                dispatch(
+                  addOrderforShipper({
+                    id: orderState[i]._id,
+                    _id: deliveryState,
+                  })
+                )
+              }
+            >
+              {" "}
+              <AiOutlinePlusCircle />
+            </button>
           </>
         ),
       });
@@ -204,7 +223,7 @@ const DeliveryOrder = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              DeliveryOrder
+              All order
             </div>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li>

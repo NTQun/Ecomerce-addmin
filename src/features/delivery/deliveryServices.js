@@ -40,11 +40,35 @@ const updateUser = async (data) => {
     return response.data;
   }
 };
+
+const getOrderShipper = async () => {
+  const response = await axios.post(
+    `${base_url}user/order-by-shipper`,
+    configDelivery
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const addShipperOrder = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/add-shipper/${data.id}`,
+    configDelivery,
+    { _id: data._id }
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+
 const deliveryServices = {
   getOrdersDelivery,
   getOrderDelivery,
   updateOrderDelivery,
   updateUser,
+  getOrderShipper,
+  addShipperOrder,
 };
 
 export default deliveryServices;

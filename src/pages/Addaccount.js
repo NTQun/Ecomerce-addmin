@@ -27,7 +27,6 @@ let schema = yup.object().shape({
 const Editaccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [type, setType] = useState("");
   const roles = [
     { label: "User", value: "user" },
     { label: "Admin", value: "admin" },

@@ -1,96 +1,137 @@
-import React, { useEffect } from "react";
-import { Table } from "antd";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getOrderDelivery } from "./../features/delivery/deliverySlice";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-const columns = [
-  {
-    title: "SNo",
-    dataIndex: "key",
-  },
-  {
-    title: "Product Name",
-    dataIndex: "name",
-  },
-  {
-    title: "Product Image",
-    dataIndex: "img",
-  },
-  {
-    title: "Brand",
-    dataIndex: "brand",
-  },
-  {
-    title: "Count",
-    dataIndex: "count",
-  },
-  {
-    title: "Color",
-    dataIndex: "color",
-  },
-  {
-    title: "Amount",
-    dataIndex: "amount",
-  },
-];
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { getOrderDelivery } from "../features/delivery/deliverySlice";
 
-const ViewDeliveryOrder = () => {
-  const navigate = useNavigate();
-
+const SingpleOrder = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const orderId = location.pathname.split("/")[3];
-  console.log(location.pathname);
-  const dispatch = useDispatch();
+
+  const orderState = useSelector(
+    (state) => state?.delivery?.singleOrderDelivery
+  );
   useEffect(() => {
     dispatch(getOrderDelivery(orderId));
-  }, []);
-  const orderState = useSelector(
-    (state) => state?.delivery?.singleOrderDelivery?.orders
-  );
+  }, [orderId]);
 
-  const data1 = [];
-  for (let i = 0; i < orderState?.orderItems?.length; i++) {
-    data1.push({
-      key: i + 1,
-      name: orderState?.orderItems[i]?.product?.title,
-      brand: orderState?.orderItems[i]?.product?.brand,
-      count: orderState?.orderItems[i]?.quantity,
-      amount: orderState?.orderItems[i]?.price,
-      color: orderState?.orderItems[i]?.color?.title,
-      img: (
-        <>
-          <img
-            src={orderState?.orderItems[i]?.product?.images[0]?.url}
-            style={{ width: "50px", height: "50px" }}
-            alt=""
-          />
-        </>
-      ),
-    });
-  }
   return (
-    <div>
-      <div className="d-flex position ">
-        <h3 className="mb-4 mt-3 px-3 " style={{ color: "blue" }}>
-          Delivery Orders
-        </h3>
-        <button
-          className="mb-4 mt-3 position-absolute "
-          style={{ color: "white", backgroundColor: "red", right: "30px" }}
-          onClick={(e) => {
-            navigate("/delivery/orders");
-          }}
-        >
-          <MdOutlineKeyboardBackspace />
-          Back
-        </button>
+    <>
+      <div className="row ">
+        <div className="col-12 ">
+          <div className="row">
+            <div className="col-2">
+              <h5>Order Id </h5>
+            </div>
+            <div className="col-2">
+              <h5>Total Amount </h5>
+            </div>
+            <div className="col-2 ">
+              <h5>Type Checkout </h5>
+            </div>
+            <div className="col-2">
+              <h5>Address </h5>
+            </div>
+            <div className="col-2">
+              <h5>Status </h5>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 mt-3">
+          <div style={{ backgroundColor: "#febd69" }} className="row pt-3 my-3">
+            <div className="col-2">
+              <p>{orderState?._id}</p>
+            </div>
+            <div className="col-2">
+              <p>{orderState?.totalPrice} </p>
+            </div>
+            <div className="col-2">
+              <p>{orderState?.typecheckout}</p>
+            </div>
+            <div className="col-2">
+              <p>{orderState?.address}</p>
+            </div>
+            <div className="col-2">
+              <p>{orderState?.orderStatus}</p>
+            </div>
+
+            <div className="col-12">
+              <div className="row  py-3" style={{ backgroundColor: "#2b4663" }}>
+                <div className="col-2">
+                  <h6 className="text-white">Product Name </h6>
+                </div>
+                <div className="col-2">
+                  <h6 className="text-white">Product Image </h6>
+                </div>
+                <div className="col-2">
+                  <h6 className="text-white">Quantity</h6>
+                </div>
+                <div className="col-2">
+                  <h6 className="text-white">Price </h6>
+                </div>
+                <div className="col-2">
+                  <h6 className="text-white">Color </h6>
+                </div>
+                <div></div>
+              </div>
+              {orderState?.orderItems?.map((i, index) => {
+                return (
+                  <div
+                    className="row  p-3"
+                    style={{ backgroundColor: "#192e45" }}
+                    key={index}
+                  >
+                    <div className="col-2">
+                      <p className="text-white">{i?.product?.title} </p>
+                    </div>
+                    <div className="col-2">
+                      <img
+                        src={i?.product?.image.url[0]}
+                        alt="IMG Product"
+                        style={{ width: "40px", height: "40px" }}
+                      />
+                    </div>
+                    <div className="col-2">
+                      <p className="text-white ">{i?.quantity} </p>
+                    </div>
+                    <div className="col-2">
+                      <p className="text-white">{i?.price} </p>
+                    </div>
+                    <div className="col-2">
+                      <ul className="colors ps-0 mx-3">
+                        <b className="text-white">{i?.color?.title}</b>
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <Table columns={columns} dataSource={data1} />
-      </div>
-    </div>
+      {orderState?.comment && (
+        <div className="col-12">
+          <label htmlFor="" className=" mx-2 ">
+            Comment
+          </label>
+
+          <div className="mt-2">
+            <textarea
+              name=""
+              id=""
+              disabled={true}
+              className="w-100 form-control"
+              cols="30"
+              defaultValue={orderState?.comment}
+              rows="4"
+              placeholder="Comment"
+            ></textarea>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export default ViewDeliveryOrder;
+export default SingpleOrder;

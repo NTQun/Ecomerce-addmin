@@ -41,9 +41,6 @@ const Orders = () => {
               Ordered
             </option>
             <option value="Processed">Processed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Out For Delievery">Out For Delievery</option>
-            <option value="Delivered">Delivered</option>
           </select>
         </>
       ),
