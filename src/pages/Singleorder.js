@@ -2,15 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleOrder } from "../features/auth/authSlice";
+import { getOrderDelivery } from "../features/delivery/deliverySlice";
 
-const SingpleOrder = () => {
+const Singleorder = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const orderId = location.pathname.split("/")[3];
-  const orderState = useSelector((state) => state?.auth?.orderbyuser);
+  const orderState = useSelector(
+    (state) => state?.delivery?.singleOrderDelivery
+  );
   useEffect(() => {
-    dispatch(getSingleOrder(orderId));
+    dispatch(getOrderDelivery(orderId));
   }, [orderId]);
 
   return (
@@ -96,9 +98,7 @@ const SingpleOrder = () => {
                       <p className="text-white">{i?.price} </p>
                     </div>
                     <div className="col-2">
-                      <ul className="colors ps-0 mx-3">
-                        <li style={{ backgroundColor: i?.color?.title }}></li>
-                      </ul>
+                      <p className="text-white">{i?.color?.title} </p>
                     </div>
                   </div>
                 );
@@ -107,6 +107,7 @@ const SingpleOrder = () => {
           </div>
         </div>
       </div>
+
       {orderState?.comment && (
         <div className="col-12">
           <label htmlFor="" className=" mx-2 ">
@@ -131,4 +132,4 @@ const SingpleOrder = () => {
   );
 };
 
-export default SingpleOrder;
+export default Singleorder;

@@ -40,12 +40,6 @@ const LayoutDelivery = () => {
           }}
           items={[
             {
-              key: "orders",
-              icon: <FaClipboardList className="fs-4" />,
-              label: "Orders",
-            },
-
-            {
               key: "signout",
               icon: <AiOutlineLogout className="fs-4" />,
               label: "Sign Out",

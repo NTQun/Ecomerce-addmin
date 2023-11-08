@@ -36,7 +36,7 @@ const Login = () => {
     ) {
       navigate("admin");
     } else if (authState?.auth?.user?.role == "delivery") {
-      navigate("delivery/orders");
+      navigate("delivery/order-by-delivery");
     } else {
       navigate("/");
     }

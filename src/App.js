@@ -21,7 +21,6 @@ import Addproduct from "./pages/Addproduct";
 import Couponlist from "./pages/Couponlist";
 import AddCoupon from "./pages/AddCoupon";
 import ViewEnq from "./pages/ViewEnq";
-import ViewOrder from "./pages/ViewOrder";
 import { OpenRoutes } from "./routting/OpenRoutes";
 import { PrivateRoutes } from "./routting/PrivateRoutes";
 import Editproduct from "./pages/EditProduct";
@@ -47,6 +46,9 @@ import Updatepwadmin from "./pages/Updatepwadmin";
 import Updatepwdelivery from "./pages/Updatepwadmin";
 import Productdetail from "./pages/Productdetail";
 import Blogdetail from "./pages/Blogdetail";
+import Orderbydelivery from "./pages/Orderbydelivery";
+import Singleorder from "./pages/Singleorder";
+import Shipperorder from "./pages/Shipperorder";
 function App() {
   return (
     <Router>
@@ -95,7 +97,7 @@ function App() {
           <Route path="blog-category" element={<Addblogcat />} />
           <Route path="blog-category/:id" element={<Addblogcat />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="order/:id" element={<ViewOrder />} />
+          <Route path="order/:id" element={<Singleorder />} />
           <Route path="customers" element={<Customers />} />
           <Route path="list-color" element={<Colorlist />} />
           <Route path="color" element={<Addcolor />} />
@@ -124,6 +126,7 @@ function App() {
           <Route path="order-delivery" element={<DeliveryOrder />} />
           <Route path="product-detail/:id" element={<Productdetail />} />
           <Route path="blog-detail/:id" element={<Blogdetail />} />
+          <Route path="order-by-delivery/:id" element={<Orderbydelivery />} />
         </Route>
         <Route
           path="/delivery"
@@ -133,11 +136,10 @@ function App() {
             </DeliverRoute>
           }
         >
-          <Route path="orders" element={<DeliveryOrder />} />
-
-          <Route path="order/:id" element={<ViewDeliveryOrder />} />
           <Route path="profile-delivery" element={<Deliveryprofile />} />
           <Route path="change-pw" element={<Updatepwdelivery />} />
+          <Route path="order-by-delivery" element={<Shipperorder />} />
+          <Route path="order/:id" element={<Singleorder />} />
         </Route>
       </Routes>
     </Router>

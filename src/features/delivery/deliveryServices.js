@@ -1,5 +1,5 @@
 import axios from "axios";
-import { configDelivery } from "../../utils/axiosconfig";
+import { config, configDelivery, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
 const getOrdersDelivery = async () => {
@@ -41,9 +41,9 @@ const updateUser = async (data) => {
   }
 };
 
-const getOrderShipper = async () => {
+const getOrderShipper = async (id) => {
   const response = await axios.post(
-    `${base_url}user/order-by-shipper`,
+    `${base_url}user/order-by-shippper/${id}`,
     configDelivery
   );
   if (response.data) {

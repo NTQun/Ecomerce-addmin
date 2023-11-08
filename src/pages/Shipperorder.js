@@ -1,73 +1,55 @@
-import React, { useEffect, useState, useRef } from "react";
-import { BiEdit, BiShowAlt } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import CustomModal from "../components/CustomModal";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getOrderbyShipper, updateAOrder } from "../features/auth/authSlice";
 import { SearchOutlined } from "@ant-design/icons";
-import { deleteAcc, getAllUser } from "../features/auth/authSlice";
 
-const Deliverylistaccount = () => {
-  const [open, setOpen] = useState(false);
-  const [userID, setUserId] = useState("");
-  const manager = [];
-  const userState = useSelector((state) => state?.auth?.allUSer);
-  for (let index = 0; index < userState?.length; index++) {
-    if (userState[index].role == "delivery") {
-      manager.push(userState[index]);
-    }
-  }
-  const showModal = (e) => {
-    setOpen(true);
-    setUserId(e);
-  };
-
-  const hideModal = () => {
-    setOpen(false);
-  };
+const Shipperorder = () => {
   const dispatch = useDispatch();
+  const getId = useSelector((state) => state?.delivery?.delivery?._id);
   useEffect(() => {
-    dispatch(getAllUser());
-  }, []);
+    dispatch(getOrderbyShipper(getId));
+  }, [getId]);
+  const orderState = useSelector((state) => state.auth.getOrderByShipper);
   const data1 = [];
-  for (let i = 0; i < manager?.length; i++) {
+  for (let i = 0; i < orderState?.length; i++) {
     data1.push({
       key: i + 1,
-      name: manager[i].firstname + " " + manager[i].lastname,
-      email: manager[i].email,
-      mobile: manager[i].mobile,
+      name: orderState[i].user?.firstname,
+      product: (
+        <Link to={`/delivery/order/${orderState[i]?._id}`}>View Orders</Link>
+      ),
+      amount: orderState[i].totalPrice,
+      date: new Date(orderState[i].createdAt).toLocaleDateString(),
+      mobile: orderState[i]?.shippingInfo?.mobile,
+      address: orderState[i]?.shippingInfo?.address,
+      subaddress: orderState[i]?.shippingInfo?.other,
+      typecheckout: orderState[i].typecheckout,
+
       action: (
         <>
-          <Link
-            to={`/admin/manager/${manager[i]._id}`}
-            className=" fs-3 text-success"
+          <select
+            name=""
+            defaultValue={orderState[i]?.orderStatus}
+            onChange={(e) =>
+              upateOrderStatus(orderState[i]?._id, e.target.value)
+            }
+            className="form-control form-select"
+            id=""
           >
-            <BiEdit />
-          </Link>
-          <button
-            className="ms-3 fs-3 text-danger bg-transparent border-0"
-            onClick={() => showModal(manager[i]._id)}
-          >
-            <AiFillDelete />
-          </button>
-          <Link
-            to={`/admin/order-by-delivery/${manager[i]._id}`}
-            className=" fs-3 text-info"
-          >
-            <BiShowAlt />
-          </Link>
+            <option value="Ordered" disabled selected>
+              Ordered
+            </option>
+            <option value="Processed">Processed</option>
+          </select>
         </>
       ),
     });
   }
-  const deleteUser = (e) => {
-    console.log(e);
-    dispatch(deleteAcc(e));
-    setOpen(false);
-    setTimeout(() => {
-      dispatch(getAllUser());
-    }, 300);
+
+  const upateOrderStatus = (a, b) => {
+    dispatch(updateAOrder({ id: a, status: b }));
   };
 
   const [searchText, setSearchText] = useState("");
@@ -130,7 +112,19 @@ const Deliverylistaccount = () => {
           >
             Reset
           </Button>
-
+          {/* <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button> */}
           <Button
             type="link"
             size="small"
@@ -157,6 +151,20 @@ const Deliverylistaccount = () => {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
+    // render: (text) =>
+    //   searchedColumn === dataIndex ? (
+    //     <Highlighter
+    //       highlightStyle={{
+    //         backgroundColor: "#ffc069",
+    //         padding: 0,
+    //       }}
+    //       searchWords={[searchText]}
+    //       autoEscape
+    //       textToHighlight={text ? text.toString() : ""}
+    //     />
+    //   ) : (
+    //     text
+    //   ),
   });
 
   const columns = [
@@ -167,38 +175,52 @@ const Deliverylistaccount = () => {
     {
       title: "Name",
       dataIndex: "name",
-      sorter: (a, b) => a.name.length - b.name.length,
+      ...getColumnSearchProps("name"),
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Detail Order",
+      dataIndex: "product",
     },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: " Address",
+      dataIndex: "address",
+      ...getColumnSearchProps("address"),
+    },
+
     {
       title: "Mobile",
       dataIndex: "mobile",
+      ...getColumnSearchProps("mobile"),
     },
     {
-      title: "Action",
+      title: "Type Checkout",
+      dataIndex: "typecheckout",
+      ...getColumnSearchProps("typecheckout"),
+    },
+
+    {
+      title: "Actions",
       dataIndex: "action",
     },
   ];
+
   return (
     <div>
-      <h3 className="mb-4 title">Delivery List</h3>
+      <h3 className="mb-4">Orders</h3>
 
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      <CustomModal
-        hideModal={hideModal}
-        open={open}
-        performAction={() => {
-          deleteUser(userID);
-        }}
-        title="Are you sure you want to delete this Delivery Account?"
-      />
     </div>
   );
 };
 
-export default Deliverylistaccount;
+export default Shipperorder;

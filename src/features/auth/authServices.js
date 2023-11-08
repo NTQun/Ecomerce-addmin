@@ -143,8 +143,14 @@ const addShipperOrder = async (data) => {
   const response = await axios.put(
     `${base_url}user/add-shipper/${data.id}`,
     { _id: data._id },
-    configDelivery
+    configDelivery || config || configManager
   );
+  if (response.data) {
+    return response.data;
+  }
+};
+const getOrderShipper = async (id) => {
+  const response = await axios.post(`${base_url}user/order-by-shippper/${id}`);
   if (response.data) {
     return response.data;
   }
@@ -166,6 +172,7 @@ const authService = {
   getAUser,
   updatepw,
   addShipperOrder,
+  getOrderShipper,
 };
 
 export default authService;

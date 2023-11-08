@@ -25,6 +25,11 @@ const Orders = () => {
       address: orderState[i]?.shippingInfo?.address,
       subaddress: orderState[i]?.shippingInfo?.other,
       typecheckout: orderState[i].typecheckout,
+      shipper: orderState[i].orderShipper
+        ? orderState[i]?.orderShipper?.firstname +
+          " " +
+          orderState[i]?.orderShipper?.lastname
+        : "Chưa có người giao",
 
       action: (
         <>
@@ -204,7 +209,11 @@ const Orders = () => {
       dataIndex: "typecheckout",
       ...getColumnSearchProps("typecheckout"),
     },
-
+    {
+      title: "Shipper",
+      dataIndex: "shipper",
+      ...getColumnSearchProps("shipper"),
+    },
     {
       title: "Actions",
       dataIndex: "action",

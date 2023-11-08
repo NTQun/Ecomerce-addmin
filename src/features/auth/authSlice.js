@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authServices";
 import { toast } from "react-toastify";
+import { getOrderByShipper } from "../delivery/deliverySlice";
 
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -185,6 +186,16 @@ export const addOrderforShipper = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       return await authService.addShipperOrder(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getOrderbyShipper = createAsyncThunk(
+  "orders/order-by-shipper",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.getOrderShipper(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -485,8 +496,27 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.addOrderforShipper = action.payload;
         state.message = "success";
+        if (state.isSuccess) {
+          toast.success("Add shipper for order");
+        }
       })
       .addCase(addOrderforShipper.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      .addCase(getOrderByShipper.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrderByShipper.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.getOrderByShipper = action.payload;
+        state.message = "success";
+      })
+      .addCase(getOrderByShipper.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
