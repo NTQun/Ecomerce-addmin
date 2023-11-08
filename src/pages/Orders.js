@@ -193,11 +193,6 @@ const Orders = () => {
       dataIndex: "address",
       ...getColumnSearchProps("address"),
     },
-    {
-      title: "Sub Address",
-      dataIndex: "subaddress",
-      ...getColumnSearchProps("subaddress"),
-    },
 
     {
       title: "Mobile",

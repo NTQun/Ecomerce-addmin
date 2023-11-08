@@ -7,7 +7,9 @@ import {
   AiOutlineBgColors,
   AiOutlineLogout,
   AiOutlineUserAdd,
+  AiOutlineOrderedList,
 } from "react-icons/ai";
+import { CiDeliveryTruck } from "react-icons/ci";
 import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +18,8 @@ import { Outlet } from "react-router-dom";
 import { ImBlog } from "react-icons/im";
 import { RiUser2Fill } from "react-icons/ri";
 import { FaClipboardList, FaBloggerB, FaWarehouse } from "react-icons/fa";
+import { BsFillBasketFill } from "react-icons/bs";
+
 import { SiBrandfolder } from "react-icons/si";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FcMoneyTransfer, FcShipped } from "react-icons/fc";
@@ -152,9 +156,21 @@ const MainLayout = () => {
                 ],
               },
               {
-                key: "orders",
-                icon: <FaClipboardList className="fs-4" />,
-                label: "Orders",
+                key: "Orderrrrr",
+                icon: <BsFillBasketFill className="fs-4" />,
+                label: "Order",
+                children: [
+                  {
+                    key: "orders",
+                    icon: <AiOutlineOrderedList className="fs-4" />,
+                    label: "All Orders",
+                  },
+                  {
+                    key: "order-delivery",
+                    icon: <CiDeliveryTruck className="fs-4" />,
+                    label: "Add Order for Delivery",
+                  },
+                ],
               },
               {
                 key: "marketing",
@@ -325,9 +341,21 @@ const MainLayout = () => {
                 ],
               },
               {
-                key: "orders",
-                icon: <FaClipboardList className="fs-4" />,
-                label: "Orders",
+                key: "Orderrrrr",
+                icon: <BsFillBasketFill className="fs-4" />,
+                label: "Order",
+                children: [
+                  {
+                    key: "orders",
+                    icon: <AiOutlineOrderedList className="fs-4" />,
+                    label: "All Orders",
+                  },
+                  {
+                    key: "order-delivery",
+                    icon: <CiDeliveryTruck className="fs-4" />,
+                    label: "Add Order for Delivery",
+                  },
+                ],
               },
               {
                 key: "marketing",

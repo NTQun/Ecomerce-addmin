@@ -180,6 +180,16 @@ export const updatepw = createAsyncThunk(
   }
 );
 
+export const addOrderforShipper = createAsyncThunk(
+  "orders/add-by-shipper",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.addShipperOrder(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -465,6 +475,22 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
+      })
+      .addCase(addOrderforShipper.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addOrderforShipper.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.addOrderforShipper = action.payload;
+        state.message = "success";
+      })
+      .addCase(addOrderforShipper.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
       });
   },
 });

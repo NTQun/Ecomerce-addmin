@@ -45,6 +45,8 @@ import Deliverylistaccount from "./pages/Deliverylistaccount";
 import Importwarehouse from "./pages/Importwarehouse";
 import Updatepwadmin from "./pages/Updatepwadmin";
 import Updatepwdelivery from "./pages/Updatepwadmin";
+import Productdetail from "./pages/Productdetail";
+import Blogdetail from "./pages/Blogdetail";
 function App() {
   return (
     <Router>
@@ -119,6 +121,9 @@ function App() {
           <Route path="list-delivery" element={<Deliverylistaccount />} />
           <Route path="delivery/:id" element={<Editaccount />} />
           <Route path="change-pw" element={<Updatepwadmin />} />
+          <Route path="order-delivery" element={<DeliveryOrder />} />
+          <Route path="product-detail/:id" element={<Productdetail />} />
+          <Route path="blog-detail/:id" element={<Blogdetail />} />
         </Route>
         <Route
           path="/delivery"
@@ -129,6 +134,7 @@ function App() {
           }
         >
           <Route path="orders" element={<DeliveryOrder />} />
+
           <Route path="order/:id" element={<ViewDeliveryOrder />} />
           <Route path="profile-delivery" element={<Deliveryprofile />} />
           <Route path="change-pw" element={<Updatepwdelivery />} />

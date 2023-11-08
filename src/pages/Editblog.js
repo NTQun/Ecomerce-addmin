@@ -22,7 +22,6 @@ let schema = yup.object().shape({
   category: yup.string().required("Category is Required"),
 });
 const Editblog = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const getBlogId = location.pathname.split("/")[3];

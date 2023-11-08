@@ -139,6 +139,16 @@ const updatepw = async (data) => {
     return response.data;
   }
 };
+const addShipperOrder = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/add-shipper/${data.id}`,
+    { _id: data._id },
+    configDelivery
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
 
 const authService = {
   login,
@@ -155,6 +165,7 @@ const authService = {
   deleteUser,
   getAUser,
   updatepw,
+  addShipperOrder,
 };
 
 export default authService;

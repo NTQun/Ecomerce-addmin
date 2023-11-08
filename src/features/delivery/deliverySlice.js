@@ -68,17 +68,6 @@ export const getOrderByShipper = createAsyncThunk(
   }
 );
 
-export const addOrderforShipper = createAsyncThunk(
-  "orders/add-by-shipper",
-  async (data, thunkAPI) => {
-    try {
-      return await deliveryServices.addShipperOrder(data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const deliverySlice = createSlice({
   name: "delivery",
   initialState: initialState,
@@ -179,22 +168,6 @@ export const deliverySlice = createSlice({
         state.message = "success";
       })
       .addCase(getOrderByShipper.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
-        state.isLoading = false;
-      })
-      .addCase(addOrderforShipper.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addOrderforShipper.fulfilled, (state, action) => {
-        state.isError = false;
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.addOrderforShipper = action.payload;
-        state.message = "success";
-      })
-      .addCase(addOrderforShipper.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;

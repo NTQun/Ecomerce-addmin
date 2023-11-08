@@ -51,24 +51,12 @@ const getOrderShipper = async () => {
   }
 };
 
-const addShipperOrder = async (data) => {
-  const response = await axios.put(
-    `${base_url}user/add-shipper/${data.id}`,
-    configDelivery,
-    { _id: data._id }
-  );
-  if (response.data) {
-    return response.data;
-  }
-};
-
 const deliveryServices = {
   getOrdersDelivery,
   getOrderDelivery,
   updateOrderDelivery,
   updateUser,
   getOrderShipper,
-  addShipperOrder,
 };
 
 export default deliveryServices;

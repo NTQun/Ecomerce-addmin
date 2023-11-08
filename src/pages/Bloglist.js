@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  AiFillDelete,
+  AiOutlineInfoCircle,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteABlog, getBlogs, resetState } from "../features/blogs/blogSlice";
@@ -55,6 +59,12 @@ const Bloglist = () => {
           >
             <AiFillDelete />
           </button>
+          <Link
+            className="ms-3 fs-3 text-info bg-transparent border-0"
+            to={`/admin/blog-detail/${getBlogState[i]?._id}`}
+          >
+            <AiOutlineInfoCircle />
+          </Link>
         </>
       ),
     });

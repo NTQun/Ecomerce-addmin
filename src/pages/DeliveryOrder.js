@@ -2,33 +2,38 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  addOrderforShipper,
-  getAllOrderDeliver,
-  updateOrderDeliver,
-} from "./../features/delivery/deliverySlice";
+
 import { SearchOutlined } from "@ant-design/icons";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  addOrderforShipper,
+  getAllUser,
+  getOrders,
+} from "../features/auth/authSlice";
 
 const DeliveryOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [shipId, setShipId] = useState("");
+  const manager = [];
+  const userState = useSelector((state) => state?.auth?.allUSer);
+  for (let index = 0; index < userState?.length; index++) {
+    if (userState[index].role == "delivery") {
+      manager.push(userState[index]);
+    }
+  }
   useEffect(() => {
-    dispatch(getAllOrderDeliver());
+    dispatch(getOrders());
+    dispatch(getAllUser());
   }, []);
-  const orderState = useSelector(
-    (state) => state?.delivery?.deliveryOrder?.orders
-  );
-  const deliveryState = useSelector((state) => state?.delivery?.delivery?._id);
+
+  const orderState = useSelector((state) => state.auth.orders.orders);
   const data1 = [];
-  const upateOrderStatus = (a, b) => {
-    dispatch(updateOrderDeliver({ id: a, status: b }));
-    setTimeout(() => dispatch(getAllOrderDeliver()), 400);
-  };
   for (let i = 0; i < orderState?.length; i++) {
     if (
       orderState[i].orderStatus != "Ordered" &&
-      orderState[i].orderStatus !== "cancel"
+      orderState[i].orderStatus !== "cancel" &&
+      orderState[i].orderShipper == null
     ) {
       let amountCollect = 0;
       orderState[i]?.typecheckout !== "COD"
@@ -43,37 +48,39 @@ const DeliveryOrder = () => {
         ),
         amount: amountCollect,
         date: new Date(orderState[i].createdAt).toLocaleDateString(),
-        mobile: orderState[i]?.shippingInfo?.mobile,
-        address: orderState[i]?.shippingInfo?.address,
+        delivery: (
+          <select
+            name=""
+            onChange={(e) => setShipId(e.target.value)}
+            className="form-control form-select"
+            id=""
+          >
+            <option disabled selected>
+              Select Delivery
+            </option>
+
+            {manager.map((item) => {
+              return (
+                <option value={item._id} key={item._id}>
+                  {item.firstname} {item.lastname}
+                </option>
+              );
+            })}
+          </select>
+        ),
         action: (
           <>
-            {/* <select
-              name=""
-              defaultValue={orderState[i]?.orderStatus}
-              onChange={(e) => {
-                upateOrderStatus(orderState[i]?._id, e.target.value);
-              }}
-              className="form-control form-select"
-              id=""
-            >
-              <option value="Processed">Processed</option>
-
-              <option value="Shipped">Shipped</option>
-
-              <option value="Out For Delievery">Out For Delievery</option>
-
-              <option value="Delivered">Delivered</option>
-            </select> */}
             <button
               className="bg-success"
-              onClick={() =>
+              onClick={() => {
                 dispatch(
                   addOrderforShipper({
                     id: orderState[i]._id,
-                    _id: deliveryState,
+                    _id: shipId,
                   })
-                )
-              }
+                );
+                setTimeout(() => dispatch(getOrders()), 500);
+              }}
             >
               {" "}
               <AiOutlinePlusCircle />
@@ -83,7 +90,7 @@ const DeliveryOrder = () => {
       });
     }
   }
-
+  console.log(shipId);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -196,15 +203,9 @@ const DeliveryOrder = () => {
       dataIndex: "date",
     },
     {
-      title: " Address",
-      dataIndex: "address",
-      ...getColumnSearchProps("address"),
-    },
-
-    {
-      title: "Mobile",
-      dataIndex: "mobile",
-      ...getColumnSearchProps("mobile"),
+      title: " Delivery",
+      dataIndex: "delivery",
+      ...getColumnSearchProps("delivery"),
     },
 
     {
@@ -223,7 +224,7 @@ const DeliveryOrder = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              All order
+              Add Delivery for Order
             </div>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li>

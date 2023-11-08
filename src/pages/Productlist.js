@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  AiFillDelete,
+  AiOutlineInfoCircle,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -75,6 +79,12 @@ const Productlist = () => {
           >
             <AiFillDelete />
           </button>
+          <Link
+            className="ms-3 fs-3 text-info bg-transparent border-0"
+            to={`/admin/product-detail/${productState[i]?._id}`}
+          >
+            <AiOutlineInfoCircle />
+          </Link>
         </>
       ),
     });
