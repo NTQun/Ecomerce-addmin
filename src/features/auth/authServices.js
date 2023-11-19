@@ -35,7 +35,7 @@ const updateOrder = async (data) => {
   const responce = await axios.put(
     `${base_url}user/updateOrder/${data.id}`,
     { status: data.status },
-    config
+    config || configManager || configDelivery
   );
 
   return responce.data;

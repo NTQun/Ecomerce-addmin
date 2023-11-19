@@ -18,58 +18,71 @@ const Singleorder = () => {
   return (
     <>
       <div className="row ">
+        <div className="col-4 mb-3">
+          <button
+            className="bg-success text-white"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
+            Back to All Orders
+          </button>
+        </div>{" "}
         <div className="col-12 ">
           <div className="row">
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <h5>Order Id </h5>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <h5>Total Amount </h5>
             </div>
-            <div className="col-2 ">
+            <div className="col-2  d-flex align-items-center justify-content-center ">
               <h5>Type Checkout </h5>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <h5>Address </h5>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <h5>Status </h5>
             </div>
           </div>
         </div>
-        <div className="col-12 mt-3">
+        <div className="col-12 mt-2">
           <div style={{ backgroundColor: "#febd69" }} className="row pt-3 my-3">
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?._id}</p>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?.totalPrice} </p>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?.typecheckout}</p>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?.address}</p>
             </div>
-            <div className="col-2">
+            <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?.orderStatus}</p>
             </div>
 
             <div className="col-12">
-              <div className="row  py-3" style={{ backgroundColor: "#2b4663" }}>
-                <div className="col-2">
+              <div
+                className="row  py-3  "
+                style={{ backgroundColor: "#2b4663" }}
+              >
+                <div className="col-2 d-flex align-items-center justify-content-center">
                   <h6 className="text-white">Product Name </h6>
                 </div>
-                <div className="col-2">
+                <div className="col-2  d-flex align-items-center justify-content-center">
                   <h6 className="text-white">Product Image </h6>
                 </div>
-                <div className="col-2">
+                <div className="col-2  d-flex align-items-center justify-content-center">
                   <h6 className="text-white">Quantity</h6>
                 </div>
-                <div className="col-2">
+                <div className="col-2  d-flex align-items-center justify-content-center">
                   <h6 className="text-white">Price </h6>
                 </div>
-                <div className="col-2">
+                <div className="col-2  d-flex align-items-center justify-content-center">
                   <h6 className="text-white">Color </h6>
                 </div>
                 <div></div>
@@ -81,24 +94,24 @@ const Singleorder = () => {
                     style={{ backgroundColor: "#192e45" }}
                     key={index}
                   >
-                    <div className="col-2">
+                    <div className="col-2  d-flex align-items-center justify-content-center">
                       <p className="text-white">{i?.product?.title} </p>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2  d-flex align-items-center justify-content-center">
                       <img
                         src={i?.product?.image.url[0]}
                         alt="IMG Product"
                         style={{ width: "40px", height: "40px" }}
                       />
                     </div>
-                    <div className="col-2">
+                    <div className="col-2  d-flex align-items-center justify-content-center">
                       <p className="text-white ">{i?.quantity} </p>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2  d-flex align-items-center justify-content-center">
                       <p className="text-white">{i?.price} </p>
                     </div>
-                    <div className="col-2">
-                      <p className="text-white">{i?.color?.title} </p>
+                    <div className="col-2  d-flex align-items-center justify-content-center">
+                      <p className="text-white ">{i?.color?.title} </p>
                     </div>
                   </div>
                 );

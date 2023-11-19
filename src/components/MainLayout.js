@@ -54,6 +54,7 @@ const MainLayout = () => {
               if (key === "signout") {
                 localStorage.clear();
                 navigate("/");
+                window.location.reload();
               } else {
                 navigate(key);
               }

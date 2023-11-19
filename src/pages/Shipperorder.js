@@ -2,16 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getOrderbyShipper, updateAOrder } from "../features/auth/authSlice";
 import { SearchOutlined } from "@ant-design/icons";
+import {
+  getOrderByShipper,
+  updateOrderDeliver,
+} from "../features/delivery/deliverySlice";
 
 const Shipperorder = () => {
   const dispatch = useDispatch();
   const getId = useSelector((state) => state?.delivery?.delivery?._id);
   useEffect(() => {
-    dispatch(getOrderbyShipper(getId));
+    dispatch(getOrderByShipper(getId));
   }, [getId]);
-  const orderState = useSelector((state) => state.auth.getOrderByShipper);
+  const orderState = useSelector((state) => state.delivery.getOrderByShippery);
+
+  const upateOrderStatus = (a, b) => {
+    dispatch(updateOrderDeliver({ id: a, status: b }));
+    setTimeout(() => {
+      dispatch(getOrderByShipper(getId));
+    }, 500);
+  };
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
     data1.push({
@@ -26,31 +36,53 @@ const Shipperorder = () => {
       address: orderState[i]?.shippingInfo?.address,
       subaddress: orderState[i]?.shippingInfo?.other,
       typecheckout: orderState[i].typecheckout,
-
+      status: orderState[i].orderStatus,
       action: (
         <>
-          <select
-            name=""
-            defaultValue={orderState[i]?.orderStatus}
-            onChange={(e) =>
-              upateOrderStatus(orderState[i]?._id, e.target.value)
-            }
-            className="form-control form-select"
-            id=""
-          >
-            <option value="Ordered" disabled selected>
-              Ordered
-            </option>
-            <option value="Processed">Processed</option>
-          </select>
+          {orderState[i].orderStatus === "Processed" && (
+            <button
+              className="bg-success text-white"
+              type="button"
+              onClick={() => upateOrderStatus(orderState[i]?._id, "Shipped")}
+            >
+              Next Step
+            </button>
+          )}
+          {orderState[i].orderStatus === "Shipped" && (
+            <button
+              className="bg-success text-white"
+              type="button"
+              onClick={() =>
+                upateOrderStatus(orderState[i]?._id, "Out For Delievery")
+              }
+            >
+              Next Step
+            </button>
+          )}
+          {orderState[i].orderStatus === "Out For Delievery" && (
+            <button
+              type="button"
+              className="bg-success text-white"
+              onClick={() => upateOrderStatus(orderState[i]?._id, "Delivered")}
+            >
+              Next Step
+            </button>
+          )}
+          {orderState[i].orderStatus === "Delivered" && (
+            <button
+              type="button"
+              className="bg-success text-white"
+              onClick={() =>
+                upateOrderStatus(orderState[i]?._id, "Success Shipped")
+              }
+            >
+              Next Step
+            </button>
+          )}
         </>
       ),
     });
   }
-
-  const upateOrderStatus = (a, b) => {
-    dispatch(updateAOrder({ id: a, status: b }));
-  };
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -205,7 +237,11 @@ const Shipperorder = () => {
       dataIndex: "typecheckout",
       ...getColumnSearchProps("typecheckout"),
     },
-
+    {
+      title: "Status Order",
+      dataIndex: "status",
+      ...getColumnSearchProps("status"),
+    },
     {
       title: "Actions",
       dataIndex: "action",

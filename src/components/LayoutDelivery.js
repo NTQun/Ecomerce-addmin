@@ -6,10 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { RiUser2Fill } from "react-icons/ri";
-import { FaClipboardList } from "react-icons/fa";
 import { Layout, Menu, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TbTruckDelivery } from "react-icons/tb";
+import { FaThList } from "react-icons/fa";
+
 const { Header, Sider, Content } = Layout;
 const LayoutDelivery = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -34,11 +36,22 @@ const LayoutDelivery = () => {
             if (key === "signout") {
               localStorage.clear();
               navigate("/");
+              window.location.reload();
             } else {
               navigate(key);
             }
           }}
           items={[
+            {
+              key: "order",
+              icon: <FaThList className="fs-4" />,
+              label: "Add Ship Order",
+            },
+            {
+              key: "order-by-delivery",
+              icon: <TbTruckDelivery className="fs-4" />,
+              label: "My  Order by Shipper",
+            },
             {
               key: "signout",
               icon: <AiOutlineLogout className="fs-4" />,

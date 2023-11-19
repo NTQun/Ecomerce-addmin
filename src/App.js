@@ -49,6 +49,7 @@ import Blogdetail from "./pages/Blogdetail";
 import Orderbydelivery from "./pages/Orderbydelivery";
 import Singleorder from "./pages/Singleorder";
 import Shipperorder from "./pages/Shipperorder";
+import Addorderbydelivery from "./pages/Addorderbydelivery";
 function App() {
   return (
     <Router>
@@ -136,6 +137,8 @@ function App() {
             </DeliverRoute>
           }
         >
+          <Route path="order" element={<Addorderbydelivery />} />
+
           <Route path="profile-delivery" element={<Deliveryprofile />} />
           <Route path="change-pw" element={<Updatepwdelivery />} />
           <Route path="order-by-delivery" element={<Shipperorder />} />
