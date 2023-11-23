@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getOrders, updateAOrder } from "../features/auth/authSlice";
 import { SearchOutlined } from "@ant-design/icons";
-
+import { FaSearch } from "react-icons/fa";
+import { BiReset } from "react-icons/bi";
 const Orders = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getOrders());
   }, []);
-  const orderState = useSelector((state) => state.auth.orders.orders);
+  const orderState = useSelector((state) => state.auth.orders);
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
     data1.push({
@@ -23,7 +24,6 @@ const Orders = () => {
       date: new Date(orderState[i].createdAt).toLocaleDateString(),
       mobile: orderState[i]?.shippingInfo?.mobile,
       address: orderState[i]?.shippingInfo?.address,
-      subaddress: orderState[i]?.shippingInfo?.other,
       typecheckout: orderState[i].typecheckout,
       shipper: orderState[i].orderShipper
         ? orderState[i]?.orderShipper?.firstname +
@@ -220,9 +220,35 @@ const Orders = () => {
     },
   ];
 
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+
   return (
     <div>
       <h3 className="mb-4">Orders</h3>
+      <div>
+        <input
+          className="mx-2"
+          type="date"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+        />
+        <input
+          type="date"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+        />{" "}
+        <button
+          className="mx-2"
+          type="button"
+          onClick={() => dispatch(getOrders({ startTime, endTime }))}
+        >
+          <FaSearch />
+        </button>
+        <button type="button" onClick={() => dispatch(getOrders())}>
+          <BiReset />
+        </button>
+      </div>
 
       <div>
         <Table columns={columns} dataSource={data1} />

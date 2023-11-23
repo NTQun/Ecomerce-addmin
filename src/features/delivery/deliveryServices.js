@@ -2,9 +2,11 @@ import axios from "axios";
 import { config, configDelivery, configManager } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
-const getOrdersDelivery = async () => {
+const getOrdersDelivery = async (data) => {
   const response = await axios.get(
-    `${base_url}user/delivery-getallorders`,
+    `${base_url}user/delivery-getallorders?${
+      data?.startTime ? `startTime=${data?.startTime}&&` : ""
+    }${data?.endTime ? `endTime=${data?.endTime}&&` : ""}`,
     configDelivery
   );
 

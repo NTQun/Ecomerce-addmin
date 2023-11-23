@@ -13,9 +13,12 @@ const login = async (user) => {
   return response.data;
 };
 
-const getOrders = async () => {
+const getOrders = async (data) => {
+  console.log(data);
   const response = await axios.get(
-    `${base_url}user/getallorders`,
+    `${base_url}user/getallorders?${
+      data?.startTime ? `startTime=${data?.startTime}&&` : ""
+    }${data?.endTime ? `endTime=${data?.endTime}&&` : ""}`,
     config || configManager
   );
 

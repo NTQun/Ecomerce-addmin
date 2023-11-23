@@ -12,7 +12,7 @@ const Addorderbydelivery = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const manager = [];
-  const userState = useSelector((state) => state.auth.user);
+  const userState = useSelector((state) => state?.auth?.user);
 
   for (let index = 0; index < userState?.length; index++) {
     if (userState[index].role == "delivery") {
@@ -23,9 +23,7 @@ const Addorderbydelivery = () => {
     dispatch(getAllOrderDeliver());
   }, []);
 
-  const orderState = useSelector(
-    (state) => state.delivery.deliveryOrder.orders
-  );
+  const orderState = useSelector((state) => state.delivery?.deliveryOrder);
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
     if (
