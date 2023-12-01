@@ -66,7 +66,10 @@ const Productlist = () => {
           {!productState[i].isWarehouse && (
             <button
               className="ms-3 fs-3 text-success bg-transparent border-0"
-              onClick={() => dispatch(creatWarehouse(productState[i]._id))}
+              onClick={() => {
+                dispatch(creatWarehouse(productState[i]._id));
+                setTimeout(() => dispatch(getProducts()), 300);
+              }}
             >
               <FaWarehouse />
             </button>

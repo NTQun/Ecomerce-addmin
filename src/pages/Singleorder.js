@@ -89,38 +89,49 @@ const Singleorder = () => {
               </div>
               {orderState?.orderItems?.map((i, index) => {
                 return (
-                  <div
-                    className="row  p-3"
-                    style={{ backgroundColor: "#192e45" }}
-                    key={index}
-                  >
-                    <div className="col-2  d-flex align-items-center justify-content-center">
-                      <p className="text-white">{i?.product?.title} </p>
+                  <>
+                    <div
+                      className="row  p-3"
+                      style={{ backgroundColor: "#192e45" }}
+                      key={index}
+                    >
+                      <div className="col-2  d-flex align-items-center justify-content-center">
+                        <p className="text-white">{i?.product?.title} </p>
+                      </div>
+                      <div className="col-2  d-flex align-items-center justify-content-center">
+                        <img
+                          src={i?.product?.images[0]?.url}
+                          alt="IMG Product"
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                      </div>
+                      <div className="col-2  d-flex align-items-center justify-content-center">
+                        <p className="text-white ">{i?.quantity} </p>
+                      </div>
+                      <div className="col-2  d-flex align-items-center justify-content-center">
+                        <p className="text-white">{i?.price} </p>
+                      </div>
+                      <div className="col-2  d-flex align-items-center justify-content-center">
+                        <p className="text-white ">{i?.color?.title} </p>
+                      </div>
                     </div>
-                    <div className="col-2  d-flex align-items-center justify-content-center">
-                      <img
-                        src={i?.product?.image.url[0]}
-                        alt="IMG Product"
-                        style={{ width: "40px", height: "40px" }}
-                      />
-                    </div>
-                    <div className="col-2  d-flex align-items-center justify-content-center">
-                      <p className="text-white ">{i?.quantity} </p>
-                    </div>
-                    <div className="col-2  d-flex align-items-center justify-content-center">
-                      <p className="text-white">{i?.price} </p>
-                    </div>
-                    <div className="col-2  d-flex align-items-center justify-content-center">
-                      <p className="text-white ">{i?.color?.title} </p>
-                    </div>
-                  </div>
+                  </>
                 );
               })}
             </div>
           </div>
         </div>
       </div>
-
+      <div className="bg-white">
+        <h4>Information Customers</h4>
+        <h6>
+          User Name: {orderState?.shippingInfo?.firstName}{" "}
+          {orderState?.shippingInfo?.lastName}
+        </h6>
+        <h6>User Email: {orderState?.shippingInfo?.email}</h6>
+        <h6>User Moblie: {orderState?.shippingInfo?.mobile}</h6>
+        <h6>User Address order: {orderState?.shippingInfo?.address}</h6>
+      </div>
       {orderState?.comment && (
         <div className="col-12">
           <label htmlFor="" className=" mx-2 ">

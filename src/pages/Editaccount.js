@@ -57,7 +57,7 @@ const Editaccount = () => {
       <div className="row">
         <div className="col-12">
           <div className="div d-flex justify-content-between align-items-center">
-            <h3 className="my-3">Update Account</h3>
+            <h3 className="my-3"> Account</h3>
             <FiEdit className="fs-3" onClick={() => setEdit(false)} />
           </div>
         </div>
@@ -144,7 +144,7 @@ const Editaccount = () => {
                   className="w-100"
                   // placeholder="Select Role"
                   disabled={edit}
-                  defaultValue={defaultRole}
+                  defaultValue={"User"}
                   name="role"
                   options={roles}
                   onChange={formik.handleChange("role")}

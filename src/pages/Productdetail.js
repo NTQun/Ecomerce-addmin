@@ -24,8 +24,8 @@ const Productdetail = () => {
     img: productState?.images[0].url,
   };
   const color = [];
-  for (let index = 0; index < productsState.color.length; index++) {
-    color.push(productState.color[index].title);
+  for (let index = 0; index < productsState?.color?.length; index++) {
+    color.push(productState?.color[index].title);
   }
   const string = color.join(" ");
 

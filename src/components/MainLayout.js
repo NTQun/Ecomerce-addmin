@@ -142,17 +142,17 @@ const MainLayout = () => {
               {
                 key: "Warehouse",
                 icon: <FaWarehouse className="fs-4" />,
-                label: "Warehouse",
+                label: "Coupon",
                 children: [
                   {
                     key: "list-warehoue",
                     icon: <ImBlog className="fs-4" />,
-                    label: "Warehouse list",
+                    label: "Coupon list",
                   },
                   {
                     key: "add-warehouse",
                     icon: <FaBloggerB className="fs-4" />,
-                    label: "Import-product-warehouse",
+                    label: "Import-product-Coupon",
                   },
                 ],
               },
@@ -181,12 +181,12 @@ const MainLayout = () => {
                   {
                     key: "coupon",
                     icon: <ImBlog className="fs-4" />,
-                    label: "Add Coupon",
+                    label: "Add Discount Code",
                   },
                   {
                     key: "coupon-list",
                     icon: <RiCouponLine className="fs-4" />,
-                    label: "Coupon List",
+                    label: "Discount Code List",
                   },
                 ],
               },
@@ -325,19 +325,19 @@ const MainLayout = () => {
                 ],
               },
               {
-                key: "Warehouse",
+                key: "Coupon",
                 icon: <FaWarehouse className="fs-4" />,
                 label: "Warehouse",
                 children: [
                   {
-                    key: "list-warehoue",
+                    key: "list-Coupon",
                     icon: <ImBlog className="fs-4" />,
                     label: "Warehouse list",
                   },
                   {
                     key: "add-warehouse",
                     icon: <FaBloggerB className="fs-4" />,
-                    label: "Import-product-warehouse",
+                    label: "Import-product-Coupon",
                   },
                 ],
               },
@@ -366,12 +366,12 @@ const MainLayout = () => {
                   {
                     key: "coupon",
                     icon: <ImBlog className="fs-4" />,
-                    label: "Add Coupon",
+                    label: "Add Discount Code",
                   },
                   {
                     key: "coupon-list",
                     icon: <RiCouponLine className="fs-4" />,
-                    label: "Coupon List",
+                    label: "Discount Code List",
                   },
                 ],
               },

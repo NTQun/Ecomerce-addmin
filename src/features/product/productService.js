@@ -75,13 +75,13 @@ const getAWarehouse = async (id) => {
 const addWarehouse = async (data) => {
   const response = await axios.post(
     `${base_url}product/warehouse/${data}`,
+    {},
     config || configManager
   );
   return response.data;
 };
 
 const importProduct = async (data) => {
-  console.log(data);
   const response = await axios.post(
     `${base_url}product/import-warehouse/${data.id}`,
     {

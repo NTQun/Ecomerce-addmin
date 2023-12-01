@@ -52,13 +52,22 @@ const getOrderShipper = async (id) => {
     return response.data;
   }
 };
+const deleteOrderShipper = async (id) => {
+  const response = await axios.put(
+    `${base_url}user/delete-order-shipper/${id}`
+  );
 
+  if (response.data) {
+    return response.data;
+  }
+};
 const deliveryServices = {
   getOrdersDelivery,
   getOrderDelivery,
   updateOrderDelivery,
   updateUser,
   getOrderShipper,
+  deleteOrderShipper,
 };
 
 export default deliveryServices;

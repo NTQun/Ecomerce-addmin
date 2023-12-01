@@ -39,9 +39,6 @@ const Addbrand = () => {
   }, [getBrandId]);
 
   useEffect(() => {
-    if (isSuccess && createdBrand) {
-      toast.success("Brand Added Successfullly!");
-    }
     if (isSuccess && updatedBrand) {
       toast.success("Brand Updated Successfullly!");
       navigate("/admin/list-brand");

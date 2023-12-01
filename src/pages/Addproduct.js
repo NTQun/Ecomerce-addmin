@@ -74,7 +74,6 @@ const Addproduct = () => {
       dispatch(createProducts(values));
       formik.resetForm();
       setColor(null);
-      setColor(null);
       setTimeout(() => {
         dispatch(resetState());
       }, 3000);

@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import {
+  deleteOrderByShipper,
   getOrderByShipper,
   updateOrderDeliver,
 } from "../features/delivery/deliverySlice";
+import { MdOutlineCancel } from "react-icons/md";
+import CustomModal from "../components/CustomModal";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const Shipperorder = () => {
   const dispatch = useDispatch();
@@ -15,12 +19,30 @@ const Shipperorder = () => {
     dispatch(getOrderByShipper(getId));
   }, [getId]);
   const orderState = useSelector((state) => state.delivery.getOrderByShippery);
-
+  const [orderId, setOrderId] = useState("");
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const upateOrderStatus = (a, b) => {
     dispatch(updateOrderDeliver({ id: a, status: b }));
     setTimeout(() => {
       dispatch(getOrderByShipper(getId));
     }, 500);
+  };
+  const showModal = (e) => {
+    setOpen(true);
+    setOrderId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const deleteOrder = (e) => {
+    dispatch(deleteOrderByShipper(e));
+
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getOrderByShipper(getId));
+    }, 300);
   };
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
@@ -40,13 +62,21 @@ const Shipperorder = () => {
       action: (
         <>
           {orderState[i].orderStatus === "Processed" && (
-            <button
-              className="bg-success text-white"
-              type="button"
-              onClick={() => upateOrderStatus(orderState[i]?._id, "Shipped")}
-            >
-              Next Step
-            </button>
+            <div>
+              <button
+                className="bg-success text-white mx-2"
+                type="button"
+                onClick={() => upateOrderStatus(orderState[i]?._id, "Shipped")}
+              >
+                Next Step
+              </button>
+              <button
+                className="bg-danger text-white"
+                onClick={() => showModal(orderState[i]?._id)}
+              >
+                <MdOutlineCancel />
+              </button>
+            </div>
           )}
           {orderState[i].orderStatus === "Shipped" && (
             <button
@@ -68,6 +98,17 @@ const Shipperorder = () => {
               Next Step
             </button>
           )}
+          {orderState[i].orderStatus === "Out For Delievery" && (
+            <button
+              type="button"
+              className="bg-success text-white"
+              onClick={() =>
+                upateOrderStatus(orderState[i]?._id, "Delivery Failed")
+              }
+            >
+              Delivery Failed
+            </button>
+          )}
           {orderState[i].orderStatus === "Delivered" && (
             <button
               type="button"
@@ -79,6 +120,12 @@ const Shipperorder = () => {
               Next Step
             </button>
           )}
+          <button
+            className="bg-primary text-white mt-1 mx-5"
+            onClick={() => navigate(`/delivery/order/${orderState[i]?._id}`)}
+          >
+            <AiOutlineInfoCircle />
+          </button>
         </>
       ),
     });
@@ -209,10 +256,7 @@ const Shipperorder = () => {
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
-    {
-      title: "Detail Order",
-      dataIndex: "product",
-    },
+
     {
       title: "Amount",
       dataIndex: "amount",
@@ -255,6 +299,14 @@ const Shipperorder = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteOrder(orderId);
+        }}
+        title="Are you sure you want to delete Order out list?"
+      />
     </div>
   );
 };

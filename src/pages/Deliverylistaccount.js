@@ -52,7 +52,7 @@ const Deliverylistaccount = () => {
             <AiFillDelete />
           </button>
           <Link
-            to={`/admin/order-by-delivery/${manager[i]._id}`}
+            to={`/admin/manager/${manager[i]._id}`}
             className=" fs-3 text-info"
           >
             <BiShowAlt />

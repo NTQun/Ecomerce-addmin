@@ -200,7 +200,7 @@ const Warehouelist = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Warehouse List</h3>
+      <h3 className="mb-4 title">Coupon List</h3>
 
       <div>
         <Table columns={columns} dataSource={data1} />

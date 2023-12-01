@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import brandService from "./brandService";
+import { toast } from "react-toastify";
 
 export const getBrands = createAsyncThunk(
   "brand/get-brands",
@@ -112,6 +113,9 @@ export const brandSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
+        if (state.isSuccess) {
+          toast.success("Add brand successfully!");
+        }
       })
       .addCase(updateABrand.pending, (state) => {
         state.isLoading = true;

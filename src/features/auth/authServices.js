@@ -26,10 +26,7 @@ const getOrders = async (data) => {
 };
 
 const getOrder = async (id) => {
-  const responce = await axios.get(
-    `${base_url}user/getOrder/${id}`,
-    config || configManager || configDelivery
-  );
+  const responce = await axios.get(`${base_url}user/getOrder/${id}`);
 
   return responce.data;
 };

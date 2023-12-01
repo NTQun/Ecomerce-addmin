@@ -9,7 +9,7 @@ const Statistic = () => {
   useEffect(() => {
     dispatch(getOrders());
   }, []);
-  const orderState = useSelector((state) => state?.auth?.orders?.orders);
+  const orderState = useSelector((state) => state?.auth?.orders);
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
     for (let j = 0; j < orderState[i]?.orderItems.length; j++) {
