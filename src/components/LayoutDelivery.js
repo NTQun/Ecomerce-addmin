@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FaThList } from "react-icons/fa";
+import ScrollToTop from "./ScroolToTop";
 
 const { Header, Sider, Content } = Layout;
 const LayoutDelivery = () => {
@@ -132,6 +133,7 @@ const LayoutDelivery = () => {
             theme="light"
           />
           <Outlet />
+          <ScrollToTop />
         </Content>
       </Layout>
     </Layout>

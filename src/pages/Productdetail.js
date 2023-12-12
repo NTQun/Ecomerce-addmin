@@ -149,7 +149,7 @@ const Productdetail = () => {
         </div>
       </div>
 
-      <div className="row">
+      {/* <div className="row">
         <div className="col-12">
           <div className="review-inner-wrapper">
             <div className="review-head d-flex justify-content-between align-items-end">
@@ -202,7 +202,7 @@ const Productdetail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

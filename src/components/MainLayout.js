@@ -27,6 +27,7 @@ import { Layout, Menu, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MdOutlineAccountTree } from "react-icons/md";
+import ScrollToTop from "./ScroolToTop";
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -494,6 +495,7 @@ const MainLayout = () => {
           />
           <Outlet />
         </Content>
+        <ScrollToTop />
       </Layout>
     </Layout>
   );

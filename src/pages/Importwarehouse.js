@@ -37,6 +37,9 @@ const Importwarehouse = () => {
     onSubmit: (values) => {
       const data = { id: id, data: values };
       dispatch(importProduct(data));
+      setTimeout(() => {
+        navigate("/admin/list-warehoue");
+      }, 1000);
     },
   });
   console.log(id);
@@ -69,7 +72,7 @@ const Importwarehouse = () => {
             <h6 className="text-white">Import Price</h6>
           </div>{" "}
           <div className="col-1 d-flex align-items-center justify-content-center">
-            <h6 className="text-white">Price</h6>
+            <h6 className="text-white">Price Cash</h6>
           </div>{" "}
           <div className="col-1 d-flex align-items-center justify-content-center">
             <h6 className="text-white">Quantity</h6>

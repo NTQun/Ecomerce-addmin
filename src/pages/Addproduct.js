@@ -72,11 +72,13 @@ const Addproduct = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(createProducts(values));
+
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
         dispatch(resetState());
-      }, 3000);
+        window.location.reload();
+      }, 1000);
     },
   });
   const handleColors = (e) => {
@@ -182,7 +184,7 @@ const Addproduct = () => {
             allowClear
             className="w-100"
             placeholder="Select colors"
-            defaultValue={color}
+            // defaultValue={color}
             onChange={(i) => handleColors(i)}
             options={coloropt}
           />

@@ -40,7 +40,7 @@ const Singleorder = () => {
               <h5>Type Checkout </h5>
             </div>
             <div className="col-2  d-flex align-items-center justify-content-center">
-              <h5>Address </h5>
+              <h5>Date </h5>
             </div>
             <div className="col-2  d-flex align-items-center justify-content-center">
               <h5>Status </h5>
@@ -59,7 +59,7 @@ const Singleorder = () => {
               <p>{orderState?.typecheckout}</p>
             </div>
             <div className="col-2  d-flex align-items-center justify-content-center">
-              <p>{orderState?.address}</p>
+              <p>{new Date(orderState?.createdAt).toLocaleDateString()}</p>
             </div>
             <div className="col-2  d-flex align-items-center justify-content-center">
               <p>{orderState?.orderStatus}</p>

@@ -39,7 +39,7 @@ const Warehouelist = () => {
           style={{ width: "40px", height: "40px" }}
         />
       ),
-      title: warehouseState[i].product?.title.substr(0, 70),
+      title: warehouseState[i].product?.title?.substr(0, 40),
       price: warehouseState[i].price,
       importprice: warehouseState[i].importprice,
       quantity: warehouseState[i].quantity,
